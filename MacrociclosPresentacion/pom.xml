@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>itson.isw.equipo4.macrociclospresentacion</groupId>
+    <groupId>itson.isw.equipo4</groupId>
     <artifactId>MacrociclosPresentacion</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -10,4 +10,11 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>itson.isw.equipo4</groupId>
+            <artifactId>MacrociclosNegocio</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>
