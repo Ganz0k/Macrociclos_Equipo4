@@ -44,6 +44,14 @@ public class Microciclo {
         this.competenciaPreparativa = competenciaPreparativa;
     }
 
+    public Microciclo(Date inicio, Date fin, int acento, List<VolumenMedioFisico> volumenesMediosFisicos, boolean competenciaPreparativa) {
+        this.inicio = inicio;
+        this.fin = fin;
+        this.acento = acento;
+        this.volumenesMediosFisicos = volumenesMediosFisicos;
+        this.competenciaPreparativa = competenciaPreparativa;
+    }
+
     /**
      * Regresa el id del microciclo
      *
