@@ -19,11 +19,15 @@ public class MedioFisico {
     private Etapa etapa;
     private int minimo;
     private int maximo;
-    private int promedio;
+    private float promedio;
     private int vecesPorSemana;
-    private int volumen;
+    private float volumen;
+    
+    public MedioFisico() {
+        
+    }
 
-    public MedioFisico(ObjectId id, String nombre, Etapa etapa, int minimo, int maximo, int promedio, int vecesPorSemana, int volumen) {
+    public MedioFisico(ObjectId id, String nombre, Etapa etapa, int minimo, int maximo, float promedio, int vecesPorSemana, float volumen) {
         this.id = id;
         this.nombre = nombre;
         this.etapa = etapa;
@@ -74,11 +78,11 @@ public class MedioFisico {
         this.maximo = maximo;
     }
 
-    public int getPromedio() {
+    public float getPromedio() {
         return promedio;
     }
 
-    public void setPromedio(int promedio) {
+    public void setPromedio(float promedio) {
         this.promedio = promedio;
     }
 
@@ -90,11 +94,11 @@ public class MedioFisico {
         this.vecesPorSemana = vecesPorSemana;
     }
 
-    public int getVolumen() {
+    public float getVolumen() {
         return volumen;
     }
 
-    public void setVolumen(int volumen) {
+    public void setVolumen(float volumen) {
         this.volumen = volumen;
     }
 

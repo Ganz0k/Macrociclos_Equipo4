@@ -32,6 +32,10 @@ public class Macrociclo {
     private List<MedioFisico> mediosFisicos;
     private List<Mesociclo> mesociclos;
 
+    public Macrociclo() {
+        
+    }
+    
     public Macrociclo(ObjectId id, ObjectId entrenador, String deporte, Rama rama, String jefeRama, ObjectId entrenadorAuxiliar, ObjectId metodologo, Date fechaInicio, Date fechafin, int semanasGeneral, int semanasEspecial, int semanasPrecompetitivo, int semanasCompetitivo, List<MedioFisico> mediosFisicos, List<Mesociclo> mesociclos) {
         this.id = id;
         this.entrenador = entrenador;

@@ -20,6 +20,10 @@ public class Mesociclo {
     private Etapa etapa;
     private List<VolumenMedioFisico> distribucionVolumen;
     private List<Microciclo> microciclos;
+    
+    public Mesociclo() {
+        
+    }
 
     /**
      * Constructor que inicializa todos los atributos del mesosciclo

@@ -21,6 +21,10 @@ public class Microciclo {
     private int acento;
     private List<VolumenMedioFisico> volumenesMediosFisicos;
     private boolean competenciaPreparativa;
+    
+    public Microciclo() {
+        
+    }
 
     /**
      * Constructor que inicializa todos los atributos del microciclo

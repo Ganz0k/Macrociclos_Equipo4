@@ -15,8 +15,12 @@ public class VolumenMedioFisico {
 
     private ObjectId id;
     private ObjectId medioFisico;
-    private int volumen;
+    private float volumen;
     private int porcentaje;
+    
+    public VolumenMedioFisico() {
+        
+    }
 
     /**
      * Constructor que inicializa todos los atributos del volumen
@@ -29,7 +33,7 @@ public class VolumenMedioFisico {
      * @param porcentaje porcentaje de volumen que será trabajado el medio
      * físico en el mesociclo
      */
-    public VolumenMedioFisico(ObjectId id, ObjectId medioFisico, int volumen, int porcentaje) {
+    public VolumenMedioFisico(ObjectId id, ObjectId medioFisico, float volumen, int porcentaje) {
         this.id = id;
         this.medioFisico = medioFisico;
         this.volumen = volumen;
@@ -78,7 +82,7 @@ public class VolumenMedioFisico {
      *
      * @return
      */
-    public int getVolumen() {
+    public float getVolumen() {
         return volumen;
     }
 
@@ -87,7 +91,7 @@ public class VolumenMedioFisico {
      *
      * @param volumen volumen a asignar
      */
-    public void setVolumen(int volumen) {
+    public void setVolumen(float volumen) {
         this.volumen = volumen;
     }
 

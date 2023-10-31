@@ -26,13 +26,13 @@ public class VolumenMedioFisicoDAO {
         this.baseDatos = ConexionBD.crearConexion();
     }
     
-    private MongoCollection<Macrociclo> getColeccionFormatoMacrociclo() {
-        return this.baseDatos.getCollection("macrociclo", Macrociclo.class);
+    private MongoCollection<Macrociclo> getColeccion() {
+        return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
     
     public boolean guardarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) {
         try {
-            MongoCollection<Macrociclo> coleccion = this.getColeccionFormatoMacrociclo();
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
             Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
             
             if (macrociclo != null) {
