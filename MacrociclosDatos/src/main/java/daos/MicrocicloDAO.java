@@ -4,64 +4,51 @@
  */
 package daos;
 
-import com.mongodb.client.*;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import conexion.ConexionBD;
 import entidades.Microciclo;
-import entidades.VolumenMedioFisico;
-import java.util.Date;
-import java.util.List;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 
 public class MicrocicloDAO {
-
-    private final MongoCollection<Document> collection;
-
-    public MicrocicloDAO(MongoDatabase database) {
-        this.collection = database.getCollection("microciclos");
+    
+    private final MongoDatabase baseDatos;
+    
+    public MicrocicloDAO() {
+        this.baseDatos = ConexionBD.crearConexion();
     }
-
-    public void insertMicrociclo(Microciclo microciclo) {
-        Document document = new Document("_id", microciclo.getId())
-            .append("inicio", microciclo.getInicio())
-            .append("fin", microciclo.getFin())
-            .append("acento", microciclo.getAcento())
-            .append("volumenesMediosFisicos", microciclo.getVolumenesMediosFisicos())
-            .append("competenciaPreparativa", microciclo.isCompetenciaPreparativa());
-
-        collection.insertOne(document);
+    
+    private MongoCollection<Microciclo> getColeccion() {
+        return this.baseDatos.getCollection("microciclos", Microciclo.class);
     }
-
-    public Microciclo findMicrocicloById(ObjectId id) {
-        Document document = collection.find(new Document("_id", id)).first();
-        if (document != null) {
-            return documentToMicrociclo(document);
+    
+    public boolean guardarMicrociclo(Microciclo microciclo) {
+        try {
+            MongoCollection<Microciclo> coleccion = this.getColeccion();
+            coleccion.insertOne(microciclo);
+            return true;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(e.getCause());
+            return false;
         }
-        return null;
     }
-
-    public void updateMicrociclo(Microciclo microciclo) {
-        Document document = new Document("_id", microciclo.getId())
-            .append("inicio", microciclo.getInicio())
-            .append("fin", microciclo.getFin())
-            .append("acento", microciclo.getAcento())
-            .append("volumenesMediosFisicos", microciclo.getVolumenesMediosFisicos())
-            .append("competenciaPreparativa", microciclo.isCompetenciaPreparativa());
-
-        collection.replaceOne(new Document("_id", microciclo.getId()), document);
+    
+    public Microciclo buscarMicrocicloPorId(ObjectId id) {
+        MongoCollection<Microciclo> coleccion = this.getColeccion();
+        return coleccion.find(Filters.eq("_id", id)).first();
     }
-
-    public void deleteMicrociclo(ObjectId id) {
-        collection.deleteOne(new Document("_id", id));
-    }
-
-    private Microciclo documentToMicrociclo(Document document) {
-        ObjectId id = document.getObjectId("_id");
-        Date inicio = document.getDate("inicio");
-        Date fin = document.getDate("fin");
-        int acento = document.getInteger("acento");
-        List<VolumenMedioFisico> volumenesMediosFisicos = (List<VolumenMedioFisico>) document.get("volumenesMediosFisicos");
-        boolean competenciaPreparativa = document.getBoolean("competenciaPreparativa");
-
-        return new Microciclo(id, inicio, fin, acento, volumenesMediosFisicos, competenciaPreparativa);
+    
+    public boolean eliminarMicrociclo(ObjectId id) {
+        try {
+            MongoCollection<Microciclo> coleccion = this.getColeccion();
+            coleccion.deleteOne(Filters.eq("_id", id));
+            return true;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(e.getCause());
+            return false;
+        }
     }
 }
