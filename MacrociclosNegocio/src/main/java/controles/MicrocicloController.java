@@ -4,8 +4,10 @@
  */
 package controles;
 
-import daos.MicrocicloDAO;
 import entidades.Microciclo;
+import fachada.FachadaDatos;
+import interfaces.IDatos;
+import java.util.List;
 import org.bson.types.ObjectId;
 
 /**
@@ -14,35 +16,18 @@ import org.bson.types.ObjectId;
  */
 public class MicrocicloController {
     
-    private final MicrocicloDAO microcicloDAO;
+    private final IDatos fachadaDatos;
     
     public MicrocicloController() {
-        this.microcicloDAO = new MicrocicloDAO();
+        this.fachadaDatos = new FachadaDatos();
     }
     
-    public boolean guardarMicrociclo(Microciclo microciclo) {
+    public boolean guardarMicrociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclo) {
         try {
-            if(microcicloDAO.guardarMicrociclo(microciclo)){
-                
-            }
-            return true;
+            return this.fachadaDatos.guardarMicrociclos(idMacrociclo, idMesociclo, microciclo);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return false;
         }
-    }
-    
-    public Microciclo buscarMicrocicloPorId(ObjectId id) {
-        try {
-            Microciclo microciclo = microcicloDAO.buscarMicrocicloPorId(id);
-            return microciclo;
-        } catch (Exception e) {
-            System.out.println("Error" + e.getMessage());
-            return null;
-        }        
-    }
-    
-    public boolean eliminarMicrociclo(ObjectId id) {
-        return microcicloDAO.eliminarMicrociclo(id);
     }
 }
