@@ -11,6 +11,8 @@ import conexion.ConexionBD;
 import entidades.Macrociclo;
 import entidades.Mesociclo;
 import entidades.VolumenMedioFisico;
+import excepciones.PersistenciaException;
+
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -30,7 +32,7 @@ public class VolumenMedioFisicoDAO {
         return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
 
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) {
+    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
@@ -43,7 +45,11 @@ public class VolumenMedioFisicoDAO {
                         mesociclos.get(i).setDistribucionVolumen(volumenesMediosFisicos);
                         macrociclo.setMesociclos(mesociclos);
                         break;
-                    } 
+                    }
+
+                    if (i == mesociclos.size() - 1) {
+                        return false;
+                    }
                 }
 
                 coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
@@ -52,9 +58,7 @@ public class VolumenMedioFisicoDAO {
 
             return false;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getCause());
-            return false;
+            throw new PersistenciaException(e.getMessage(), e.getCause());
         }
     }
 }

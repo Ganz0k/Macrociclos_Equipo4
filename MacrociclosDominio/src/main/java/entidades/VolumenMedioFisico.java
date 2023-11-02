@@ -16,7 +16,7 @@ public class VolumenMedioFisico {
     private ObjectId id;
     private ObjectId medioFisico;
     private float volumen;
-    private int porcentaje;
+    private float porcentaje;
     
     public VolumenMedioFisico() {
         
@@ -33,7 +33,7 @@ public class VolumenMedioFisico {
      * @param porcentaje porcentaje de volumen que será trabajado el medio
      * físico en el mesociclo
      */
-    public VolumenMedioFisico(ObjectId id, ObjectId medioFisico, float volumen, int porcentaje) {
+    public VolumenMedioFisico(ObjectId id, ObjectId medioFisico, float volumen, float porcentaje) {
         this.id = id;
         this.medioFisico = medioFisico;
         this.volumen = volumen;
@@ -101,7 +101,7 @@ public class VolumenMedioFisico {
      *
      * @return
      */
-    public int getPorcentaje() {
+    public float getPorcentaje() {
         return porcentaje;
     }
 
@@ -111,7 +111,7 @@ public class VolumenMedioFisico {
      *
      * @param porcentaje porcentaje a asignar
      */
-    public void setPorcentaje(int porcentaje) {
+    public void setPorcentaje(float porcentaje) {
         this.porcentaje = porcentaje;
     }
 

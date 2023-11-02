@@ -4,9 +4,12 @@
  */
 package fachadas;
 
+import controles.DistribucionVolumenMedioFisicoController;
 import controles.MicrocicloController;
 import entidades.Microciclo;
 import entidades.VolumenMedioFisico;
+import excepciones.NegocioException;
+import excepciones.PersistenciaException;
 import interfaces.INegocio;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -18,14 +21,16 @@ import org.bson.types.ObjectId;
 public class FachadaNegocio implements INegocio {
 
     private final MicrocicloController microcicloController;
+    private final DistribucionVolumenMedioFisicoController distribucionVolumenMedioFisicoController;
     
     public FachadaNegocio() {
         this.microcicloController = new MicrocicloController();
+        this.distribucionVolumenMedioFisicoController = new DistribucionVolumenMedioFisicoController();
     }
     
     @Override
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException, NegocioException {
+        return this.distribucionVolumenMedioFisicoController.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenesMediosFisicos);
     }
 
     @Override

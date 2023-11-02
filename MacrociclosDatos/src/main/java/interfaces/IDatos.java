@@ -6,6 +6,8 @@ package interfaces;
 
 import entidades.Microciclo;
 import entidades.VolumenMedioFisico;
+import excepciones.PersistenciaException;
+
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -15,6 +17,6 @@ import org.bson.types.ObjectId;
  */
 public interface IDatos {
     
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos);
+    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException;
     public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos);
 }

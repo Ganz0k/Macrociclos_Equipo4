@@ -8,6 +8,7 @@ import daos.MicrocicloDAO;
 import daos.VolumenMedioFisicoDAO;
 import entidades.Microciclo;
 import entidades.VolumenMedioFisico;
+import excepciones.PersistenciaException;
 import interfaces.IDatos;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -27,7 +28,7 @@ public class FachadaDatos implements IDatos {
     }
 
     @Override
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) {
+    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException {
         return this.volumenMedioFisicoDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenesMediosFisicos);
     }
 
