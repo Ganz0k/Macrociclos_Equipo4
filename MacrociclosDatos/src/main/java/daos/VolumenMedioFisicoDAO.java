@@ -32,7 +32,7 @@ public class VolumenMedioFisicoDAO {
         return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
 
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException {
+    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
@@ -42,7 +42,7 @@ public class VolumenMedioFisicoDAO {
 
                 for (int i = 0; i < mesociclos.size(); i++) {
                     if (mesociclos.get(i).getId().equals(idMesociclo)) {
-                        mesociclos.get(i).setDistribucionVolumen(volumenesMediosFisicos);
+                        mesociclos.get(i).getDistribucionVolumen().add(volumenMedioFisico);
                         macrociclo.setMesociclos(mesociclos);
                         break;
                     }

@@ -29,8 +29,8 @@ public class FachadaNegocio implements INegocio {
     }
     
     @Override
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException, NegocioException {
-        return this.distribucionVolumenMedioFisicoController.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenesMediosFisicos);
+    public boolean guardarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException, NegocioException {
+        return this.distribucionVolumenMedioFisicoController.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
 
     @Override

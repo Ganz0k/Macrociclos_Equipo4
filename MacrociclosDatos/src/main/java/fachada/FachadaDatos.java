@@ -28,8 +28,8 @@ public class FachadaDatos implements IDatos {
     }
 
     @Override
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException {
-        return this.volumenMedioFisicoDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenesMediosFisicos);
+    public boolean guardarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
+        return this.volumenMedioFisicoDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
 
     @Override

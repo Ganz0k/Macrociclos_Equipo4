@@ -26,21 +26,19 @@ public class DistribucionVolumenMedioFisicoController {
         fachadaDatos = new FachadaDatos();
     }
 
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<VolumenMedioFisico> volumenesMediosFisicos) throws PersistenciaException {
-        if (idMacrociclo == null || idMesociclo == null || volumenesMediosFisicos == null) {
+    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
+        if (idMacrociclo == null || idMesociclo == null || volumenMedioFisico == null) {
             throw new NegocioException("Ninguno de los campos puede ser nulo");
         }
         
-        volumenesMediosFisicos.forEach(vME -> {
-            if (vME.getId() == null || vME.getMedioFisico() == null) {
-                throw new NegocioException("Ninguno de los campos puede ser nulo");
-            }
+        if (volumenMedioFisico.getId() == null || volumenMedioFisico.getMedioFisico() == null) {
+            throw new NegocioException("Ninguno de los campos puede ser nulo");
+        }
 
-            if (vME.getPorcentaje() < 0 || vME.getVolumen() < 0) {
-                throw new NegocioException("Solo se aceptan decimales positivos");
-            }
-        });
+        if (volumenMedioFisico.getPorcentaje() < 0 || volumenMedioFisico.getVolumen() < 0) {
+            throw new NegocioException("Solo se aceptan decimales positivos");
+        }
 
-        return fachadaDatos.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenesMediosFisicos);
+        return fachadaDatos.guardarVolumenMedioFisicoEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
 }
