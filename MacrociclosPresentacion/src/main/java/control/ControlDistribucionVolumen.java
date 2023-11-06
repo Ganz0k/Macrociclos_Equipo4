@@ -8,11 +8,9 @@ import entidades.Macrociclo;
 import entidades.MedioFisico;
 import entidades.Mesociclo;
 import entidades.VolumenMedioFisico;
-import excepciones.NegocioException;
-import excepciones.PersistenciaException;
+import enumeradores.Etapa;
 import fachadas.FachadaNegocio;
 import interfaces.INegocio;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -37,32 +35,28 @@ public class ControlDistribucionVolumen {
         VolumenMedioFisico[][] listaCompetitiva = new VolumenMedioFisico[tablaCompetitiva.getRowCount()][(tablaCompetitiva.getColumnCount() - 2) /2];
         List<MedioFisico> listaMedioFisico = macrociclo.getMediosFisicos();
         List<Mesociclo> listaMesociclos = macrociclo.getMesociclos();
-        VolumenMedioFisico vMF = new VolumenMedioFisico();
         
         for (int i = 0; i < tablaGeneral.getRowCount(); i++) {
-            int contadorMesociclos = 3;
             int contadorVolumenes = 0;
+            VolumenMedioFisico vMF = new VolumenMedioFisico();
             
             for (int j = 0; j < tablaGeneral.getColumnCount(); j++) {
-                if (j > 2 && !this.isPair(j)) {
-                    contadorMesociclos++;
-                }
-                
                 Object valor = tablaGeneral.getValueAt(i, j);
                 
-                if (valor instanceof String) {
-                    listaMedioFisico.forEach(mF -> {
-                        if (valor.equals(mF.getNombre())) {
+                if (j == 0) {
+                    for (MedioFisico mF : listaMedioFisico) {
+                        if (valor.toString().equals(mF.getNombre()) && mF.getEtapa().equals(Etapa.GENERAL)) {
                             vMF.setMedioFisico(mF.getId());
                         }
-                    });
-                } else if (valor instanceof Float) {
+                    }
+                } else {
                     if (j > 1 && this.isPair(j)) {
                         vMF.setVolumen((float) valor);
                     } else if (j > 1 && !this.isPair(j)) {
                         vMF.setPorcentaje((float) valor);
                         vMF.setId(new ObjectId());
                         listaGeneral[i][contadorVolumenes] = vMF;
+                        vMF = new VolumenMedioFisico(vMF.getMedioFisico());
                         contadorVolumenes++;
                     }
                 }
@@ -70,29 +64,26 @@ public class ControlDistribucionVolumen {
         }
         
         for (int i = 0; i < tablaEspecial.getRowCount(); i++) {
-            int contadorMesociclos = 3;
             int contadorVolumenes = 0;
+            VolumenMedioFisico vMF = new VolumenMedioFisico();
             
             for (int j = 0; j < tablaEspecial.getColumnCount(); j++) {
-                if (j > 2 && !this.isPair(j)) {
-                    contadorMesociclos++;
-                }
-                
                 Object valor = tablaEspecial.getValueAt(i, j);
                 
-                if (valor instanceof String) {
-                    listaMedioFisico.forEach(mF -> {
-                        if (valor.equals(mF.getNombre())) {
+                if (j == 0) {
+                    for (MedioFisico mF: listaMedioFisico) {
+                        if (valor.toString().equals(mF.getNombre()) && mF.getEtapa().equals(Etapa.ESPECIAL)) {
                             vMF.setMedioFisico(mF.getId());
                         }
-                    });
-                } else if (valor instanceof Float) {
+                    }
+                } else {
                     if (j > 1 && this.isPair(j)) {
                         vMF.setVolumen((float) valor);
                     } else if (j > 1 && !this.isPair(j)) {
                         vMF.setPorcentaje((float) valor);
                         vMF.setId(new ObjectId());
                         listaEspecial[i][contadorVolumenes] = vMF;
+                        vMF = new VolumenMedioFisico(vMF.getMedioFisico());
                         contadorVolumenes++;
                     }
                 }
@@ -100,14 +91,10 @@ public class ControlDistribucionVolumen {
         }
         
         for (int i = 0; i < tablaCompetitiva.getRowCount(); i++) {
-            int contadorMesociclos = 3;
             int contadorVolumenes = 0;
+            VolumenMedioFisico vMF = new VolumenMedioFisico();
             
             for (int j = 0; j < tablaCompetitiva.getColumnCount(); j++) {
-                if (j > 2 && !this.isPair(j)) {
-                    contadorMesociclos++;
-                }
-                
                 Object valor = tablaCompetitiva.getValueAt(i, j);
                 
                 if (valor == null) {
@@ -115,19 +102,20 @@ public class ControlDistribucionVolumen {
                     return;
                 }
                 
-                if (valor instanceof String) {
-                    listaMedioFisico.forEach(mF -> {
-                        if (valor.equals(mF.getNombre())) {
+                if (j == 0) {
+                    for (MedioFisico mF: listaMedioFisico) {
+                        if (valor.toString().equals(mF.getNombre()) && mF.getEtapa().equals(Etapa.COMPETITIVA)) {
                             vMF.setMedioFisico(mF.getId());
                         }
-                    });
-                } else if (valor instanceof Float) {
+                    }
+                } else {
                     if (j > 1 && this.isPair(j)) {
                         vMF.setVolumen((float) valor);
                     } else if (j > 1 && !this.isPair(j)) {
                         vMF.setPorcentaje((float) valor);
                         vMF.setId(new ObjectId());
                         listaCompetitiva[i][contadorVolumenes] = vMF;
+                        vMF = new VolumenMedioFisico(vMF.getMedioFisico());
                         contadorVolumenes++;
                     }
                 }

@@ -21,6 +21,10 @@ public class VolumenMedioFisico {
     public VolumenMedioFisico() {
         
     }
+    
+    public VolumenMedioFisico(ObjectId medioFisico) {
+        this.medioFisico = medioFisico;
+    }
 
     /**
      * Constructor que inicializa todos los atributos del volumen
