@@ -8,7 +8,6 @@ import control.ControlDistribucionVolumen;
 import entidades.Macrociclo;
 import entidades.MedioFisico;
 import entidades.Mesociclo;
-import enumeradores.Etapa;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -23,7 +22,7 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
     
     public static Macrociclo macrociclo;
     private MacrocicloDAOTest dao = new MacrocicloDAOTest();
-    private ControlDistribucionVolumen controlDistribucionVolumen;
+    public static ControlDistribucionVolumen controlDistribucionVolumen;
 
     /**
      * Creates new form TestDistribucionVolumen
@@ -33,7 +32,7 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
         
         macrociclo = this.dao.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
         this.cargarTablas();
-        this.controlDistribucionVolumen = new ControlDistribucionVolumen();
+        controlDistribucionVolumen = new ControlDistribucionVolumen();
         this.crearListeners();
     }
 
@@ -161,7 +160,7 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        this.controlDistribucionVolumen.guardarDistribucionesVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
+        controlDistribucionVolumen.guardarDistribucionesVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void cargarTablas() {
@@ -186,34 +185,46 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
         modeloTablaCompetitiva.addColumn("Volumen total");
         
         listaM.forEach(m -> {
-            if (m.getEtapa().equals(Etapa.GENERAL)) {
-                modeloTablaGeneral.addColumn("Vol");
-                modeloTablaGeneral.addColumn("%");
-            } else if (m.getEtapa().equals(Etapa.ESPECIAL)) {
-                modeloTablaEspecial.addColumn("Vol");
-                modeloTablaEspecial.addColumn("%");
-            } else if (m.getEtapa().equals(Etapa.COMPETITIVA)) {
-                modeloTablaCompetitiva.addColumn("Vol");
-                modeloTablaCompetitiva.addColumn("%");
+            switch (m.getEtapa()) {
+                case GENERAL -> {
+                    modeloTablaGeneral.addColumn("Vol");
+                    modeloTablaGeneral.addColumn("%");
+                }
+                case ESPECIAL -> {
+                    modeloTablaEspecial.addColumn("Vol");
+                    modeloTablaEspecial.addColumn("%");
+                }
+                case COMPETITIVA -> {
+                    modeloTablaCompetitiva.addColumn("Vol");
+                    modeloTablaCompetitiva.addColumn("%");
+                }
+                default -> {
+                }
             }
         });
         
         lista.forEach(mF -> {
-            if (mF.getEtapa().equals(Etapa.GENERAL)) {
-                Object[] fila = new Object[modeloTablaGeneral.getColumnCount()];
-                fila[0] = mF.getNombre();
-                fila[1] = mF.getVolumen();
-                modeloTablaGeneral.addRow(fila);
-            } else if (mF.getEtapa().equals(Etapa.ESPECIAL)) {
-                Object[] fila = new Object[modeloTablaEspecial.getColumnCount()];
-                fila[0] = mF.getNombre();
-                fila[1] = mF.getVolumen();
-                modeloTablaEspecial.addRow(fila);
-            } else if (mF.getEtapa().equals(Etapa.COMPETITIVA)) {
-                Object[] fila = new Object[modeloTablaCompetitiva.getColumnCount()];
-                fila[0] = mF.getNombre();
-                fila[1] = mF.getVolumen();
-                modeloTablaCompetitiva.addRow(fila);
+            switch (mF.getEtapa()) {
+                case GENERAL -> {
+                        Object[] fila = new Object[modeloTablaGeneral.getColumnCount()];
+                        fila[0] = mF.getNombre();
+                        fila[1] = mF.getVolumen();
+                        modeloTablaGeneral.addRow(fila);
+                    }
+                case ESPECIAL -> {
+                        Object[] fila = new Object[modeloTablaEspecial.getColumnCount()];
+                        fila[0] = mF.getNombre();
+                        fila[1] = mF.getVolumen();
+                        modeloTablaEspecial.addRow(fila);
+                    }
+                case COMPETITIVA -> {
+                        Object[] fila = new Object[modeloTablaCompetitiva.getColumnCount()];
+                        fila[0] = mF.getNombre();
+                        fila[1] = mF.getVolumen();
+                        modeloTablaCompetitiva.addRow(fila);
+                    }
+                default -> {
+                }
             }
         });
     }
@@ -231,41 +242,7 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
                     int row = e.getFirstRow();
                     int column = e.getColumn();
                     
-                    if (!TestDistribucionVolumen.isPair(column)) {
-                        Object porcentajeObject = modeloTablaGeneral.getValueAt(row, column);
-                        float porcentaje = Float.parseFloat(porcentajeObject.toString());
-
-                        Object volumenTotalObject = modeloTablaGeneral.getValueAt(row, 1);
-                        float volumenTotal = Float.parseFloat(volumenTotalObject.toString());
-                        float volumenMesociclo = (porcentaje * volumenTotal) / 100f;
-
-                        Object[] oldFila = new Object[modeloTablaGeneral.getColumnCount()];
-                        
-                        for (int i = 0; i < oldFila.length; i++) {
-                            if (i == column) {
-                                oldFila[i] = Float.parseFloat(porcentajeObject.toString());
-                            } else if (i == (column - 1)) {
-                                oldFila[i] = volumenMesociclo;
-                            } else {
-                                oldFila[i] = modeloTablaGeneral.getValueAt(row, i);
-                            }
-                        }
-
-                        modeloTablaGeneral.setRowCount(0);
-
-                        TestDistribucionVolumen.macrociclo.getMediosFisicos().forEach(mF -> {
-                            if (mF.getEtapa().equals(Etapa.GENERAL)) {
-                                if (oldFila[0].toString().equals(mF.getNombre())) {
-                                    modeloTablaGeneral.addRow(oldFila);
-                                } else {
-                                    Object[] fila = new Object[modeloTablaGeneral.getColumnCount()];
-                                    fila[0] = mF.getNombre();
-                                    fila[1] = mF.getVolumen();
-                                    modeloTablaGeneral.addRow(fila);
-                                }
-                            }
-                        });
-                    }
+                    TestDistribucionVolumen.controlDistribucionVolumen.recargarTabla(modeloTablaGeneral, row, column);
                 }
             }
         });
@@ -278,41 +255,7 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
                     int row = e.getFirstRow();
                     int column = e.getColumn();
                     
-                    if (!TestDistribucionVolumen.isPair(column)) {
-                        Object porcentajeObject = modeloTablaEspecial.getValueAt(row, column);
-                        float porcentaje = Float.parseFloat(porcentajeObject.toString());
-
-                        Object volumenTotalObject = modeloTablaEspecial.getValueAt(row, 1);
-                        float volumenTotal = Float.parseFloat(volumenTotalObject.toString());
-                        float volumenMesociclo = (porcentaje * volumenTotal) / 100f;
-
-                        Object[] oldFila = new Object[modeloTablaEspecial.getColumnCount()];
-                        
-                        for (int i = 0; i < oldFila.length; i++) {
-                            if (i == column) {
-                                oldFila[i] = Float.parseFloat(porcentajeObject.toString());
-                            } else if (i == (column - 1)) {
-                                oldFila[i] = volumenMesociclo;
-                            } else {
-                                oldFila[i] = modeloTablaEspecial.getValueAt(row, i);
-                            }
-                        }
-
-                        modeloTablaEspecial.setRowCount(0);
-
-                        TestDistribucionVolumen.macrociclo.getMediosFisicos().forEach(mF -> {
-                            if (mF.getEtapa().equals(Etapa.ESPECIAL)) {
-                                if (oldFila[0].toString().equals(mF.getNombre())) {
-                                    modeloTablaEspecial.addRow(oldFila);
-                                } else {
-                                    Object[] fila = new Object[modeloTablaEspecial.getColumnCount()];
-                                    fila[0] = mF.getNombre();
-                                    fila[1] = mF.getVolumen();
-                                    modeloTablaEspecial.addRow(fila);
-                                }
-                            }
-                        });
-                    }
+                    TestDistribucionVolumen.controlDistribucionVolumen.recargarTabla(modeloTablaEspecial, row, column);
                 }
             }
         });
@@ -325,41 +268,7 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
                     int row = e.getFirstRow();
                     int column = e.getColumn();
                     
-                    if (!TestDistribucionVolumen.isPair(column)) {
-                        Object porcentajeObject = modeloTablaGeneral.getValueAt(row, column);
-                        float porcentaje = Float.parseFloat(porcentajeObject.toString());
-
-                        Object volumenTotalObject = modeloTablaCompetitiva.getValueAt(row, 1);
-                        float volumenTotal = Float.parseFloat(volumenTotalObject.toString());
-                        float volumenMesociclo = (porcentaje * volumenTotal) / 100f;
-
-                        Object[] oldFila = new Object[modeloTablaCompetitiva.getColumnCount()];
-                        
-                        for (int i = 0; i < oldFila.length; i++) {
-                            if (i == column) {
-                                oldFila[i] = Float.parseFloat(porcentajeObject.toString());
-                            } else if (i == (column - 1)) {
-                                oldFila[i] = volumenMesociclo;
-                            } else {
-                                oldFila[i] = modeloTablaCompetitiva.getValueAt(row, i);
-                            }
-                        }
-
-                        modeloTablaCompetitiva.setRowCount(0);
-
-                        TestDistribucionVolumen.macrociclo.getMediosFisicos().forEach(mF -> {
-                            if (mF.getEtapa().equals(Etapa.COMPETITIVA)) {
-                                if (oldFila[0].toString().equals(mF.getNombre())) {
-                                    modeloTablaCompetitiva.addRow(oldFila);
-                                } else {
-                                    Object[] fila = new Object[modeloTablaCompetitiva.getColumnCount()];
-                                    fila[0] = mF.getNombre();
-                                    fila[1] = mF.getVolumen();
-                                    modeloTablaCompetitiva.addRow(fila);
-                                }
-                            }
-                        });
-                    }
+                    TestDistribucionVolumen.controlDistribucionVolumen.recargarTabla(modeloTablaCompetitiva, row, column);
                 }
             }
         });
