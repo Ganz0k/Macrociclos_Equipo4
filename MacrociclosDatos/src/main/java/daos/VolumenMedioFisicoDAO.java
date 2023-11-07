@@ -12,7 +12,7 @@ import entidades.Macrociclo;
 import entidades.Mesociclo;
 import entidades.VolumenMedioFisico;
 import excepciones.PersistenciaException;
-
+import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -32,7 +32,7 @@ public class VolumenMedioFisicoDAO {
         return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
 
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
+    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
@@ -56,6 +56,26 @@ public class VolumenMedioFisicoDAO {
                 return true;
             }
 
+            return false;
+        } catch (Exception e) {
+            throw new PersistenciaException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    public boolean eliminarDistribucionesVolumenes(ObjectId idMacrociclo) {
+        try {
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
+            Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
+            
+            if (macrociclo != null) {
+                for (int i = 0; i < macrociclo.getMesociclos().size(); i++) {
+                    macrociclo.getMesociclos().get(i).setDistribucionVolumen(new ArrayList<>());
+                }
+                
+                coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
+                return true;
+            }
+            
             return false;
         } catch (Exception e) {
             throw new PersistenciaException(e.getMessage(), e.getCause());

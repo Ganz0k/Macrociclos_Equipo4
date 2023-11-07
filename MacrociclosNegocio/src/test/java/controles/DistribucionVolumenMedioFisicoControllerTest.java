@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import entidades.VolumenMedioFisico;
 import excepciones.NegocioException;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.LinkedList;
-import java.util.List;
 import org.bson.types.ObjectId;
 
 /**
@@ -23,15 +21,9 @@ public class DistribucionVolumenMedioFisicoControllerTest {
         DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
 
-            VolumenMedioFisico vME1 = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
-            VolumenMedioFisico vME2 = new VolumenMedioFisico(new ObjectId(), new ObjectId("654316cc0a1d7b2556805a55"), 275.2016129f, 70f);
-
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
-
-        assertTrue(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME));
+        assertTrue(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
@@ -39,15 +31,9 @@ public class DistribucionVolumenMedioFisicoControllerTest {
         DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
 
-        VolumenMedioFisico vME1 = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
-        VolumenMedioFisico vME2 = new VolumenMedioFisico(new ObjectId(), new ObjectId("654316cc0a1d7b2556805a55"), 275.2016129f, 70f);
-
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
-
-        assertFalse(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME));
+        assertFalse(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
 
     @Test
@@ -55,15 +41,9 @@ public class DistribucionVolumenMedioFisicoControllerTest {
         DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId();
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
 
-        VolumenMedioFisico vME1 = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
-        VolumenMedioFisico vME2 = new VolumenMedioFisico(new ObjectId(), new ObjectId("654316cc0a1d7b2556805a55"), 275.2016129f, 70f);
-
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
-
-        assertFalse(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME));
+        assertFalse(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
 
     @Test
@@ -71,10 +51,10 @@ public class DistribucionVolumenMedioFisicoControllerTest {
         DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
         ObjectId idMacrociclo = null;
         ObjectId idMesociclo = null;
-        List<VolumenMedioFisico> listaVME = null;
+        VolumenMedioFisico vME = null;
 
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME);
+            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
 
@@ -83,46 +63,34 @@ public class DistribucionVolumenMedioFisicoControllerTest {
         DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId();
-        List<VolumenMedioFisico> listaVME = null;
+        VolumenMedioFisico vME = null;
 
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME);
+            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
 
     @Test
-    public void testTiraNegocioExceptionSiAtributosDeElementosDeListaSonNull() {
+    public void testTiraNegocioExceptionSiAtributosDeDistribucionSonNull() {
         DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
-
-        VolumenMedioFisico vME1 = new VolumenMedioFisico(null, null, 72.64705882f, 95f);
-        VolumenMedioFisico vME2 = new VolumenMedioFisico(null, null, 275.2016129f, 70f);
-
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
+        VolumenMedioFisico vME = new VolumenMedioFisico(null, null, 72.64705882f, 95f);
 
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME);
+            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
 
     @Test
-    public void testTiraNegocioExceptionSiAtributosDeElementosDeListaSonNegativos() {
+    public void testTiraNegocioExceptionSiAtributosDeDistribucionSonNegativos() {
         DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
-
-        VolumenMedioFisico vME1 = new VolumenMedioFisico(new ObjectId(), new ObjectId(), -72.64705882f, -95f);
-        VolumenMedioFisico vME2 = new VolumenMedioFisico(new ObjectId(), new ObjectId(), -275.2016129f, -70f);
-
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId(), -72.64705882f, -95f);
 
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME);
+            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
 }

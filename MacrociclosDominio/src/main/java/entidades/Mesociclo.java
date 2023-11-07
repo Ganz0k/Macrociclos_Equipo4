@@ -18,6 +18,7 @@ public class Mesociclo {
     private ObjectId id;
     private int numero;
     private Etapa etapa;
+    private int numSemanas;
     private List<VolumenMedioFisico> distribucionVolumen;
     private List<Microciclo> microciclos;
     
@@ -31,14 +32,16 @@ public class Mesociclo {
      * @param id id del mesociclo
      * @param numero número de mesociclo que este es
      * @param etapa etapa a la que pertenece este mesociclo
+     * @param numSemanas
      * @param distribucionVolumen lista de distribuciones de volumen de cada
      * medio físico a trabajar en este mesociclo
      * @param microciclos lista de microciclos que comprenden este mesociclo
      */
-    public Mesociclo(ObjectId id, int numero, Etapa etapa, List<VolumenMedioFisico> distribucionVolumen, List<Microciclo> microciclos) {
+    public Mesociclo(ObjectId id, int numero, Etapa etapa, int numSemanas, List<VolumenMedioFisico> distribucionVolumen, List<Microciclo> microciclos) {
         this.id = id;
         this.numero = numero;
         this.etapa = etapa;
+        this.numSemanas = numSemanas;
         this.distribucionVolumen = distribucionVolumen;
         this.microciclos = microciclos;
     }
@@ -95,6 +98,14 @@ public class Mesociclo {
      */
     public void setEtapa(Etapa etapa) {
         this.etapa = etapa;
+    }
+
+    public int getNumSemanas() {
+        return numSemanas;
+    }
+
+    public void setNumSemanas(int numSemanas) {
+        this.numSemanas = numSemanas;
     }
 
     /**

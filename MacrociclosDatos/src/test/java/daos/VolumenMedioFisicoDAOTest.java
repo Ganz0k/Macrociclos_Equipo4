@@ -5,8 +5,6 @@
 package daos;
 
 import entidades.VolumenMedioFisico;
-import java.util.LinkedList;
-import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,15 +20,9 @@ public class VolumenMedioFisicoDAOTest {
         VolumenMedioFisicoDAO dVMEDAO = new VolumenMedioFisicoDAO();
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
         
-        VolumenMedioFisico vME1 = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
-        VolumenMedioFisico vME2 = new VolumenMedioFisico(new ObjectId(), new ObjectId("654316cc0a1d7b2556805a55"), 255.5443548f, 65f);
-        
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
-        
-        assertTrue(dVMEDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME));
+        assertTrue(dVMEDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
@@ -38,15 +30,9 @@ public class VolumenMedioFisicoDAOTest {
         VolumenMedioFisicoDAO dVMEDAO = new VolumenMedioFisicoDAO();
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
         
-        VolumenMedioFisico vME1 = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
-        VolumenMedioFisico vME2 = new VolumenMedioFisico(new ObjectId(), new ObjectId("654316cc0a1d7b2556805a55"), 255.5443548f, 65f);
-        
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
-        
-        assertFalse(dVMEDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME));
+        assertFalse(dVMEDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
@@ -54,14 +40,8 @@ public class VolumenMedioFisicoDAOTest {
         VolumenMedioFisicoDAO dVMEDAO = new VolumenMedioFisicoDAO();
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId();
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
         
-        VolumenMedioFisico vME1 = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
-        VolumenMedioFisico vME2 = new VolumenMedioFisico(new ObjectId(), new ObjectId("654316cc0a1d7b2556805a55"), 255.5443548f, 65f);
-        
-        List<VolumenMedioFisico> listaVME = new LinkedList<>();
-        listaVME.add(vME1);
-        listaVME.add(vME2);
-        
-        assertFalse(dVMEDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, listaVME));
+        assertFalse(dVMEDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
 }

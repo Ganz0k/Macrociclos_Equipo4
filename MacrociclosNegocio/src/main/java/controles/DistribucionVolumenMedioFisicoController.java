@@ -4,10 +4,7 @@
  */
 package controles;
 
-import java.util.List;
-
 import org.bson.types.ObjectId;
-
 import entidades.VolumenMedioFisico;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
@@ -40,5 +37,13 @@ public class DistribucionVolumenMedioFisicoController {
         }
 
         return fachadaDatos.guardarVolumenMedioFisicoEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
+    }
+    
+    public boolean eliminarDistribuciones(ObjectId idMacrociclo) throws PersistenciaException {
+        if (idMacrociclo == null) {
+            throw new NegocioException("El id no puede ser null");
+        }
+        
+        return fachadaDatos.eliminarDistribucionesVolumenes(idMacrociclo);
     }
 }

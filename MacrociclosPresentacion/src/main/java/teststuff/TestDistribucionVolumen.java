@@ -6,11 +6,6 @@ package teststuff;
 
 import control.ControlDistribucionVolumen;
 import entidades.Macrociclo;
-import entidades.MedioFisico;
-import entidades.Mesociclo;
-import java.util.List;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
 
@@ -20,9 +15,9 @@ import org.bson.types.ObjectId;
  */
 public class TestDistribucionVolumen extends javax.swing.JFrame {
     
-    public static Macrociclo macrociclo;
-    private MacrocicloDAOTest dao = new MacrocicloDAOTest();
-    public static ControlDistribucionVolumen controlDistribucionVolumen;
+    private Macrociclo macrociclo;
+    private final MacrocicloDAOTest dao = new MacrocicloDAOTest();
+    private final ControlDistribucionVolumen controlDistribucionVolumen;
 
     /**
      * Creates new form TestDistribucionVolumen
@@ -30,10 +25,10 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
     public TestDistribucionVolumen() {
         initComponents();
         
-        macrociclo = this.dao.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
-        this.cargarTablas();
-        controlDistribucionVolumen = new ControlDistribucionVolumen();
-        this.crearListeners();
+        this.macrociclo = this.dao.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        this.controlDistribucionVolumen = new ControlDistribucionVolumen();
+        this.controlDistribucionVolumen.cargarTablas(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+        this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
     }
 
     /**
@@ -122,12 +117,10 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(scrollPaneTablaGeneral)
-                        .addContainerGap())
                     .addComponent(scrollPaneTablaEspecial)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scrollPaneTablaGeneral)
                             .addComponent(scrollPaneTablaCompetitiva)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(265, 265, 265)
@@ -160,123 +153,8 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        controlDistribucionVolumen.guardarDistribucionesVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
+        this.controlDistribucionVolumen.guardarDistribucionesVolumenes(this, this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
     }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void cargarTablas() {
-        List<MedioFisico> lista = TestDistribucionVolumen.macrociclo.getMediosFisicos();
-        List<Mesociclo> listaM = TestDistribucionVolumen.macrociclo.getMesociclos();
-        DefaultTableModel modeloTablaGeneral = (DefaultTableModel) TestDistribucionVolumen.tablaGeneral.getModel();
-        DefaultTableModel modeloTablaEspecial = (DefaultTableModel) TestDistribucionVolumen.tablaEspecial.getModel();
-        DefaultTableModel modeloTablaCompetitiva = (DefaultTableModel) TestDistribucionVolumen.tablaCompetitiva.getModel();
-        
-        modeloTablaGeneral.setColumnCount(0);
-        modeloTablaGeneral.setRowCount(0);
-        modeloTablaEspecial.setColumnCount(0);
-        modeloTablaEspecial.setRowCount(0);
-        modeloTablaCompetitiva.setColumnCount(0);
-        modeloTablaCompetitiva.setRowCount(0);
-        
-        modeloTablaGeneral.addColumn("Medios físicos");
-        modeloTablaGeneral.addColumn("Volumen total");
-        modeloTablaEspecial.addColumn("Medios físicos");
-        modeloTablaEspecial.addColumn("Volumen total");
-        modeloTablaCompetitiva.addColumn("Medios físicos");
-        modeloTablaCompetitiva.addColumn("Volumen total");
-        
-        listaM.forEach(m -> {
-            switch (m.getEtapa()) {
-                case GENERAL -> {
-                    modeloTablaGeneral.addColumn("Vol");
-                    modeloTablaGeneral.addColumn("%");
-                }
-                case ESPECIAL -> {
-                    modeloTablaEspecial.addColumn("Vol");
-                    modeloTablaEspecial.addColumn("%");
-                }
-                case COMPETITIVA -> {
-                    modeloTablaCompetitiva.addColumn("Vol");
-                    modeloTablaCompetitiva.addColumn("%");
-                }
-                default -> {
-                }
-            }
-        });
-        
-        lista.forEach(mF -> {
-            switch (mF.getEtapa()) {
-                case GENERAL -> {
-                        Object[] fila = new Object[modeloTablaGeneral.getColumnCount()];
-                        fila[0] = mF.getNombre();
-                        fila[1] = mF.getVolumen();
-                        modeloTablaGeneral.addRow(fila);
-                    }
-                case ESPECIAL -> {
-                        Object[] fila = new Object[modeloTablaEspecial.getColumnCount()];
-                        fila[0] = mF.getNombre();
-                        fila[1] = mF.getVolumen();
-                        modeloTablaEspecial.addRow(fila);
-                    }
-                case COMPETITIVA -> {
-                        Object[] fila = new Object[modeloTablaCompetitiva.getColumnCount()];
-                        fila[0] = mF.getNombre();
-                        fila[1] = mF.getVolumen();
-                        modeloTablaCompetitiva.addRow(fila);
-                    }
-                default -> {
-                }
-            }
-        });
-    }
-    
-    private void crearListeners() {
-        DefaultTableModel modeloTablaGeneral = (DefaultTableModel) TestDistribucionVolumen.tablaGeneral.getModel();
-        DefaultTableModel modeloTablaEspecial = (DefaultTableModel) TestDistribucionVolumen.tablaEspecial.getModel();
-        DefaultTableModel modeloTablaCompetitiva = (DefaultTableModel) TestDistribucionVolumen.tablaCompetitiva.getModel();
-        
-        modeloTablaGeneral.addTableModelListener(new TableModelListener() {
-            
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    int row = e.getFirstRow();
-                    int column = e.getColumn();
-                    
-                    TestDistribucionVolumen.controlDistribucionVolumen.recargarTabla(modeloTablaGeneral, row, column);
-                }
-            }
-        });
-        
-        modeloTablaEspecial.addTableModelListener(new TableModelListener() {
-            
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    int row = e.getFirstRow();
-                    int column = e.getColumn();
-                    
-                    TestDistribucionVolumen.controlDistribucionVolumen.recargarTabla(modeloTablaEspecial, row, column);
-                }
-            }
-        });
-        
-        modeloTablaCompetitiva.addTableModelListener(new TableModelListener() {
-            
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    int row = e.getFirstRow();
-                    int column = e.getColumn();
-                    
-                    TestDistribucionVolumen.controlDistribucionVolumen.recargarTabla(modeloTablaCompetitiva, row, column);
-                }
-            }
-        });
-    }
-    
-    public static boolean isPair(int numero) {
-        return numero % 2 == 0;
-    }
     
     /**
      * @param args the command line arguments
@@ -321,8 +199,8 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollPaneTablaCompetitiva;
     private javax.swing.JScrollPane scrollPaneTablaEspecial;
     private javax.swing.JScrollPane scrollPaneTablaGeneral;
-    public static javax.swing.JTable tablaCompetitiva;
-    public static javax.swing.JTable tablaEspecial;
-    public static javax.swing.JTable tablaGeneral;
+    private javax.swing.JTable tablaCompetitiva;
+    private javax.swing.JTable tablaEspecial;
+    private javax.swing.JTable tablaGeneral;
     // End of variables declaration//GEN-END:variables
 }
