@@ -27,6 +27,7 @@ public class TestDistribucionVolumen extends javax.swing.JFrame {
         
         this.macrociclo = this.dao.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
         this.controlDistribucionVolumen = new ControlDistribucionVolumen();
+        this.controlDistribucionVolumen.setTablesModels(macrociclo, tablaGeneral, tablaEspecial, tablaCompetitiva);
         this.controlDistribucionVolumen.cargarTablas(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
         this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
     }

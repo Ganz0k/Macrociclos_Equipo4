@@ -6,8 +6,6 @@ package teststuff;
 
 import control.ControlPlanGrafico;
 import entidades.Macrociclo;
-import entidades.Mesociclo;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
 

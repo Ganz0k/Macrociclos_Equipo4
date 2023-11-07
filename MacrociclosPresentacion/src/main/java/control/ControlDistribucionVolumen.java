@@ -16,6 +16,7 @@ import interfaces.INegocio;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
@@ -30,6 +31,140 @@ public class ControlDistribucionVolumen {
     
     public ControlDistribucionVolumen() {
         this.negocio = new FachadaNegocio();
+    }
+    
+    public void setTablesModels(Macrociclo macrociclo, JTable tablaGeneral, JTable tablaEspecial, JTable tablaCompetitiva) {
+        int columnasGeneral = 2;
+        int columnasEspecial = 2;
+        int columnasCompetitiva = 2;
+        
+        for (Mesociclo m : macrociclo.getMesociclos()) {
+            switch (m.getEtapa()) {
+                case GENERAL -> columnasGeneral += 2;
+                case ESPECIAL -> columnasEspecial += 2;
+                case COMPETITIVA -> columnasCompetitiva += 2;
+            }
+        }
+        
+        String[] nombreColumnasGeneral = new String[columnasGeneral];
+        String[] nombreColumnasEspecial = new String[columnasEspecial];
+        String[] nombreColumnasCompetitiva = new String[columnasCompetitiva];
+        Class[] tiposGeneral = new Class[columnasGeneral];
+        Class[] tiposEspecial = new Class[columnasEspecial];
+        Class[] tiposCompetitiva = new Class[columnasCompetitiva];
+        boolean[] editablesGeneral = new boolean[columnasGeneral];
+        boolean[] editablesEspecial = new boolean[columnasEspecial];
+        boolean[] editablesCompetitiva = new boolean[columnasCompetitiva];
+        int contadorGeneral = 2; 
+        int contadorEspecial = 2;
+        int contadorCompetitivo = 2;
+        
+        nombreColumnasGeneral[0] = "Medios físicos";
+        nombreColumnasGeneral[1] = "Volumen total";
+        tiposGeneral[0] = String.class;
+        tiposGeneral[1] = Float.class;
+        editablesGeneral[0] = false;
+        editablesGeneral[1] = false;
+        
+        nombreColumnasEspecial[0] = "Medios físicos";
+        nombreColumnasEspecial[1] = "Volumen total";
+        tiposEspecial[0] = String.class;
+        tiposEspecial[1] = Float.class;
+        editablesEspecial[0] = false;
+        editablesEspecial[1] = false;
+        
+        nombreColumnasCompetitiva[0] = "Medios físicos";
+        nombreColumnasCompetitiva[1] = "Volumen total";
+        tiposCompetitiva[0] = String.class;
+        tiposCompetitiva[1] = Float.class;
+        editablesCompetitiva[0] = false;
+        editablesCompetitiva[1] = false;
+        
+        for (Mesociclo m : macrociclo.getMesociclos()) {
+            switch (m.getEtapa()) {
+                case GENERAL -> {
+                    nombreColumnasGeneral[contadorGeneral] = "Volumen";
+                    nombreColumnasGeneral[contadorGeneral + 1] = "%";
+                    tiposGeneral[contadorGeneral] = Float.class;
+                    tiposGeneral[contadorGeneral + 1] = Float.class;
+                    editablesGeneral[contadorGeneral] = false;
+                    editablesGeneral[contadorGeneral + 1] = true;
+                    contadorGeneral += 2;
+                }
+                case ESPECIAL -> {
+                    nombreColumnasEspecial[contadorEspecial] = "Volumen";
+                    nombreColumnasEspecial[contadorEspecial + 1] = "%";
+                    tiposEspecial[contadorEspecial] = Float.class;
+                    tiposEspecial[contadorEspecial + 1] = Float.class;
+                    editablesEspecial[contadorEspecial] = false;
+                    editablesEspecial[contadorEspecial + 1] = true;
+                    contadorEspecial += 2;
+                }
+                case COMPETITIVA -> {
+                    nombreColumnasCompetitiva[contadorCompetitivo] = "Volumen";
+                    nombreColumnasCompetitiva[contadorCompetitivo + 1] = "%";
+                    tiposCompetitiva[contadorCompetitivo] = Float.class;
+                    tiposCompetitiva[contadorCompetitivo + 1] = Float.class;
+                    editablesCompetitiva[contadorCompetitivo] = false;
+                    editablesCompetitiva[contadorCompetitivo + 1] = true;
+                    contadorCompetitivo += 2;
+                }
+            }
+        }
+        
+        tablaGeneral.setModel(new DefaultTableModel(
+            new Object[][] {
+                
+            },
+            nombreColumnasGeneral
+        ) {
+            Class[] types = tiposGeneral;
+            boolean[] canEdit = editablesGeneral;
+            
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        tablaEspecial.setModel(new DefaultTableModel(
+            new Object[][] {
+                
+            },
+            nombreColumnasEspecial
+        ) {
+            Class[] types = tiposEspecial;
+            boolean[] canEdit = editablesEspecial;
+            
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        tablaCompetitiva.setModel(new DefaultTableModel(
+            new Object[][] {
+                
+            },
+            nombreColumnasCompetitiva
+        ) {
+            Class[] types = tiposCompetitiva;
+            boolean[] canEdit = editablesCompetitiva;
+            
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
     }
     
     public void cargarTablas(Macrociclo macrociclo, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {

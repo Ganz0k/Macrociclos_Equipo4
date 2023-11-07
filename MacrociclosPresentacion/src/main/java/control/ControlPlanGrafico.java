@@ -37,9 +37,7 @@ public class ControlPlanGrafico {
         String[] nombreColumnas = new String[totalColumnas];
         Class[] tipos = new Class[totalColumnas];
         boolean[] editables = new boolean[totalColumnas];
-        int contadorNombres = 8;
-        int contadorTipos = 8;
-        int contadorEditables = 8;
+        int contadorExtra = 8;
         
         nombreColumnas[0] = "Semana";
         nombreColumnas[1] = "Inicia";
@@ -50,13 +48,6 @@ public class ControlPlanGrafico {
         nombreColumnas[6] = "Acentos";
         nombreColumnas[7] = "Competencias prep";
         
-        for (int i = 0; i < macrociclo.getMediosFisicos().size(); i++) {
-            if (macrociclo.getMediosFisicos().get(i).getEtapa().equals(Etapa.GENERAL)) {
-                nombreColumnas[contadorNombres] = macrociclo.getMediosFisicos().get(i).getNombre();
-                contadorNombres++;
-            }
-        }
-        
         tipos[0] = Integer.class;
         tipos[1] = String.class;
         tipos[2] = String.class;
@@ -65,13 +56,6 @@ public class ControlPlanGrafico {
         tipos[5] = String.class;
         tipos[6] = String.class;
         tipos[7] = Boolean.class;
-        
-        for (int i = 0; i < macrociclo.getMediosFisicos().size(); i++) {
-            if (macrociclo.getMediosFisicos().get(i).getEtapa().equals(Etapa.GENERAL)) {
-                tipos[contadorTipos] = Float.class;
-                contadorTipos++;
-            }
-        }
         
         editables[0] = false;
         editables[1] = true;
@@ -84,8 +68,10 @@ public class ControlPlanGrafico {
         
         for (int i = 0; i < macrociclo.getMediosFisicos().size(); i++) {
             if (macrociclo.getMediosFisicos().get(i).getEtapa().equals(Etapa.GENERAL)) {
-                editables[contadorEditables] = true;
-                contadorEditables++;
+                nombreColumnas[contadorExtra] = macrociclo.getMediosFisicos().get(i).getNombre();
+                tipos[contadorExtra] = Float.class;
+                editables[contadorExtra] = true;
+                contadorExtra++;
             }
         }
         
