@@ -17,7 +17,6 @@ import org.bson.types.ObjectId;
  */
 public class MacrocicloDAOTest {
     
-    
     private final MongoDatabase baseDatos;
     
     public MacrocicloDAOTest() {

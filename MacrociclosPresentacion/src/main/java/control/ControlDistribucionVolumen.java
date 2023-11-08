@@ -34,6 +34,7 @@ public class ControlDistribucionVolumen {
     }
     
     public void setTablesModels(Macrociclo macrociclo, JTable tablaGeneral, JTable tablaEspecial, JTable tablaCompetitiva) {
+        this.negocio.eliminarDistribuciones(macrociclo.getId());
         int columnasGeneral = 2;
         int columnasEspecial = 2;
         int columnasCompetitiva = 2;
