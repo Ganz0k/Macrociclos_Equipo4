@@ -11,6 +11,8 @@ import conexion.ConexionBD;
 import entidades.Macrociclo;
 import entidades.Mesociclo;
 import entidades.Microciclo;
+import excepciones.PersistenciaException;
+import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -48,9 +50,27 @@ public class MicrocicloDAO {
             
             return false;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.err.println(e.getCause());
+            throw new PersistenciaException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    public boolean eliminarMicrociclos(ObjectId idMacrociclo) {
+        try {
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
+            Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
+            
+            if (macrociclo != null) {
+                for (int i = 0; i < macrociclo.getMesociclos().size(); i++) {
+                    macrociclo.getMesociclos().get(i).setMicrociclos(new ArrayList<>());
+                }
+                
+                coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
+                return true;
+            }
+            
             return false;
+        } catch (Exception e) {
+            throw new PersistenciaException(e.getMessage(), e.getCause());
         }
     }
 }

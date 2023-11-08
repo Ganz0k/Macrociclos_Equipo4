@@ -33,13 +33,18 @@ public class FachadaDatos implements IDatos {
     }
 
     @Override
-    public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) {
+    public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws PersistenciaException {
         return this.microcicloDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos);
     }
 
     @Override
     public boolean eliminarDistribucionesVolumenes(ObjectId idMacrociclo) throws PersistenciaException {
         return this.volumenMedioFisicoDAO.eliminarDistribucionesVolumenes(idMacrociclo);
+    }
+
+    @Override
+    public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws PersistenciaException {
+        return this.microcicloDAO.eliminarMicrociclos(idMacrociclo);
     }
     
 }

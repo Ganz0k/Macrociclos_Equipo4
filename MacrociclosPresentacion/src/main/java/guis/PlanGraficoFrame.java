@@ -4,17 +4,32 @@
  */
 package guis;
 
+import control.ControlPlanGrafico;
+import entidades.Macrociclo;
+import javax.swing.table.DefaultTableModel;
+import org.bson.types.ObjectId;
+import teststuff.MacrocicloDAOTest;
+
 /**
  *
  * @author Yorsh
  */
 public class PlanGraficoFrame extends javax.swing.JFrame {
 
+    private Macrociclo macrociclo;
+    private final MacrocicloDAOTest dao = new MacrocicloDAOTest();
+    private final ControlPlanGrafico controlPlanGrafico;
+
     /**
      * Creates new form VolumenMedioFisicoFrame
      */
     public PlanGraficoFrame() {
         initComponents();
+
+        this.macrociclo = dao.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        this.controlPlanGrafico = new ControlPlanGrafico();
+        this.controlPlanGrafico.setTableModel(this.planGrafico, this.macrociclo);
+        this.controlPlanGrafico.cargarTabla((DefaultTableModel) this.planGrafico.getModel(), this.macrociclo.getMesociclos());
     }
 
     /**
@@ -26,26 +41,32 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        scrollPanePlanGrafico = new javax.swing.JScrollPane();
+        planGrafico = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        btnGuardarMicrociclos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Plan gráfico");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        planGrafico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        scrollPanePlanGrafico.setViewportView(planGrafico);
 
         jLabel1.setText("Distribución de volumen plan gráfico");
+
+        btnGuardarMicrociclos.setText("Guardar microciclos");
+        btnGuardarMicrociclos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarMicrociclosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,12 +74,16 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+                .addComponent(scrollPanePlanGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(328, 328, 328))
+                .addComponent(jLabel1)
+                .addGap(385, 385, 385))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(366, 366, 366)
+                .addComponent(btnGuardarMicrociclos)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,12 +91,19 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addComponent(scrollPanePlanGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardarMicrociclos)
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarMicrociclosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMicrociclosActionPerformed
+        this.controlPlanGrafico.guardarMicrociclos(this, macrociclo, (DefaultTableModel) this.planGrafico.getModel());
+    }//GEN-LAST:event_btnGuardarMicrociclosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -110,8 +142,9 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardarMicrociclos;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable planGrafico;
+    private javax.swing.JScrollPane scrollPanePlanGrafico;
     // End of variables declaration//GEN-END:variables
 }

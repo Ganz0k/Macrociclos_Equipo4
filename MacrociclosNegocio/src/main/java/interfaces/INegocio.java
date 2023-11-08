@@ -18,6 +18,7 @@ import org.bson.types.ObjectId;
 public interface INegocio {
     
     public boolean guardarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws NegocioException, PersistenciaException;
-    public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos);
+    public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws NegocioException, PersistenciaException;
     public boolean eliminarDistribuciones(ObjectId idMacrociclo) throws NegocioException, PersistenciaException;
+    public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws NegocioException, PersistenciaException;
 }

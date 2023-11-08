@@ -5,8 +5,13 @@
 package controles;
 
 import entidades.Microciclo;
+import entidades.VolumenMedioFisico;
+import excepciones.NegocioException;
+import excepciones.PersistenciaException;
 import fachada.FachadaDatos;
 import interfaces.IDatos;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -22,12 +27,57 @@ public class MicrocicloController {
         this.fachadaDatos = new FachadaDatos();
     }
     
-    public boolean guardarMicrociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclo) {
-        try {
-            return this.fachadaDatos.guardarMicrociclos(idMacrociclo, idMesociclo, microciclo);
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return false;
+    public boolean guardarMicrociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws PersistenciaException {
+        if (idMacrociclo == null || idMesociclo == null || microciclos == null) {
+            throw new NegocioException("Ninguno de los campos puede ser nulo");
         }
+        
+        if (microciclos.isEmpty()) {
+            throw new NegocioException("No se pueden guardar microciclos si no existen");
+        }
+        
+        for (Microciclo m : microciclos) {
+            if (m.getVolumenesMediosFisicos().isEmpty()) {
+                throw new NegocioException("Los microciclos no pueden no tener volumen");
+            }
+            
+            for (VolumenMedioFisico vMF : m.getVolumenesMediosFisicos()) {
+                if (vMF.getVolumen() < 0) {
+                    throw new NegocioException("Los volúmenes no pueden ser negativos");
+                }
+            }
+            
+            GregorianCalendar anioActualC = new GregorianCalendar();
+            anioActualC.set(GregorianCalendar.MONDAY, GregorianCalendar.JANUARY);
+            anioActualC.set(GregorianCalendar.DAY_OF_MONTH, 1);
+            anioActualC.set(GregorianCalendar.HOUR_OF_DAY, 0);
+            anioActualC.set(GregorianCalendar.MINUTE, 0);
+            anioActualC.set(GregorianCalendar.SECOND, 0);
+            anioActualC.set(GregorianCalendar.MILLISECOND, 0);
+            
+            Date anioActual = anioActualC.getTime();
+            
+            if (m.getInicio().before(anioActual) || m.getFin().before(anioActual)) {
+                throw new NegocioException("Las fechas no pueden ser de un año menor al actual");
+            }
+            
+            if (m.getFin().getTime() <= m.getInicio().getTime()) {
+                throw new NegocioException("La fecha de fin no puede ser menor o igual a la de inicio");
+            }
+            
+            if (m.getFin().getTime() - m.getInicio().getTime() != 345600000) {
+                throw new NegocioException("El periodo de la fecha de inicio y fin debe de ser de 5 días");
+            }
+        }
+        
+        return this.fachadaDatos.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos);
+    }
+    
+    public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws PersistenciaException {
+        if (idMacrociclo == null) {
+            throw new NegocioException("El id no puede ser nulo");
+        }
+        
+        return this.fachadaDatos.eliminarMicrociclos(idMacrociclo);
     }
 }

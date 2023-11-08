@@ -42,5 +42,10 @@ public class FachadaNegocio implements INegocio {
     public boolean eliminarDistribuciones(ObjectId idMacrociclo) throws NegocioException, PersistenciaException {
         return this.distribucionVolumenMedioFisicoController.eliminarDistribuciones(idMacrociclo);
     }
+
+    @Override
+    public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws NegocioException, PersistenciaException {
+        return this.microcicloController.eliminarMicrociclos(idMacrociclo);
+    }
     
 }
