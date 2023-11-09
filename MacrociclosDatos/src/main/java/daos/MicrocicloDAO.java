@@ -42,6 +42,10 @@ public class MicrocicloDAO {
                         macrociclo.setMesociclos(mesociclos);
                         break;
                     }
+                    
+                    if (i == mesociclos.size() - 1) {
+                        return false;
+                    }
                 }
                 
                 coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);

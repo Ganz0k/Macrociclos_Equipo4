@@ -4,8 +4,10 @@
  */
 package fachada;
 
+import daos.MacrocicloDAO;
 import daos.MicrocicloDAO;
 import daos.VolumenMedioFisicoDAO;
+import entidades.Macrociclo;
 import entidades.Microciclo;
 import entidades.VolumenMedioFisico;
 import excepciones.PersistenciaException;
@@ -21,10 +23,12 @@ public class FachadaDatos implements IDatos {
     
     private final MicrocicloDAO microcicloDAO;
     private final VolumenMedioFisicoDAO volumenMedioFisicoDAO;
+    private final MacrocicloDAO macrocicloDAO;
     
     public FachadaDatos() {
         this.microcicloDAO = new MicrocicloDAO();
         this.volumenMedioFisicoDAO = new VolumenMedioFisicoDAO();
+        this.macrocicloDAO = new MacrocicloDAO();
     }
 
     @Override
@@ -46,5 +50,14 @@ public class FachadaDatos implements IDatos {
     public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws PersistenciaException {
         return this.microcicloDAO.eliminarMicrociclos(idMacrociclo);
     }
-    
+
+    @Override
+    public boolean guardarMacrociclo(Macrociclo macrociclo) throws PersistenciaException {
+        return this.macrocicloDAO.crearMacrociclo(macrociclo);
+    }
+
+    @Override
+    public Macrociclo obtenerMacrociclo(ObjectId idMacrociclo) throws PersistenciaException {
+        return this.macrocicloDAO.obtenerMacrociclo(idMacrociclo);
+    }
 }

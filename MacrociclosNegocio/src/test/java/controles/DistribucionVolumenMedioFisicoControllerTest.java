@@ -93,4 +93,30 @@ public class DistribucionVolumenMedioFisicoControllerTest {
             dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
+    
+    @Test
+    public void testEliminarDistribucionesVolumen() {
+        DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
+        ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        
+        assertTrue(dVMEC.eliminarDistribuciones(idMacrociclo));
+    }
+    
+    @Test
+    public void testEliminarIdFalso() {
+        DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
+        ObjectId idMacrociclo = new ObjectId();
+        
+        assertFalse(dVMEC.eliminarDistribuciones(idMacrociclo));
+    }
+    
+    @Test
+    public void testTiraNegocioExceptionSiIdNulo() {
+        DistribucionVolumenMedioFisicoController dVMEC = new DistribucionVolumenMedioFisicoController();
+        ObjectId idMacrociclo = null;
+        
+        assertThrows(NegocioException.class, () -> {
+            dVMEC.eliminarDistribuciones(idMacrociclo);
+        });
+    }
 }
