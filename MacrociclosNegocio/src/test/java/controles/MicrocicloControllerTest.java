@@ -20,14 +20,15 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MicrocicloControllerTest {
 
+    //Hacer tests de verdad luego
     @Test
     public void testGuardarMicrociclo() {
-        
+        assertTrue(true);
     }
 
     @Test
     public void testEliminarMicrociclos() {
-        
+        assertTrue(true);
     }
     
 }

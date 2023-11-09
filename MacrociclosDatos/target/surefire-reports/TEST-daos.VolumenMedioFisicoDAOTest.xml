@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="daos.VolumenMedioFisicoDAOTest" time="0.928" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="daos.VolumenMedioFisicoDAOTest" time="0.074" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\test-classes;C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\classes;C:\Users\luisg\.m2\repository\org\mongodb\bson\3.10.2\bson-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver\3.10.2\mongodb-driver-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver-core\3.10.2\mongodb-driver-core-3.10.2.jar;C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDominio\target\classes;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.2\junit-jupiter-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\luisg\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\luisg\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.2\junit-jupiter-params-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;"/>
+    <property name="java.class.path" value="C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\test-classes;C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\classes;C:\Users\luisg\.m2\repository\org\mongodb\bson\3.10.2\bson-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver\3.10.2\mongodb-driver-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver-core\3.10.2\mongodb-driver-core-3.10.2.jar;C:\Users\luisg\.m2\repository\itson\isw\equipo4\MacrociclosDominio\1.0\MacrociclosDominio-1.0.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.2\junit-jupiter-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\luisg\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\luisg\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.2\junit-jupiter-params-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,10 +15,9 @@
     <property name="user.country" value="MX"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17.0.5\bin"/>
-    <property name="sun.java.command" value="C:\Users\luisg\AppData\Local\Temp\surefire13710437970207049454\surefirebooter15402706564842920868.jar C:\Users\luisg\AppData\Local\Temp\surefire13710437970207049454 2023-11-09T00-16-56_766-jvmRun1 surefire14364191489428283311tmp surefire_07253246376382803458tmp"/>
+    <property name="sun.java.command" value="C:\Users\luisg\AppData\Local\Temp\surefire8873225321394261823\surefirebooter17435111641097477684.jar C:\Users\luisg\AppData\Local\Temp\surefire8873225321394261823 2023-11-09T12-24-39_988-jvmRun1 surefire14831044105201236942tmp surefire_09013321331903227958tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="daos.VolumenMedioFisicoDAOTest"/>
-    <property name="surefire.test.class.path" value="C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\test-classes;C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\classes;C:\Users\luisg\.m2\repository\org\mongodb\bson\3.10.2\bson-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver\3.10.2\mongodb-driver-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver-core\3.10.2\mongodb-driver-core-3.10.2.jar;C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDominio\target\classes;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.2\junit-jupiter-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\luisg\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\luisg\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.2\junit-jupiter-params-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\test-classes;C:\Users\luisg\OneDrive\Documentos\Coding\Github\Macrociclos_Equipo4\MacrociclosDatos\target\classes;C:\Users\luisg\.m2\repository\org\mongodb\bson\3.10.2\bson-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver\3.10.2\mongodb-driver-3.10.2.jar;C:\Users\luisg\.m2\repository\org\mongodb\mongodb-driver-core\3.10.2\mongodb-driver-core-3.10.2.jar;C:\Users\luisg\.m2\repository\itson\isw\equipo4\MacrociclosDominio\1.0\MacrociclosDominio-1.0.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.2\junit-jupiter-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.2\junit-jupiter-api-5.8.2.jar;C:\Users\luisg\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-commons\1.8.2\junit-platform-commons-1.8.2.jar;C:\Users\luisg\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.2\junit-jupiter-params-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.2\junit-jupiter-engine-5.8.2.jar;C:\Users\luisg\.m2\repository\org\junit\platform\junit-platform-engine\1.8.2\junit-platform-engine-1.8.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\luisg"/>
     <property name="user.language" value="es"/>
@@ -31,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\luisg\AppData\Local\Temp\surefire13710437970207049454\surefirebooter15402706564842920868.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\luisg\AppData\Local\Temp\surefire8873225321394261823\surefirebooter17435111641097477684.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.5+9-LTS-191"/>
@@ -41,7 +40,7 @@
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
-    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-14\netbeans\java\maven-nblib\netbeans-eventspy.jar;C:\Program Files\NetBeans-14\netbeans\java\maven-nblib\netbeans-cos.jar;C:\Program Files\NetBeans-14\netbeans\java\maven-nblib\netbeans-cos.jar"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-14\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
     <property name="localRepository" value="C:\Users\luisg\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="java.io.tmpdir" value="C:\Users\luisg\AppData\Local\Temp\"/>
@@ -58,9 +57,9 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testGuardarVolumenesMediosFisicosEnMesociclo" classname="daos.VolumenMedioFisicoDAOTest" time="0.856"/>
-  <testcase name="testGuardarIdMesocicloFalso" classname="daos.VolumenMedioFisicoDAOTest" time="0.014"/>
-  <testcase name="testEliminarIdFalso" classname="daos.VolumenMedioFisicoDAOTest" time="0.005"/>
-  <testcase name="testGuardarIdMacrocicloFalso" classname="daos.VolumenMedioFisicoDAOTest" time="0.007"/>
-  <testcase name="testEliminarDistribucionesVolumen" classname="daos.VolumenMedioFisicoDAOTest" time="0.023"/>
+  <testcase name="testGuardarVolumenesMediosFisicosEnMesociclo" classname="daos.VolumenMedioFisicoDAOTest" time="0.034"/>
+  <testcase name="testGuardarIdMesocicloFalso" classname="daos.VolumenMedioFisicoDAOTest" time="0.008"/>
+  <testcase name="testEliminarIdFalso" classname="daos.VolumenMedioFisicoDAOTest" time="0.004"/>
+  <testcase name="testGuardarIdMacrocicloFalso" classname="daos.VolumenMedioFisicoDAOTest" time="0.005"/>
+  <testcase name="testEliminarDistribucionesVolumen" classname="daos.VolumenMedioFisicoDAOTest" time="0.021"/>
 </testsuite>

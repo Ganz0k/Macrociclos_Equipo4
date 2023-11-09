@@ -1,6 +1,7 @@
+daos\MicrocicloDAO.class
 daos\VolumenMedioFisicoDAO.class
 interfaces\IDatos.class
+daos\MacrocicloDAO.class
 excepciones\PersistenciaException.class
-daos\MicrocicloDAO.class
 fachada\FachadaDatos.class
 conexion\ConexionBD.class
