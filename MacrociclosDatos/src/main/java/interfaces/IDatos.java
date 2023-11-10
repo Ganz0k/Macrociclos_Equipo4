@@ -18,9 +18,14 @@ import org.bson.types.ObjectId;
 public interface IDatos {
     
     public boolean guardarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException;
+    
     public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws PersistenciaException;
+    
     public boolean eliminarDistribucionesVolumenes(ObjectId idMacrociclo) throws PersistenciaException;
+    
     public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws PersistenciaException;
+    
     public boolean guardarMacrociclo(Macrociclo macrociclo) throws PersistenciaException;
+    
     public Macrociclo obtenerMacrociclo(ObjectId idMacrociclo) throws PersistenciaException;
 }

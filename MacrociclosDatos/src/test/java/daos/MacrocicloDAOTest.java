@@ -22,20 +22,26 @@ public class MacrocicloDAOTest {
     public void testCrearMacrociclo() {
         MacrocicloDAO mDAO = new MacrocicloDAO();
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"), 
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", new ObjectId("6541586dc421fde5b6f9cca2"), 
-                new ObjectId("654158e7c421fde5b6f9cca5"), new Date(), new Date(), 10, 15,
-                2, 3, new ArrayList<>(), new ArrayList<>());
+                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda", 
+                "Benjamin Murrieta", new Date(), new Date(), 10, 15,
+                5, new ArrayList<>(), new ArrayList<>());
         
-        assertTrue(mDAO.crearMacrociclo(macrociclo));
+        assertTrue(mDAO.guardarMacrociclo(macrociclo));
+    }
+
+    @Test
+    public void testCrearNulo() {
+        MacrocicloDAO mDAO = new MacrocicloDAO();
+        assertFalse(mDAO.guardarMacrociclo(null));
     }
 
     @Test
     public void testObtenerMacrociclo() {
         MacrocicloDAO mDAO = new MacrocicloDAO();
         Macrociclo macrociclo = new Macrociclo(new ObjectId("654d2fcecd715f27d022df2a"), new ObjectId("65415812c421fde5b6f9cc9b"), 
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", new ObjectId("6541586dc421fde5b6f9cca2"), 
-                new ObjectId("654158e7c421fde5b6f9cca5"), new Date(), new Date(), 10, 15,
-                2, 3, new ArrayList<>(), new ArrayList<>());
+                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda", 
+                "Benjamin Murrieta", new Date(), new Date(), 10, 15,
+                5, new ArrayList<>(), new ArrayList<>());
         
         assertEquals(macrociclo, mDAO.obtenerMacrociclo(macrociclo.getId())); 
     }

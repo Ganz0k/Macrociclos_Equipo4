@@ -48,7 +48,7 @@ public class MicrocicloController {
             }
             
             GregorianCalendar anioActualC = new GregorianCalendar();
-            anioActualC.set(GregorianCalendar.MONDAY, GregorianCalendar.JANUARY);
+            anioActualC.set(GregorianCalendar.MONTH, GregorianCalendar.JANUARY);
             anioActualC.set(GregorianCalendar.DAY_OF_MONTH, 1);
             anioActualC.set(GregorianCalendar.HOUR_OF_DAY, 0);
             anioActualC.set(GregorianCalendar.MINUTE, 0);

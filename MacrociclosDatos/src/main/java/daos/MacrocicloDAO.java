@@ -28,8 +28,12 @@ public class MacrocicloDAO {
         return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
     
-    public boolean crearMacrociclo(Macrociclo macrociclo) {
+    public boolean guardarMacrociclo(Macrociclo macrociclo) {
         try {
+            if (macrociclo == null) {
+                return false;
+            }
+            
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             coleccion.insertOne(macrociclo);
             return true;

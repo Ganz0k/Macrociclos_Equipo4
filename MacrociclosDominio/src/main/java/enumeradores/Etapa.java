@@ -11,6 +11,5 @@ package enumeradores;
 public enum Etapa {
     GENERAL,
     ESPECIAL,
-    PRECOMPETITIVA,
     COMPETITIVA
 }

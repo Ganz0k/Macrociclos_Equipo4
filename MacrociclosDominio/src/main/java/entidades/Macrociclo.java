@@ -21,13 +21,12 @@ public class Macrociclo {
     private String deporte;
     private Rama rama;
     private String jefeRama;
-    private ObjectId entrenadorAuxiliar;
-    private ObjectId metodologo;
+    private String entrenadorAuxiliar;
+    private String metodologo;
     private Date fechaInicio;
-    private Date fechafin;
+    private Date fechaFin;
     private int semanasGeneral;
     private int semanasEspecial;
-    private int semanasPrecompetitivo;
     private int semanasCompetitivo;
     private List<MedioFisico> mediosFisicos;
     private List<Mesociclo> mesociclos;
@@ -36,7 +35,7 @@ public class Macrociclo {
         
     }
     
-    public Macrociclo(ObjectId id, ObjectId entrenador, String deporte, Rama rama, String jefeRama, ObjectId entrenadorAuxiliar, ObjectId metodologo, Date fechaInicio, Date fechafin, int semanasGeneral, int semanasEspecial, int semanasPrecompetitivo, int semanasCompetitivo, List<MedioFisico> mediosFisicos, List<Mesociclo> mesociclos) {
+    public Macrociclo(ObjectId id, ObjectId entrenador, String deporte, Rama rama, String jefeRama, String entrenadorAuxiliar, String metodologo, Date fechaInicio, Date fechaFin, int semanasGeneral, int semanasEspecial, int semanasCompetitivo, List<MedioFisico> mediosFisicos, List<Mesociclo> mesociclos) {
         this.id = id;
         this.entrenador = entrenador;
         this.deporte = deporte;
@@ -45,10 +44,9 @@ public class Macrociclo {
         this.entrenadorAuxiliar = entrenadorAuxiliar;
         this.metodologo = metodologo;
         this.fechaInicio = fechaInicio;
-        this.fechafin = fechafin;
+        this.fechaFin = fechaFin;
         this.semanasGeneral = semanasGeneral;
         this.semanasEspecial = semanasEspecial;
-        this.semanasPrecompetitivo = semanasPrecompetitivo;
         this.semanasCompetitivo = semanasCompetitivo;
         this.mediosFisicos = mediosFisicos;
         this.mesociclos = mesociclos;
@@ -94,19 +92,19 @@ public class Macrociclo {
         this.jefeRama = jefeRama;
     }
 
-    public ObjectId getEntrenadorAuxiliar() {
+    public String getEntrenadorAuxiliar() {
         return entrenadorAuxiliar;
     }
 
-    public void setEntrenadorAuxiliar(ObjectId entrenadorAuxiliar) {
+    public void setEntrenadorAuxiliar(String entrenadorAuxiliar) {
         this.entrenadorAuxiliar = entrenadorAuxiliar;
     }
 
-    public ObjectId getMetodologo() {
+    public String getMetodologo() {
         return metodologo;
     }
 
-    public void setMetodologo(ObjectId metodologo) {
+    public void setMetodologo(String metodologo) {
         this.metodologo = metodologo;
     }
 
@@ -118,12 +116,12 @@ public class Macrociclo {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechafin() {
-        return fechafin;
+    public Date getFechaFin() {
+        return fechaFin;
     }
 
-    public void setFechafin(Date fechafin) {
-        this.fechafin = fechafin;
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public int getSemanasGeneral() {
@@ -140,14 +138,6 @@ public class Macrociclo {
 
     public void setSemanasEspecial(int semanasEspecial) {
         this.semanasEspecial = semanasEspecial;
-    }
-
-    public int getSemanasPrecompetitivo() {
-        return semanasPrecompetitivo;
-    }
-
-    public void setSemanasPrecompetitivo(int semanasPrecompetitivo) {
-        this.semanasPrecompetitivo = semanasPrecompetitivo;
     }
 
     public int getSemanasCompetitivo() {
@@ -198,6 +188,6 @@ public class Macrociclo {
 
     @Override
     public String toString() {
-        return "Macrociclo{" + "id=" + id + ", entrenador=" + entrenador + ", deporte=" + deporte + ", rama=" + rama + ", jefeRama=" + jefeRama + ", entrenadorAuxiliar=" + entrenadorAuxiliar + ", metodologo=" + metodologo + ", fechaInicio=" + fechaInicio + ", fechafin=" + fechafin + ", semanasGeneral=" + semanasGeneral + ", semanasEspecial=" + semanasEspecial + ", semanasPrecompetitivo=" + semanasPrecompetitivo + ", semanasCompetitivo=" + semanasCompetitivo + ", mediosFisicos=" + mediosFisicos + ", mesociclos=" + mesociclos + '}';
+        return "Macrociclo{" + "id=" + id + ", entrenador=" + entrenador + ", deporte=" + deporte + ", rama=" + rama + ", jefeRama=" + jefeRama + ", entrenadorAuxiliar=" + entrenadorAuxiliar + ", metodologo=" + metodologo + ", fechaInicio=" + fechaInicio + ", fechafin=" + fechaFin + ", semanasGeneral=" + semanasGeneral + ", semanasEspecial=" + semanasEspecial + ", semanasCompetitivo=" + semanasCompetitivo + ", mediosFisicos=" + mediosFisicos + ", mesociclos=" + mesociclos + '}';
     }
 }

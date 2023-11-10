@@ -5,7 +5,9 @@
 package fachadas;
 
 import controles.DistribucionVolumenMedioFisicoController;
+import controles.MacrocicloController;
 import controles.MicrocicloController;
+import entidades.Macrociclo;
 import entidades.Microciclo;
 import entidades.VolumenMedioFisico;
 import excepciones.NegocioException;
@@ -22,10 +24,12 @@ public class FachadaNegocio implements INegocio {
 
     private final MicrocicloController microcicloController;
     private final DistribucionVolumenMedioFisicoController distribucionVolumenMedioFisicoController;
+    private final MacrocicloController macrocicloController;
     
     public FachadaNegocio() {
         this.microcicloController = new MicrocicloController();
         this.distribucionVolumenMedioFisicoController = new DistribucionVolumenMedioFisicoController();
+        this.macrocicloController = new MacrocicloController();
     }
     
     @Override
@@ -47,5 +51,14 @@ public class FachadaNegocio implements INegocio {
     public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws NegocioException, PersistenciaException {
         return this.microcicloController.eliminarMicrociclos(idMacrociclo);
     }
-    
+
+    @Override
+    public boolean guardarMacrociclo(Macrociclo macrociclo) throws NegocioException, PersistenciaException {
+        return this.macrocicloController.guardarMacrociclo(macrociclo);
+    }
+
+    @Override
+    public Macrociclo obtenerMacrociclo(ObjectId idMacrociclo) throws NegocioException, PersistenciaException {
+        return this.macrocicloController.obtenerMacrociclo(idMacrociclo);
+    }
 }

@@ -53,7 +53,7 @@ public class FachadaDatos implements IDatos {
 
     @Override
     public boolean guardarMacrociclo(Macrociclo macrociclo) throws PersistenciaException {
-        return this.macrocicloDAO.crearMacrociclo(macrociclo);
+        return this.macrocicloDAO.guardarMacrociclo(macrociclo);
     }
 
     @Override
