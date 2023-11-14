@@ -195,6 +195,7 @@ public class ControlPlanGrafico {
                 
                 if (volumen == null) {
                     JOptionPane.showMessageDialog(parent,"Todos los volumenes deben de tener valor", "Adevertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
                 
                 
