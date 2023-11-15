@@ -48,7 +48,7 @@ public class MacrocicloControllerTest {
         listaM.add(m9);
 
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
+                "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
 
@@ -90,7 +90,7 @@ public class MacrocicloControllerTest {
         listaM.add(m9);
         
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
-                "Judo", Rama.MIXTO, null, "Luis Gerardo Miranda",
+                "En tránsito", "Judo", Rama.MIXTO, null, "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
         
@@ -125,7 +125,7 @@ public class MacrocicloControllerTest {
         listaM.add(m9);
 
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
+                "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 10, 6).getTime(), 
                 new GregorianCalendar(2023, 10, 10).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
         
@@ -160,7 +160,7 @@ public class MacrocicloControllerTest {
         listaM.add(m9);
 
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
+                "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2015, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     
@@ -195,7 +195,7 @@ public class MacrocicloControllerTest {
         listaM.add(m9);
 
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
+                "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2023, 8, 1).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     
@@ -230,7 +230,7 @@ public class MacrocicloControllerTest {
         listaM.add(m9);
 
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
+                "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     
@@ -265,7 +265,7 @@ public class MacrocicloControllerTest {
         listaM.add(m9);
 
         Macrociclo macrociclo = new Macrociclo(new ObjectId("654dd6835b04545e539ab919"), new ObjectId("65415812c421fde5b6f9cc9b"),
-                "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
+                "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     

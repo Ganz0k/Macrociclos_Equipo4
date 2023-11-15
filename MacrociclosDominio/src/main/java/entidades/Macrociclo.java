@@ -18,6 +18,7 @@ public class Macrociclo {
     
     private ObjectId id;
     private ObjectId entrenador;
+    private String status;
     private String deporte;
     private Rama rama;
     private String jefeRama;
@@ -34,10 +35,11 @@ public class Macrociclo {
     public Macrociclo() {
         
     }
-    
-    public Macrociclo(ObjectId id, ObjectId entrenador, String deporte, Rama rama, String jefeRama, String entrenadorAuxiliar, String metodologo, Date fechaInicio, Date fechaFin, int semanasGeneral, int semanasEspecial, int semanasCompetitivo, List<MedioFisico> mediosFisicos, List<Mesociclo> mesociclos) {
+
+    public Macrociclo(ObjectId id, ObjectId entrenador, String status, String deporte, Rama rama, String jefeRama, String entrenadorAuxiliar, String metodologo, Date fechaInicio, Date fechaFin, int semanasGeneral, int semanasEspecial, int semanasCompetitivo, List<MedioFisico> mediosFisicos, List<Mesociclo> mesociclos) {
         this.id = id;
         this.entrenador = entrenador;
+        this.status = status;
         this.deporte = deporte;
         this.rama = rama;
         this.jefeRama = jefeRama;
@@ -66,6 +68,14 @@ public class Macrociclo {
 
     public void setEntrenador(ObjectId entrenador) {
         this.entrenador = entrenador;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDeporte() {
