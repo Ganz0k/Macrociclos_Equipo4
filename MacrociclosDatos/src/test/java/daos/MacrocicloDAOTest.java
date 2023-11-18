@@ -38,7 +38,7 @@ public class MacrocicloDAOTest {
     @Test
     public void testObtenerMacrociclo() {
         MacrocicloDAO mDAO = new MacrocicloDAO();
-        Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"), 
+        Macrociclo macrociclo = new Macrociclo(new ObjectId("655865f6f665d001664ce76c"), new ObjectId("65415812c421fde5b6f9cc9b"), 
                 "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda", 
                 "Benjamin Murrieta", new Date(), new Date(), 10, 15,
                 5, new ArrayList<>(), new ArrayList<>());
