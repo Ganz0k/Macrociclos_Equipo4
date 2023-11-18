@@ -20,8 +20,6 @@ import org.bson.codecs.pojo.PojoCodecProvider;
  */
 public class ConexionBD {
     
-    private static final String HOST = "127.0.0.1";
-    private static final int PUERTO = 27017;
     private static final String BASE_DATOS = "macrociclosItson";
     private static MongoDatabase baseDatos;
     
@@ -33,7 +31,7 @@ public class ConexionBD {
         try {
             CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
             CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
-            ConnectionString cadenaConexion = new ConnectionString("mongodb://" + HOST + "/" + PUERTO);
+            ConnectionString cadenaConexion = new ConnectionString("mongodb+srv://luisgonzalocervantes:BPAK2tg86aA79pYb@clustermacrociclos.wxtnpt1.mongodb.net/?retryWrites=true&w=majority");
             
             MongoClientSettings clientSettings = MongoClientSettings.builder()
                     .applyConnectionString(cadenaConexion)

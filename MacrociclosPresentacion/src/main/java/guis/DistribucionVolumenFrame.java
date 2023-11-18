@@ -5,11 +5,11 @@
 package guis;
 
 import control.ControlDistribucionVolumen;
+import controles.MacrocicloController;
 import entidades.Macrociclo;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
-import teststuff.MacrocicloDAOTest;
 
 /**
  *
@@ -18,7 +18,7 @@ import teststuff.MacrocicloDAOTest;
 public class DistribucionVolumenFrame extends javax.swing.JFrame {
  
     private Macrociclo macrociclo;
-    private final MacrocicloDAOTest dao = new MacrocicloDAOTest();
+    private final MacrocicloController control = new MacrocicloController();
     private final ControlDistribucionVolumen controlDistribucionVolumen;
     
     /**
@@ -27,7 +27,7 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
     public DistribucionVolumenFrame() {
         initComponents(); 
         
-        this.macrociclo = this.dao.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        this.macrociclo = this.control.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
         
         if (this.macrociclo == null || this.macrociclo.getMediosFisicos() == null || this.macrociclo.getMediosFisicos().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se encontró ningún medio físico", "Error", JOptionPane.ERROR_MESSAGE);

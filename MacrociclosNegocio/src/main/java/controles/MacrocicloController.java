@@ -55,11 +55,9 @@ public class MacrocicloController {
         }
         
         int semanas = weekdays / 5;
-        System.out.println(semanas);
-        System.out.println(weekdays);
 
-        if (semanas < 20) {
-            throw new NegocioException("El total de semanas de un macrociclo debe ser de mínimo 20 semanas");
+        if (semanas < 20 || semanas > 52) {
+            throw new NegocioException("El total de semanas de un macrociclo debe ser de mínimo 20 semanas o máximo 52 semanas");
         }
             
         GregorianCalendar anioActualC = new GregorianCalendar();

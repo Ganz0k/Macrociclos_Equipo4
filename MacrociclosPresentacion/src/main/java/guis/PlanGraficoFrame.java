@@ -5,10 +5,10 @@
 package guis;
 
 import control.ControlPlanGrafico;
+import controles.MacrocicloController;
 import entidades.Macrociclo;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
-import teststuff.MacrocicloDAOTest;
 
 /**
  *
@@ -17,7 +17,7 @@ import teststuff.MacrocicloDAOTest;
 public class PlanGraficoFrame extends javax.swing.JFrame {
 
     private Macrociclo macrociclo;
-    private final MacrocicloDAOTest dao = new MacrocicloDAOTest();
+    private final MacrocicloController control = new MacrocicloController();
     private final ControlPlanGrafico controlPlanGrafico;
 
     /**
@@ -26,7 +26,7 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
     public PlanGraficoFrame() {
         initComponents();
 
-        this.macrociclo = dao.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        this.macrociclo = control.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
         this.controlPlanGrafico = new ControlPlanGrafico();
         this.controlPlanGrafico.setTableModel(this.planGrafico, this.macrociclo);
         this.controlPlanGrafico.cargarTabla((DefaultTableModel) this.planGrafico.getModel(), this.macrociclo.getMesociclos());
@@ -104,42 +104,6 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
     private void btnGuardarMicrociclosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMicrociclosActionPerformed
         this.controlPlanGrafico.guardarMicrociclos(this, macrociclo, (DefaultTableModel) this.planGrafico.getModel());
     }//GEN-LAST:event_btnGuardarMicrociclosActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PlanGraficoFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PlanGraficoFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PlanGraficoFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PlanGraficoFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PlanGraficoFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardarMicrociclos;

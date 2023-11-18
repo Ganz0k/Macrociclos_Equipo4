@@ -12,6 +12,7 @@ import enumeradores.Etapa;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import fachadas.FachadaNegocio;
+import guis.PlanGraficoFrame;
 import interfaces.INegocio;
 import java.util.List;
 import javax.swing.JFrame;
@@ -235,24 +236,33 @@ public class ControlDistribucionVolumen {
         tablaGeneral.addTableModelListener((TableModelEvent e) -> {
             if (e.getType() == TableModelEvent.UPDATE) {
                 int row = e.getFirstRow();
+                int column = e.getColumn();
                 
-                this.recargarTabla(tablaGeneral, row);
+                if (!isPair(column)) {
+                    this.recargarTabla(tablaGeneral, row);
+                }
             }
         });
         
         tablaEspecial.addTableModelListener((TableModelEvent e) -> {
             if (e.getType() == TableModelEvent.UPDATE) {
                 int row = e.getFirstRow();
+                int column = e.getColumn();
                 
-                this.recargarTabla(tablaEspecial, row);
+                if (!isPair(column)) {
+                    this.recargarTabla(tablaEspecial, row);
+                }
             }
         });
         
         tablaCompetitiva.addTableModelListener((TableModelEvent e) -> {
             if (e.getType() == TableModelEvent.UPDATE) {
                 int row = e.getFirstRow();
+                int column = e.getColumn();
                 
-                this.recargarTabla(tablaCompetitiva, row);
+                if (!isPair(column)) {
+                    this.recargarTabla(tablaCompetitiva, row);
+                }
             }
         });
     }
@@ -405,28 +415,19 @@ public class ControlDistribucionVolumen {
         }
         
         JOptionPane.showMessageDialog(parent, "Distribución de volúmenes guardada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        new PlanGraficoFrame().setVisible(true);
+        parent.dispose();
     }
     
     private void recargarTabla(DefaultTableModel tabla, int row) {
         float sumaPorcentaje = 0f;
-        int totalColumns = tabla.getColumnCount();
-        int totalMesociclos = (totalColumns - 2) / 2;
-        Object[] porcentajes = new Object[totalMesociclos];
-        Object[] volumenes = new Object[totalMesociclos];
-        int contadorExtraPorcentajes = 0;
-        int contadorExtraVolumenes = 0;
 
         for (int i = 3; i < tabla.getColumnCount(); i += 2) {
             Object valor = tabla.getValueAt(row, i);
 
             if (valor != null) {
                 sumaPorcentaje += Float.parseFloat(valor.toString());
-                porcentajes[contadorExtraPorcentajes] = Float.parseFloat(valor.toString());
-            } else {
-                porcentajes[contadorExtraPorcentajes] = null;
             }
-
-            contadorExtraPorcentajes++;
         }
 
         Object volumenTotalObject = tabla.getValueAt(row, 1);
@@ -437,36 +438,9 @@ public class ControlDistribucionVolumen {
 
             if (porcentaje != null) {
                 float volumenMesociclo = volumenTotal / sumaPorcentaje * Float.parseFloat(porcentaje.toString());
-                volumenes[contadorExtraVolumenes] = volumenMesociclo;
-            } else {
-                volumenes[contadorExtraVolumenes] = null;
-            }
-
-            contadorExtraVolumenes++;
-        }
-
-        Object[] oldFila = new Object[tabla.getColumnCount()];
-        contadorExtraPorcentajes = 0;
-        contadorExtraVolumenes = 0;
-
-        for (int i = 0; i < oldFila.length; i++) {
-            if (i == 0 || i == 1) {
-                oldFila[i] = tabla.getValueAt(row, i);
-            }
-
-            if (this.isPair(i) && i > 1) {
-                oldFila[i] = volumenes[contadorExtraVolumenes];
-                contadorExtraVolumenes++;
-            }
-
-            if (!this.isPair(i) && i > 1) {
-                oldFila[i] = porcentajes[contadorExtraPorcentajes];
-                contadorExtraPorcentajes++;
+                tabla.setValueAt(volumenMesociclo, row, i);
             }
         }
-
-        tabla.removeRow(row);
-        tabla.addRow(oldFila);
     }
     
     private boolean isPair(int numero) {
