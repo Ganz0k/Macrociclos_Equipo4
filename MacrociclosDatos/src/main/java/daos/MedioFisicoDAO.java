@@ -8,8 +8,10 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import conexion.ConexionBD;
+import entidades.Macrociclo;
 import entidades.MedioFisico;
 import excepciones.PersistenciaException;
+import java.util.List;
 import org.bson.types.ObjectId;
 
 /**
@@ -17,36 +19,29 @@ import org.bson.types.ObjectId;
  * @author Yorsh
  */
 public class MedioFisicoDAO {
-    
+
     private final MongoDatabase baseDatos;
-    
+
     public MedioFisicoDAO() {
         this.baseDatos = ConexionBD.crearConexion();
     }
-    
-    private MongoCollection<MedioFisico> getColeccion() {
-        return this.baseDatos.getCollection("mediofisico", MedioFisico.class);
+
+    private MongoCollection<Macrociclo> getColeccion() {
+        return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
-    
-     public boolean guardarMacrociclo(MedioFisico medioFisico) {
+
+    public boolean guardarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) {
         try {
-            if (medioFisico == null) {
-                return false;
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
+            Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
+
+            if (macrociclo != null) {
+                macrociclo.setMediosFisicos(mediosFisicos);
+
+                return true;
             }
-            
-            MongoCollection<MedioFisico> coleccion = this.getColeccion();
-            coleccion.insertOne(medioFisico);
-            return true;
-        } catch (Exception e) {
-            throw new PersistenciaException(e.getMessage(), e.getCause());
-        }
-    }
-     
-     public MedioFisico obtenerMacrociclo(ObjectId id) {
-        try {
-            MongoCollection<MedioFisico> coleccion = this.getColeccion();
-            
-            return coleccion.find(Filters.eq("_id", id)).first();
+
+            return false;
         } catch (Exception e) {
             throw new PersistenciaException(e.getMessage(), e.getCause());
         }

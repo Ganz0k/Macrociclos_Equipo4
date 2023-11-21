@@ -5,6 +5,7 @@
 package interfaces;
 
 import entidades.Macrociclo;
+import entidades.MedioFisico;
 import entidades.Microciclo;
 import entidades.VolumenMedioFisico;
 import excepciones.NegocioException;
@@ -29,4 +30,6 @@ public interface INegocio {
     public boolean guardarMacrociclo(Macrociclo macrociclo) throws NegocioException, PersistenciaException;
     
     public Macrociclo obtenerMacrociclo(ObjectId idMacrociclo) throws NegocioException, PersistenciaException;
+    
+    public boolean guardarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws NegocioException, PersistenciaException;
 }

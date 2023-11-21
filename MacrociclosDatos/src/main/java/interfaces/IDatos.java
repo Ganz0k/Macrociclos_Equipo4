@@ -5,6 +5,7 @@
 package interfaces;
 
 import entidades.Macrociclo;
+import entidades.MedioFisico;
 import entidades.Microciclo;
 import entidades.VolumenMedioFisico;
 import excepciones.PersistenciaException;
@@ -28,4 +29,6 @@ public interface IDatos {
     public boolean guardarMacrociclo(Macrociclo macrociclo) throws PersistenciaException;
     
     public Macrociclo obtenerMacrociclo(ObjectId idMacrociclo) throws PersistenciaException;
+    
+    public boolean guardarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws PersistenciaException;
 }
