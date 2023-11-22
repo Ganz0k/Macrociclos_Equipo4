@@ -37,7 +37,8 @@ public class MedioFisicoDAO {
 
             if (macrociclo != null) {
                 macrociclo.setMediosFisicos(mediosFisicos);
-
+                coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
+                
                 return true;
             }
 

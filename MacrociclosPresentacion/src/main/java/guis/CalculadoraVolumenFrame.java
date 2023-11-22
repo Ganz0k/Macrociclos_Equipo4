@@ -4,17 +4,30 @@
  */
 package guis;
 
+import control.ControlCalculadoraVolumen;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import org.bson.types.ObjectId;
+import utils.ButtonEditor;
+import utils.ButtonRenderer;
+
 /**
  *
  * @author Yorsh
  */
 public class CalculadoraVolumenFrame extends javax.swing.JFrame {
 
+    private final ControlCalculadoraVolumen control;
+    
     /**
      * Creates new form CalculadoraVolumenFrame
      */
     public CalculadoraVolumenFrame() {
         initComponents();
+        
+        this.control = new ControlCalculadoraVolumen();
+        this.tablaCalculadora.getColumnModel().getColumn(20).setCellRenderer(new ButtonRenderer());
+        this.tablaCalculadora.getColumnModel().getColumn(20).setCellEditor(new ButtonEditor(new JTextField("Calcular"), this, this.tablaCalculadora));
     }
 
     /**
@@ -27,136 +40,145 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        calculadoraGeneralTbl = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        calculadoraEspecialTbl = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        calculadoraCompetitivaTbl = new javax.swing.JTable();
-        generalLbl = new javax.swing.JLabel();
-        especialLbl = new javax.swing.JLabel();
-        competitivaLbl = new javax.swing.JLabel();
+        tablaCalculadora = new javax.swing.JTable();
+        btnNuevoMedio = new javax.swing.JButton();
+        btnEliminarMedio = new javax.swing.JButton();
+        btnGuardarMedios = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Calculadora de volumen");
 
-        calculadoraGeneralTbl.setModel(new javax.swing.table.DefaultTableModel(
+        tablaCalculadora.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Medios", "Min", "Max", "Promedio", "Semanas", "Volumen"
+                "Medios", "Min", "Max", "Promedio", "Ins.", "Semanas", "V. etapa", "Min", "Max", "Promedio", "Ins.", "Semanas", "V. etapa", "Min", "Max", "Promedio", "Ins.", "Semanas", "V. etapa", "Volumen total", "Calcular"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, true, false, true, true, false, true, true, false, true, true, false, true, true, false, true, true, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-        });
-        jScrollPane1.setViewportView(calculadoraGeneralTbl);
 
-        calculadoraEspecialTbl.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Medios", "Min", "Max", "Promedio", "Semanas", "Volumen"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(calculadoraEspecialTbl);
+        jScrollPane1.setViewportView(tablaCalculadora);
 
-        calculadoraCompetitivaTbl.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Medios", "Min", "Max", "Promedio", "Semanas", "Volumen"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        btnNuevoMedio.setText("Añadir nuevo medio");
+        btnNuevoMedio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoMedioActionPerformed(evt);
             }
         });
-        jScrollPane3.setViewportView(calculadoraCompetitivaTbl);
 
-        generalLbl.setText("Etapa general");
+        btnEliminarMedio.setText("Eliminar medio físico");
+        btnEliminarMedio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarMedioActionPerformed(evt);
+            }
+        });
 
-        especialLbl.setText("Etapa especial");
+        btnGuardarMedios.setText("Guardar medios físicos");
+        btnGuardarMedios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarMediosActionPerformed(evt);
+            }
+        });
 
-        competitivaLbl.setText("Etapa competitiva");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("Calculadora de Volumen");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Etapa General");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Etapa Especial");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setText("Etapa Competitiva");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane3)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(generalLbl)
-                            .addComponent(especialLbl)
-                            .addComponent(competitivaLbl))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1005, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnNuevoMedio)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEliminarMedio))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(226, 226, 226)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(406, 406, 406)
+                                    .addComponent(btnGuardarMedios))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(407, 407, 407)
+                                    .addComponent(jLabel1))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(133, 133, 133)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(generalLbl)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(especialLbl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(competitivaLbl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevoMedio)
+                    .addComponent(btnEliminarMedio))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGuardarMedios)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevoMedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMedioActionPerformed
+        this.control.anadirNuevaFila((DefaultTableModel) this.tablaCalculadora.getModel());
+    }//GEN-LAST:event_btnNuevoMedioActionPerformed
+
+    private void btnEliminarMedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMedioActionPerformed
+        this.control.eliminarFila(this, tablaCalculadora);
+    }//GEN-LAST:event_btnEliminarMedioActionPerformed
+
+    private void btnGuardarMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMediosActionPerformed
+        this.control.guardarMediosFisicos(this, new ObjectId("654dd6835b04545e539ab919"), (DefaultTableModel) this.tablaCalculadora.getModel());
+    }//GEN-LAST:event_btnGuardarMediosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,14 +216,14 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable calculadoraCompetitivaTbl;
-    private javax.swing.JTable calculadoraEspecialTbl;
-    private javax.swing.JTable calculadoraGeneralTbl;
-    private javax.swing.JLabel competitivaLbl;
-    private javax.swing.JLabel especialLbl;
-    private javax.swing.JLabel generalLbl;
+    private javax.swing.JButton btnEliminarMedio;
+    private javax.swing.JButton btnGuardarMedios;
+    private javax.swing.JButton btnNuevoMedio;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable tablaCalculadora;
     // End of variables declaration//GEN-END:variables
 }
