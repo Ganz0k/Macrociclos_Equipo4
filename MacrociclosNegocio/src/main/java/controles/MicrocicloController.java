@@ -89,7 +89,7 @@ public class MicrocicloController {
             }
         }
         
-        return this.fachadaDatos.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos);
+        return this.fachadaDatos.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos);
     }
     
     public boolean eliminarMicrociclos(ObjectId idMacrociclo) throws PersistenciaException {

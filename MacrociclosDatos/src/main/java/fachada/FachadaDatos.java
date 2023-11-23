@@ -36,13 +36,13 @@ public class FachadaDatos implements IDatos {
     }
 
     @Override
-    public boolean guardarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
-        return this.volumenMedioFisicoDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
+    public boolean actualizarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
+        return this.volumenMedioFisicoDAO.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
 
     @Override
-    public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws PersistenciaException {
-        return this.microcicloDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos);
+    public boolean actualizarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws PersistenciaException {
+        return this.microcicloDAO.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos);
     }
 
     @Override
@@ -66,7 +66,12 @@ public class FachadaDatos implements IDatos {
     }
 
     @Override
-    public boolean guardarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws PersistenciaException {
-        return this.medioFisicoDAO.guardarMediosFisicos(idMacrociclo, mediosFisicos);
+    public boolean actualizarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws PersistenciaException {
+        return this.medioFisicoDAO.actualizarMediosFisicos(idMacrociclo, mediosFisicos);
+    }
+
+    @Override
+    public boolean actualizarMacrociclo(Macrociclo macrociclo) throws PersistenciaException {
+        return this.macrocicloDAO.actualizarMacrociclo(macrociclo);
     }
 }

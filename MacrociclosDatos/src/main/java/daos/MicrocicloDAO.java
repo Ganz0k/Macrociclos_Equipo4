@@ -28,7 +28,7 @@ public class MicrocicloDAO {
         return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
     
-    public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) {
+    public boolean actualizarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
@@ -48,8 +48,8 @@ public class MicrocicloDAO {
                     }
                 }
                 
-                coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
-                return true;
+                Macrociclo m = coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
+                return m != null;
             }
             
             return false;

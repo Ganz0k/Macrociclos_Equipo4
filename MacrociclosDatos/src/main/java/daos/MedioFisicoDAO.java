@@ -30,18 +30,18 @@ public class MedioFisicoDAO {
         return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
 
-    public boolean guardarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) {
+    public boolean actualizarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
 
             if (macrociclo != null) {
                 macrociclo.setMediosFisicos(mediosFisicos);
-                coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
+                Macrociclo m = coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
                 
-                return true;
+                return m != null;
             }
-
+            
             return false;
         } catch (Exception e) {
             throw new PersistenciaException(e.getMessage(), e.getCause());

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 public class MicrocicloDAOTest {
     
     @Test
-    public void testGuardarMicrociclos() {
+    public void testActualizarMicrociclos() {
         MicrocicloDAO mDAO = mock(MicrocicloDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
@@ -31,13 +31,13 @@ public class MicrocicloDAOTest {
             microciclos.add(new Microciclo(new ObjectId(), new Date(), new Date(), "12%", new ArrayList<>(), false, true));
         }
         
-        when(mDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos)).thenReturn(true);
+        when(mDAO.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos)).thenReturn(true);
         
-        assertTrue(mDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos));
+        assertTrue(mDAO.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos));
     }
     
     @Test
-    public void testGuardarIdMacrocicloFalso() {
+    public void testActualizarIdMacrocicloFalso() {
         MicrocicloDAO mDAO = mock(MicrocicloDAO.class);
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
@@ -47,13 +47,13 @@ public class MicrocicloDAOTest {
             microciclos.add(new Microciclo(new ObjectId(), new Date(), new Date(), "12%", new ArrayList<>(), false, true));
         }
         
-        when(mDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos)).thenReturn(false);
+        when(mDAO.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos)).thenReturn(false);
         
-        assertFalse(mDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos));
+        assertFalse(mDAO.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos));
     }
     
     @Test
-    public void testGuardarIdMesocicloFalso() {
+    public void testActualizarIdMesocicloFalso() {
         MicrocicloDAO mDAO = mock(MicrocicloDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId();
@@ -63,9 +63,9 @@ public class MicrocicloDAOTest {
             microciclos.add(new Microciclo(new ObjectId(), new Date(), new Date(), "12%", new ArrayList<>(), false, true));
         }
         
-        when(mDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos)).thenReturn(false);
+        when(mDAO.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos)).thenReturn(false);
         
-        assertFalse(mDAO.guardarMicrociclos(idMacrociclo, idMesociclo, microciclos));
+        assertFalse(mDAO.actualizarMicrociclos(idMacrociclo, idMesociclo, microciclos));
     }
 
     @Test

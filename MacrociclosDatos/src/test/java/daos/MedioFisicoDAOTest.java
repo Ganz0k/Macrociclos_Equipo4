@@ -21,26 +21,26 @@ import static org.mockito.Mockito.when;
 public class MedioFisicoDAOTest {
     
     @Test
-    public void testGuardarMediosFisicos() {
+    public void testActualizarMediosFisicos() {
         MedioFisicoDAO dao = mock(MedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         List<MedioFisico> lista = new ArrayList<>();
         lista.add(new MedioFisico(new ObjectId(), "Fuerza", Etapa.GENERAL, 5, 10, 20f, 2, 10f));
         
-        when(dao.guardarMediosFisicos(idMacrociclo, lista)).thenReturn(true);
+        when(dao.actualizarMediosFisicos(idMacrociclo, lista)).thenReturn(true);
         
-        assertTrue(dao.guardarMediosFisicos(idMacrociclo, lista));
+        assertTrue(dao.actualizarMediosFisicos(idMacrociclo, lista));
     }
     
     @Test
-    public void testGuardarIdFalso() {
+    public void testActualizarIdFalso() {
         MedioFisicoDAO dao = mock(MedioFisicoDAO.class);
         ObjectId id = new ObjectId();
         List<MedioFisico> lista = new ArrayList<>();
         lista.add(new MedioFisico(new ObjectId(), "Fuerza", Etapa.GENERAL, 5, 10, 20f, 2, 10f));
         
-        when(dao.guardarMediosFisicos(id, lista)).thenReturn(false);
+        when(dao.actualizarMediosFisicos(id, lista)).thenReturn(false);
         
-        assertFalse(dao.guardarMediosFisicos(id, lista));
+        assertFalse(dao.actualizarMediosFisicos(id, lista));
     }
 }

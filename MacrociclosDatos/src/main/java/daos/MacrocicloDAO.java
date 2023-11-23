@@ -42,6 +42,21 @@ public class MacrocicloDAO {
         }
     }
     
+    public boolean actualizarMacrociclo(Macrociclo macrociclo) {
+        try {
+            if (macrociclo == null) {
+                return false;
+            }
+            
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
+            Macrociclo m = coleccion.findOneAndReplace(Filters.eq("_id", macrociclo.getId()), macrociclo);
+            
+            return m != null;
+        } catch (Exception e) {
+            throw new PersistenciaException(e.getMessage(), e.getCause());
+        }
+    }
+    
     public Macrociclo obtenerMacrociclo(ObjectId id) {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();

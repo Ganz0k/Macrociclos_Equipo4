@@ -32,7 +32,7 @@ public class VolumenMedioFisicoDAO {
         return this.baseDatos.getCollection("macrociclos", Macrociclo.class);
     }
 
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) {
+    public boolean actualizarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             Macrociclo macrociclo = coleccion.find(Filters.eq("_id", idMacrociclo)).first();
@@ -52,8 +52,8 @@ public class VolumenMedioFisicoDAO {
                     }
                 }
 
-                coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
-                return true;
+                Macrociclo m = coleccion.findOneAndReplace(Filters.eq("_id", idMacrociclo), macrociclo);
+                return m != null;
             }
 
             return false;

@@ -36,7 +36,7 @@ public class DistribucionVolumenMedioFisicoController {
             throw new NegocioException("Solo se aceptan decimales positivos");
         }
 
-        return fachadaDatos.guardarVolumenMedioFisicoEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
+        return fachadaDatos.actualizarVolumenMedioFisicoEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
     
     public boolean eliminarDistribuciones(ObjectId idMacrociclo) throws PersistenciaException {

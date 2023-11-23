@@ -18,39 +18,39 @@ import static org.mockito.Mockito.when;
 public class VolumenMedioFisicoDAOTest {
 
     @Test
-    public void testGuardarVolumenesMediosFisicosEnMesociclo() {
+    public void testActualizarVolumenesMediosFisicosEnMesociclo() {
         VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
         
-        when(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(true);
+        when(dVMFDAO.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(true);
         
-        assertTrue(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
+        assertTrue(dVMFDAO.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
-    public void testGuardarIdMacrocicloFalso() {
+    public void testActualizarIdMacrocicloFalso() {
         VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
 
-        when(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
+        when(dVMFDAO.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
         
-        assertFalse(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
+        assertFalse(dVMFDAO.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
-    public void testGuardarIdMesocicloFalso() {
+    public void testActualizarIdMesocicloFalso() {
         VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId();
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
         
-        when(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
+        when(dVMFDAO.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
         
-        assertFalse(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
+        assertFalse(dVMFDAO.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test

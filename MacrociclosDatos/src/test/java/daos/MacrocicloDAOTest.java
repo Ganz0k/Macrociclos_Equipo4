@@ -8,6 +8,7 @@ import entidades.Macrociclo;
 import enumeradores.Rama;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import org.bson.types.ObjectId;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -59,5 +60,5 @@ public class MacrocicloDAOTest {
         when(mDAO.obtenerMacrociclo(null)).thenReturn(null);
         
         assertEquals(null, mDAO.obtenerMacrociclo(new ObjectId()));
-    }   
+    }
 }

@@ -33,6 +33,6 @@ public class MedioFisicoController {
             throw new NegocioException("Debe de haber por lo menos 1 medio físico");
         }
         
-        return this.fachadaDatos.guardarMediosFisicos(idMacrociclo, mediosFisicos);
+        return this.fachadaDatos.actualizarMediosFisicos(idMacrociclo, mediosFisicos);
     }
 }
