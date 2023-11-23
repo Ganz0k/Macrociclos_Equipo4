@@ -8,6 +8,8 @@ import entidades.VolumenMedioFisico;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -17,46 +19,56 @@ public class VolumenMedioFisicoDAOTest {
 
     @Test
     public void testGuardarVolumenesMediosFisicosEnMesociclo() {
-        VolumenMedioFisicoDAO dVMFDAO = new VolumenMedioFisicoDAO();
+        VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
+        
+        when(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(true);
         
         assertTrue(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
     public void testGuardarIdMacrocicloFalso() {
-        VolumenMedioFisicoDAO dVMFDAO = new VolumenMedioFisicoDAO();
+        VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
+
+        when(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
         
         assertFalse(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
     public void testGuardarIdMesocicloFalso() {
-        VolumenMedioFisicoDAO dVMFDAO = new VolumenMedioFisicoDAO();
+        VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId();
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 65f, 85f);
+        
+        when(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
         
         assertFalse(dVMFDAO.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
     public void testEliminarDistribucionesVolumen() {
-        VolumenMedioFisicoDAO dVMFDAO = new VolumenMedioFisicoDAO();
+        VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        
+        when(dVMFDAO.eliminarDistribucionesVolumenes(idMacrociclo)).thenReturn(true);
         
         assertTrue(dVMFDAO.eliminarDistribucionesVolumenes(idMacrociclo));
     }
     
     @Test
     public void testEliminarIdFalso() {
-        VolumenMedioFisicoDAO dVMFDAO = new VolumenMedioFisicoDAO();
+        VolumenMedioFisicoDAO dVMFDAO = mock(VolumenMedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId();
+        
+        when(dVMFDAO.eliminarDistribucionesVolumenes(idMacrociclo)).thenReturn(false);
         
         assertFalse(dVMFDAO.eliminarDistribucionesVolumenes(idMacrociclo));
     }

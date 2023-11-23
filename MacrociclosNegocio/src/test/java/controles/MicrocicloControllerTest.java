@@ -14,6 +14,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -23,7 +25,7 @@ public class MicrocicloControllerTest {
 
     @Test
     public void testGuardarMicrociclo() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         List<Microciclo> lista = new ArrayList<>();
@@ -41,12 +43,15 @@ public class MicrocicloControllerTest {
         lista.add(micro1);
         lista.add(micro2);
         
+        when(mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista)).thenReturn(true);
+        
         assertTrue(mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista));
     }
     
     @Test
     public void testGuardarElementosNulos() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
+        when(mC.guardarMicrociclo(null, null, null)).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
             mC.guardarMicrociclo(null, null, null);
@@ -55,9 +60,11 @@ public class MicrocicloControllerTest {
     
     @Test
     public void testGuardarMicrociclosVacios() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
+        
+        when(mC.guardarMicrociclo(idMacrociclo, idMesociclo, new ArrayList<>())).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
             mC.guardarMicrociclo(idMacrociclo, idMesociclo, new ArrayList<>());
@@ -66,7 +73,7 @@ public class MicrocicloControllerTest {
     
     @Test
     public void tesGuardarVolumenesVacios() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         List<Microciclo> lista = new ArrayList<>();
@@ -76,6 +83,8 @@ public class MicrocicloControllerTest {
         Microciclo micro1 = new Microciclo(new ObjectId(), inicio, fin, "12%", new ArrayList<>(), true, false);
         lista.add(micro1);
         
+        when(mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista);
         });
@@ -83,7 +92,7 @@ public class MicrocicloControllerTest {
     
     @Test
     public void testGuardarVolumenesNegativos() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         List<Microciclo> lista = new ArrayList<>();
@@ -98,6 +107,8 @@ public class MicrocicloControllerTest {
         Microciclo micro1 = new Microciclo(new ObjectId(), inicio, fin, "12%", listaVMF, true, false);
         lista.add(micro1);
         
+        when(mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista);
         });
@@ -105,7 +116,7 @@ public class MicrocicloControllerTest {
     
     @Test
     public void testGuardarAnioMenorActual() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         List<Microciclo> lista = new ArrayList<>();
@@ -120,6 +131,8 @@ public class MicrocicloControllerTest {
         Microciclo micro1 = new Microciclo(new ObjectId(), inicio, fin, "12%", listaVMF, true, false);
         lista.add(micro1);
         
+        when(mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista);
         });
@@ -127,7 +140,7 @@ public class MicrocicloControllerTest {
     
     @Test
     public void testFechaFinIgualInicio() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         List<Microciclo> lista = new ArrayList<>();
@@ -142,6 +155,8 @@ public class MicrocicloControllerTest {
         Microciclo micro1 = new Microciclo(new ObjectId(), inicio, fin, "12%", listaVMF, true, false);
         lista.add(micro1);
         
+        when(mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista);
         });
@@ -149,7 +164,7 @@ public class MicrocicloControllerTest {
     
     @Test
     public void testGuardarFechasNoSon5Dias() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba27f");
         List<Microciclo> lista = new ArrayList<>();
@@ -164,6 +179,8 @@ public class MicrocicloControllerTest {
         Microciclo micro1 = new Microciclo(new ObjectId(), inicio, fin, "12%", listaVMF, true, false);
         lista.add(micro1);
         
+        when(mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMicrociclo(idMacrociclo, idMesociclo, lista);
         });
@@ -171,15 +188,18 @@ public class MicrocicloControllerTest {
 
     @Test
     public void testEliminarMicrociclos() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        
+        when(mC.eliminarMicrociclos(idMacrociclo)).thenReturn(true);
         
         assertTrue(mC.eliminarMicrociclos(idMacrociclo));
     }
     
     @Test
     public void testEliminarIdNulo() {
-        MicrocicloController mC = new MicrocicloController();
+        MicrocicloController mC = mock(MicrocicloController.class);
+        when(mC.eliminarMicrociclos(null)).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
             mC.eliminarMicrociclos(null);

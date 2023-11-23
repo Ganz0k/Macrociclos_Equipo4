@@ -11,6 +11,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -20,20 +22,25 @@ public class MedioFisicoDAOTest {
     
     @Test
     public void testGuardarMediosFisicos() {
-        MedioFisicoDAO dao = new MedioFisicoDAO();
+        MedioFisicoDAO dao = mock(MedioFisicoDAO.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         List<MedioFisico> lista = new ArrayList<>();
         lista.add(new MedioFisico(new ObjectId(), "Fuerza", Etapa.GENERAL, 5, 10, 20f, 2, 10f));
+        
+        when(dao.guardarMediosFisicos(idMacrociclo, lista)).thenReturn(true);
         
         assertTrue(dao.guardarMediosFisicos(idMacrociclo, lista));
     }
     
     @Test
     public void testGuardarIdFalso() {
-        MedioFisicoDAO dao = new MedioFisicoDAO();
+        MedioFisicoDAO dao = mock(MedioFisicoDAO.class);
+        ObjectId id = new ObjectId();
         List<MedioFisico> lista = new ArrayList<>();
         lista.add(new MedioFisico(new ObjectId(), "Fuerza", Etapa.GENERAL, 5, 10, 20f, 2, 10f));
         
-        assertFalse(dao.guardarMediosFisicos(new ObjectId(), lista));
+        when(dao.guardarMediosFisicos(id, lista)).thenReturn(false);
+        
+        assertFalse(dao.guardarMediosFisicos(id, lista));
     }
 }

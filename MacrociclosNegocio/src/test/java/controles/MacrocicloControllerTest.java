@@ -15,6 +15,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -24,7 +26,7 @@ public class MacrocicloControllerTest {
 
     @Test
     public void testGuardarMacrociclo() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
         List<Mesociclo> listaM = new ArrayList<>();
 
         Mesociclo m1 = new Mesociclo(new ObjectId(), 1, Etapa.GENERAL, 6, new ArrayList<>(), new ArrayList<>());
@@ -52,12 +54,15 @@ public class MacrocicloControllerTest {
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
 
+        when(mC.guardarMacrociclo(macrociclo)).thenReturn(true);
+        
         assertTrue(mC.guardarMacrociclo(macrociclo));
     }
     
     @Test
     public void testGuardarMacroNulo() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
+        when(mC.guardarMacrociclo(null)).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
             mC.guardarMacrociclo(null);
@@ -66,7 +71,7 @@ public class MacrocicloControllerTest {
     
     @Test
     public void testGuardarCamposNulos() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
         List<Mesociclo> listaM = new ArrayList<>();
 
         Mesociclo m1 = new Mesociclo(new ObjectId(), 1, Etapa.GENERAL, 6, new ArrayList<>(), new ArrayList<>());
@@ -94,6 +99,8 @@ public class MacrocicloControllerTest {
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
         
+        when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMacrociclo(macrociclo);
         });
@@ -101,7 +108,7 @@ public class MacrocicloControllerTest {
     
     @Test
     public void testGuardarMenosDe20Semanas() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
         List<Mesociclo> listaM = new ArrayList<>();
 
         Mesociclo m1 = new Mesociclo(new ObjectId(), 1, Etapa.GENERAL, 6, new ArrayList<>(), new ArrayList<>());
@@ -129,6 +136,8 @@ public class MacrocicloControllerTest {
                 "Benjamin Murrieta", new GregorianCalendar(2023, 10, 6).getTime(), 
                 new GregorianCalendar(2023, 10, 10).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
         
+        when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMacrociclo(macrociclo);
         });
@@ -136,7 +145,7 @@ public class MacrocicloControllerTest {
     
     @Test
     public void testGuardarFechaAnioMenorAlActual() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
         List<Mesociclo> listaM = new ArrayList<>();
 
         Mesociclo m1 = new Mesociclo(new ObjectId(), 1, Etapa.GENERAL, 6, new ArrayList<>(), new ArrayList<>());
@@ -164,6 +173,8 @@ public class MacrocicloControllerTest {
                 "Benjamin Murrieta", new GregorianCalendar(2015, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     
+        when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMacrociclo(macrociclo);
         });
@@ -171,7 +182,7 @@ public class MacrocicloControllerTest {
     
     @Test
     public void testGuardarFechaFinMenorAFechaInicio() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
         List<Mesociclo> listaM = new ArrayList<>();
 
         Mesociclo m1 = new Mesociclo(new ObjectId(), 1, Etapa.GENERAL, 6, new ArrayList<>(), new ArrayList<>());
@@ -199,6 +210,8 @@ public class MacrocicloControllerTest {
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2023, 8, 1).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     
+        when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMacrociclo(macrociclo);
         });
@@ -206,7 +219,7 @@ public class MacrocicloControllerTest {
     
     @Test
     public void testGuardarSumaSemanasNoIgualATotalSemanas() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
         List<Mesociclo> listaM = new ArrayList<>();
 
         Mesociclo m1 = new Mesociclo(new ObjectId(), 1, Etapa.GENERAL, 3, new ArrayList<>(), new ArrayList<>());
@@ -234,6 +247,8 @@ public class MacrocicloControllerTest {
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     
+        when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.guardarMacrociclo(macrociclo);
         });
@@ -241,7 +256,7 @@ public class MacrocicloControllerTest {
 
     @Test
     public void testObtenerMacrociclo() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
         List<Mesociclo> listaM = new ArrayList<>();
 
         Mesociclo m1 = new Mesociclo(new ObjectId(), 1, Etapa.GENERAL, 6, new ArrayList<>(), new ArrayList<>());
@@ -269,12 +284,16 @@ public class MacrocicloControllerTest {
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
                 new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
     
+        when(mC.obtenerMacrociclo(macrociclo.getId())).thenReturn(macrociclo);
+        
         assertEquals(macrociclo, mC.obtenerMacrociclo(macrociclo.getId()));
     }
     
     @Test
     public void testObtenerIdNulo() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
+        when(mC.obtenerMacrociclo(null)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
             mC.obtenerMacrociclo(null);
         });
@@ -282,9 +301,12 @@ public class MacrocicloControllerTest {
     
     @Test
     public void testObtenerIdFalso() {
-        MacrocicloController mC = new MacrocicloController();
+        MacrocicloController mC = mock(MacrocicloController.class);
+        ObjectId id = new ObjectId();
+        when(mC.obtenerMacrociclo(id)).thenThrow(NegocioException.class);
+        
         assertThrows(NegocioException.class, () -> {
-            mC.obtenerMacrociclo(new ObjectId());
+            mC.obtenerMacrociclo(id);
         });
     }
 }

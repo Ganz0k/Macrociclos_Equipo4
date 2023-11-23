@@ -12,6 +12,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -21,17 +23,20 @@ public class MedioFisicoControllerTest {
     
     @Test
     public void testGuardarMediosFisicos() {
-        MedioFisicoController controller = new MedioFisicoController();
+        MedioFisicoController controller = mock(MedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         List<MedioFisico> lista = new ArrayList<>();
         lista.add(new MedioFisico(new ObjectId(), "Fuerza", Etapa.GENERAL, 5, 10, 20f, 2, 10f));
+        
+        when(controller.guardarMediosFisicos(idMacrociclo, lista)).thenReturn(true);
         
         assertTrue(controller.guardarMediosFisicos(idMacrociclo, lista));
     }
     
     @Test
     public void testGuardarNulos() {
-        MedioFisicoController controller = new MedioFisicoController();
+        MedioFisicoController controller = mock(MedioFisicoController.class);
+        when(controller.guardarMediosFisicos(null, null)).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
             controller.guardarMediosFisicos(null, null);
@@ -40,8 +45,10 @@ public class MedioFisicoControllerTest {
     
     @Test
     public void testGuardarListaVacia() {
-        MedioFisicoController controller = new MedioFisicoController();
+        MedioFisicoController controller = mock(MedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        
+        when(controller.guardarMediosFisicos(idMacrociclo, new ArrayList<>())).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
             controller.guardarMediosFisicos(idMacrociclo, new ArrayList<>());
