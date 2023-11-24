@@ -28,7 +28,7 @@ public class MicrocicloController {
         this.fachadaDatos = new FachadaDatos();
     }
     
-    public boolean guardarMicrociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws PersistenciaException {
+    public boolean actualizarMicrociclo(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws PersistenciaException {
         if (idMacrociclo == null || idMesociclo == null || microciclos == null) {
             throw new NegocioException("Ninguno de los campos puede ser nulo");
         }

@@ -247,7 +247,7 @@ public class ControlPlanGrafico {
                 }
                 
                 try {
-                    this.negocio.guardarMicrociclos(macrociclo.getId(), idMesociclo, microciclosAEnviar);
+                    this.negocio.actualizarMicrociclos(macrociclo.getId(), idMesociclo, microciclosAEnviar);
                     microciclosAEnviar = new LinkedList<>();
                     contadorSemanas = 0;
                     contadorMesociclos++;

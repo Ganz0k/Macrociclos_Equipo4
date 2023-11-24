@@ -24,7 +24,7 @@ public class MedioFisicoController {
         this.fachadaDatos = new FachadaDatos();
     }
     
-    public boolean guardarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws PersistenciaException {
+    public boolean actualizarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws PersistenciaException {
         if (idMacrociclo == null || mediosFisicos == null) {
             throw new NegocioException("No se aceptan nulos");
         }

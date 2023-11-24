@@ -93,7 +93,7 @@ public class ControlCalculadoraVolumen {
         }
         
         try {
-            this.fachadaNegocio.guardarMediosFisicos(idMacrociclo, lista);
+            this.fachadaNegocio.actualizarMediosFisicos(idMacrociclo, lista);
             JOptionPane.showMessageDialog(parent, "Medios físicos guardados", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (NegocioException | PersistenciaException e) {
             JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

@@ -22,36 +22,36 @@ import static org.mockito.Mockito.when;
 public class MedioFisicoControllerTest {
     
     @Test
-    public void testGuardarMediosFisicos() {
+    public void testActualizarMediosFisicos() {
         MedioFisicoController controller = mock(MedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         List<MedioFisico> lista = new ArrayList<>();
         lista.add(new MedioFisico(new ObjectId(), "Fuerza", Etapa.GENERAL, 5, 10, 20f, 2, 10f));
         
-        when(controller.guardarMediosFisicos(idMacrociclo, lista)).thenReturn(true);
+        when(controller.actualizarMediosFisicos(idMacrociclo, lista)).thenReturn(true);
         
-        assertTrue(controller.guardarMediosFisicos(idMacrociclo, lista));
+        assertTrue(controller.actualizarMediosFisicos(idMacrociclo, lista));
     }
     
     @Test
-    public void testGuardarNulos() {
+    public void testActualizarNulos() {
         MedioFisicoController controller = mock(MedioFisicoController.class);
-        when(controller.guardarMediosFisicos(null, null)).thenThrow(NegocioException.class);
+        when(controller.actualizarMediosFisicos(null, null)).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
-            controller.guardarMediosFisicos(null, null);
+            controller.actualizarMediosFisicos(null, null);
         });
     }
     
     @Test
-    public void testGuardarListaVacia() {
+    public void testActualizarListaVacia() {
         MedioFisicoController controller = mock(MedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         
-        when(controller.guardarMediosFisicos(idMacrociclo, new ArrayList<>())).thenThrow(NegocioException.class);
+        when(controller.actualizarMediosFisicos(idMacrociclo, new ArrayList<>())).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
-            controller.guardarMediosFisicos(idMacrociclo, new ArrayList<>());
+            controller.actualizarMediosFisicos(idMacrociclo, new ArrayList<>());
         });
     }
 }

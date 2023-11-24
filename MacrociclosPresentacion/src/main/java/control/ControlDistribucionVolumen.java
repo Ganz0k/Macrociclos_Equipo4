@@ -379,7 +379,7 @@ public class ControlDistribucionVolumen {
                 switch (listaMesociclos.get(j).getEtapa()) {
                     case GENERAL -> {
                         try {
-                            this.negocio.guardarVolumenMedioFisicoEnMesociclo(macrociclo.getId(), listaMesociclos.get(j).getId(), listaGeneral[i][contadorGeneral]);
+                            this.negocio.actualizarVolumenMedioFisicoEnMesociclo(macrociclo.getId(), listaMesociclos.get(j).getId(), listaGeneral[i][contadorGeneral]);
                             contadorGeneral++;
                         } catch (NegocioException | PersistenciaException e) {
                             this.negocio.eliminarDistribuciones(macrociclo.getId());
@@ -390,7 +390,7 @@ public class ControlDistribucionVolumen {
                     }
                     case ESPECIAL -> {
                         try {
-                            this.negocio.guardarVolumenMedioFisicoEnMesociclo(macrociclo.getId(), listaMesociclos.get(j).getId(), listaEspecial[i][contadorEspecial]);
+                            this.negocio.actualizarVolumenMedioFisicoEnMesociclo(macrociclo.getId(), listaMesociclos.get(j).getId(), listaEspecial[i][contadorEspecial]);
                             contadorEspecial++;
                         } catch (NegocioException | PersistenciaException e) {
                             this.negocio.eliminarDistribuciones(macrociclo.getId());
@@ -401,7 +401,7 @@ public class ControlDistribucionVolumen {
                     }
                     case COMPETITIVA -> {
                         try {
-                            this.negocio.guardarVolumenMedioFisicoEnMesociclo(macrociclo.getId(), listaMesociclos.get(j).getId(), listaCompetitiva[i][contadorCompetitivo]);
+                            this.negocio.actualizarVolumenMedioFisicoEnMesociclo(macrociclo.getId(), listaMesociclos.get(j).getId(), listaCompetitiva[i][contadorCompetitivo]);
                             contadorCompetitivo++;
                         } catch (NegocioException | PersistenciaException e) {
                             this.negocio.eliminarDistribuciones(macrociclo.getId());

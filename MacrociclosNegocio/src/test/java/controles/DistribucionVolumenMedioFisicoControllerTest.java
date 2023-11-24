@@ -19,94 +19,94 @@ import static org.mockito.Mockito.when;
 public class DistribucionVolumenMedioFisicoControllerTest {
     
     @Test
-    public void testGuardarVolumenesMediosFisicosEnMesociclo() {
+    public void testActualizarVolumenesMediosFisicosEnMesociclo() {
         DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
 
-        when(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(true);
+        when(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(true);
         
-        assertTrue(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
+        assertTrue(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
     
     @Test
-    public void testIdMacrocicloFalso() {
+    public void testActualizarIdMacrocicloFalso() {
         DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
 
-        when(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
+        when(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
         
-        assertFalse(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
+        assertFalse(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
 
     @Test
-    public void testIdMesocicloFalso() {
+    public void testActualizarIdMesocicloFalso() {
         DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId();
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
 
-        when(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
+        when(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenReturn(false);
         
-        assertFalse(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
+        assertFalse(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME));
     }
 
     @Test
-    public void testTiraNegocioExceptionPorNulls() {
+    public void testActualizarTiraNegocioExceptionPorNulls() {
         DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
         ObjectId idMacrociclo = null;
         ObjectId idMesociclo = null;
         VolumenMedioFisico vME = null;
         
-        when(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+        when(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
 
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
+            dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
 
     @Test
-    public void testTiraNegocioExceptionPorUnNull() {
+    public void testActualizarTiraNegocioExceptionPorUnNull() {
         DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId();
         ObjectId idMesociclo = new ObjectId();
         VolumenMedioFisico vME = null;
         
-        when(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+        when(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
 
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
+            dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
 
     @Test
-    public void testTiraNegocioExceptionSiAtributosDeDistribucionSonNull() {
+    public void testActualizarTiraNegocioExceptionSiAtributosDeDistribucionSonNull() {
         DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
         VolumenMedioFisico vME = new VolumenMedioFisico(null, null, 72.64705882f, 95f);
 
-        when(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+        when(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
+            dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
 
     @Test
-    public void testTiraNegocioExceptionSiAtributosDeDistribucionSonNegativos() {
+    public void testActualizarTiraNegocioExceptionSiAtributosDeDistribucionSonNegativos() {
         DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
         ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
         ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
         VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId(), -72.64705882f, -95f);
 
-        when(dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+        when(dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
         
         assertThrows(NegocioException.class, () -> {
-            dVMEC.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
+            dVMEC.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, vME);
         });
     }
     

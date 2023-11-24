@@ -37,13 +37,13 @@ public class FachadaNegocio implements INegocio {
     }
     
     @Override
-    public boolean guardarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException, NegocioException {
-        return this.distribucionVolumenMedioFisicoController.guardarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
+    public boolean actualizarVolumenMedioFisicoEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException, NegocioException {
+        return this.distribucionVolumenMedioFisicoController.actualizarVolumenesMediosFisicosEnMesociclo(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
 
     @Override
-    public boolean guardarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) {
-        return this.microcicloController.guardarMicrociclo(idMacrociclo, idMesociclo, microciclos);
+    public boolean actualizarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) {
+        return this.microcicloController.actualizarMicrociclo(idMacrociclo, idMesociclo, microciclos);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class FachadaNegocio implements INegocio {
     }
 
     @Override
-    public boolean guardarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws NegocioException, PersistenciaException {
-        return this.medioFisicoController.guardarMediosFisicos(idMacrociclo, mediosFisicos);
+    public boolean actualizarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws NegocioException, PersistenciaException {
+        return this.medioFisicoController.actualizarMediosFisicos(idMacrociclo, mediosFisicos);
     }
 }

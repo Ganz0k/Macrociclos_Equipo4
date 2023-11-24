@@ -23,7 +23,7 @@ public class DistribucionVolumenMedioFisicoController {
         fachadaDatos = new FachadaDatos();
     }
 
-    public boolean guardarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
+    public boolean actualizarVolumenesMediosFisicosEnMesociclo(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws PersistenciaException {
         if (idMacrociclo == null || idMesociclo == null || volumenMedioFisico == null) {
             throw new NegocioException("Ninguno de los campos puede ser nulo");
         }
