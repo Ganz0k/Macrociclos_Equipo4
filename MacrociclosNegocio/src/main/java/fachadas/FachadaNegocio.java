@@ -70,4 +70,9 @@ public class FachadaNegocio implements INegocio {
     public boolean actualizarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws NegocioException, PersistenciaException {
         return this.medioFisicoController.actualizarMediosFisicos(idMacrociclo, mediosFisicos);
     }
+
+    @Override
+    public boolean actualizarMacrociclo(Macrociclo macrociclo) throws NegocioException, PersistenciaException {
+        return this.macrocicloController.actualizarMacrociclo(macrociclo);
+    }
 }
