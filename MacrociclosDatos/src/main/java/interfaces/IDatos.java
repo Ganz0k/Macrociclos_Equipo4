@@ -33,4 +33,6 @@ public interface IDatos {
     public boolean actualizarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws PersistenciaException;
 
     public boolean actualizarMacrociclo(Macrociclo macrociclo) throws PersistenciaException;
+    
+    public boolean actualizarStatus(ObjectId idMacrociclo, String nuevoEstado) throws PersistenciaException;
 }

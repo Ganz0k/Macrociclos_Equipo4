@@ -7,9 +7,12 @@ package daos;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
 import conexion.ConexionBD;
 import entidades.Macrociclo;
 import excepciones.PersistenciaException;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
@@ -62,6 +65,26 @@ public class MacrocicloDAO {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             
             return coleccion.find(Filters.eq("_id", id)).first();
+        } catch (Exception e) {
+            throw new PersistenciaException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    public boolean actualizarStatus(ObjectId id, String nuevoEstado) {
+        try {
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
+
+            // Crea un documento con el nuevo estado
+            Document updateDocument = new Document("$set", new Document("status", nuevoEstado));
+
+            // Realiza la actualización en la base de datos
+            Macrociclo macrocicloActualizado = coleccion.findOneAndUpdate(
+                Filters.eq("_id", id),
+                updateDocument,
+                new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+            );
+
+            return macrocicloActualizado != null;
         } catch (Exception e) {
             throw new PersistenciaException(e.getMessage(), e.getCause());
         }

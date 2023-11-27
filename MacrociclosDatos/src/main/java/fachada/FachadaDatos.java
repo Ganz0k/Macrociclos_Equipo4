@@ -74,4 +74,9 @@ public class FachadaDatos implements IDatos {
     public boolean actualizarMacrociclo(Macrociclo macrociclo) throws PersistenciaException {
         return this.macrocicloDAO.actualizarMacrociclo(macrociclo);
     }
+
+    @Override
+    public boolean actualizarStatus(ObjectId idMacrociclo, String nuevoEstado) throws PersistenciaException {
+        return this.macrocicloDAO.actualizarStatus(idMacrociclo, nuevoEstado);
+    }
 }
