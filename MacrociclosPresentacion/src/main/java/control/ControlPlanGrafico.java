@@ -19,11 +19,14 @@ import java.time.LocalDate;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
+import utils.ComboBoxRenderer;
 
 /**
  *
@@ -38,8 +41,7 @@ public class ControlPlanGrafico {
     }
     
     public void setTableModel(JTable tabla, Macrociclo macrociclo) {
-        this.negocio.eliminarMicrociclos(macrociclo.getId());
-        int totalColumnas = 8;
+        int totalColumnas = 7;
         
         for (int i = 0; i < macrociclo.getMediosFisicos().size(); i++) {
             if (macrociclo.getMediosFisicos().get(i).getEtapa().equals(Etapa.GENERAL)) {
@@ -50,25 +52,23 @@ public class ControlPlanGrafico {
         String[] nombreColumnas = new String[totalColumnas];
         Class[] tipos = new Class[totalColumnas];
         boolean[] editables = new boolean[totalColumnas];
-        int contadorExtra = 8;
+        int contadorExtra = 7;
         
         nombreColumnas[0] = "Semana";
         nombreColumnas[1] = "Inicia";
         nombreColumnas[2] = "Termina";
-        nombreColumnas[3] = "Tests físicos";
+        nombreColumnas[3] = "Tests físicos / Competencias prep";
         nombreColumnas[4] = "Mesociclo";
         nombreColumnas[5] = "Ciclicidad";
         nombreColumnas[6] = "Acentos";
-        nombreColumnas[7] = "Competencias prep";
         
         tipos[0] = Integer.class;
         tipos[1] = LocalDate.class;
         tipos[2] = LocalDate.class;
-        tipos[3] = Boolean.class;
+        tipos[3] = Object.class;
         tipos[4] = Integer.class;
         tipos[5] = String.class;
         tipos[6] = String.class;
-        tipos[7] = Boolean.class;
         
         editables[0] = false;
         editables[1] = true;
@@ -77,7 +77,11 @@ public class ControlPlanGrafico {
         editables[4] = false;
         editables[5] = false;
         editables[6] = false;
-        editables[7] = true;
+        
+        JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Ninguno");
+        comboBox.addItem("Test físico");
+        comboBox.addItem("Competencia preparatoria");
         
         for (int i = 0; i < macrociclo.getMediosFisicos().size(); i++) {
             if (macrociclo.getMediosFisicos().get(i).getEtapa().equals(Etapa.GENERAL)) {
@@ -108,6 +112,8 @@ public class ControlPlanGrafico {
         
         tabla.setDefaultEditor(LocalDate.class, new DateTableEditor());
         tabla.setDefaultRenderer(LocalDate.class, new DateTableEditor());
+        tabla.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
+        tabla.setDefaultRenderer(Object.class, new ComboBoxRenderer(3));
     }
     
     public void cargarTabla(DefaultTableModel tabla, List<Mesociclo> lista) {
@@ -125,7 +131,7 @@ public class ControlPlanGrafico {
                 String ciclicidad = m.getNumSemanas() - 1 + ".1";
                 Object[] fila = new Object[tabla.getColumnCount()];
                 fila[0] = contadorFilas;
-                fila[3] = false;
+                fila[3] = "Ninguno";
                 fila[4] = m.getNumero();
                 fila[5] = ciclicidad;
                 
@@ -137,14 +143,13 @@ public class ControlPlanGrafico {
                     case 6 -> fila[6] = acentos6Micros[i];
                 }
                 
-                fila[7] = false;
                 tabla.addRow(fila);
                 contadorFilas++;
             }
         }
     }
     
-    public void guardarMicrociclos(JFrame parent, Macrociclo macrociclo, DefaultTableModel tabla) {
+    public void actualizarMicrociclos(JFrame parent, Macrociclo macrociclo, DefaultTableModel tabla) {
         List<Integer> listaNumerosMesociclos = new LinkedList<>();
         List<Microciclo> listaMicrociclos = new LinkedList<>();
         List<MedioFisico> listaMediosFisicos = macrociclo.getMediosFisicos();
@@ -173,19 +178,23 @@ public class ControlPlanGrafico {
             
             GregorianCalendar fechaFin = new GregorianCalendar(fechaFinTabla.getYear(), fechaFinTabla.getMonthValue() - 1, fechaFinTabla.getDayOfMonth());
             
-            boolean isTestFisico = (boolean) tabla.getValueAt(i, 3);
+            String testPruebaONada = (String) tabla.getValueAt(i, 3);
+            boolean isTestFisico = false;
+            boolean isCompetenciaPreparativa = false;
             
-            if (isTestFisico) {
-                contadorTestFisico++;
+            switch (testPruebaONada) {
+                case "Test físico" -> {
+                    isTestFisico = true;
+                    contadorTestFisico++;
+                }
+                case "Competencia preparatoria" -> {
+                    isCompetenciaPreparativa = true;
+                    contadorCompetenciaPreparativa++;
+                }
             }
             
             listaNumerosMesociclos.add((int) tabla.getValueAt(i, 4));
             String acento = (String) tabla.getValueAt(i, 6);
-            boolean isCompetenciaPreparativa = (boolean) tabla.getValueAt(i, 7);
-            
-            if (isCompetenciaPreparativa) {
-                contadorCompetenciaPreparativa++;
-            }
             
             List<VolumenMedioFisico> listaVMF = new LinkedList<>();
             

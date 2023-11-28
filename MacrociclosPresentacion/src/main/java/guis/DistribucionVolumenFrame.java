@@ -188,7 +188,7 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        this.controlDistribucionVolumen.guardarDistribucionesVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
+        this.controlDistribucionVolumen.actualizarDistribucionesVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     /**

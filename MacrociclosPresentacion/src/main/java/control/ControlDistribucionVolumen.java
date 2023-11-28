@@ -267,7 +267,7 @@ public class ControlDistribucionVolumen {
         });
     }
     
-    public void guardarDistribucionesVolumenes(JFrame parent, Macrociclo macrociclo, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {
+    public void actualizarDistribucionesVolumenes(JFrame parent, Macrociclo macrociclo, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {
         VolumenMedioFisico[][] listaGeneral = new VolumenMedioFisico[tablaGeneral.getRowCount()][(tablaGeneral.getColumnCount() - 2) /2];
         VolumenMedioFisico[][] listaEspecial = new VolumenMedioFisico[tablaEspecial.getRowCount()][(tablaEspecial.getColumnCount() - 2) /2];
         VolumenMedioFisico[][] listaCompetitiva = new VolumenMedioFisico[tablaCompetitiva.getRowCount()][(tablaCompetitiva.getColumnCount() - 2) /2];
@@ -409,6 +409,136 @@ public class ControlDistribucionVolumen {
                         
                             return;
                         }
+                    }
+                }
+            }
+        }
+        
+        JOptionPane.showMessageDialog(parent, "Distribución de volúmenes guardada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        new PlanGraficoFrame().setVisible(true);
+        parent.dispose();
+    }
+    
+    public void guardarDistribucionesDeVolumenes(JFrame parent, Macrociclo macrociclo, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {
+        VolumenMedioFisico[][] listaGeneral = new VolumenMedioFisico[tablaGeneral.getRowCount()][(tablaGeneral.getColumnCount() - 2) /2];
+        VolumenMedioFisico[][] listaEspecial = new VolumenMedioFisico[tablaEspecial.getRowCount()][(tablaEspecial.getColumnCount() - 2) /2];
+        VolumenMedioFisico[][] listaCompetitiva = new VolumenMedioFisico[tablaCompetitiva.getRowCount()][(tablaCompetitiva.getColumnCount() - 2) /2];
+        List<MedioFisico> listaMedioFisico = macrociclo.getMediosFisicos();
+        
+        for (int i = 0; i < tablaGeneral.getRowCount(); i++) {
+            int contadorVolumenes = 0;
+            VolumenMedioFisico vMF = new VolumenMedioFisico();
+            
+            for (int j = 0; j < tablaGeneral.getColumnCount(); j++) {
+                Object valor = tablaGeneral.getValueAt(i, j);
+                
+                if (valor == null) {
+                    JOptionPane.showMessageDialog(parent, "Todos los % y Vol. deben de tener valor", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                if (j == 0) {
+                    for (MedioFisico mF : listaMedioFisico) {
+                        if (valor.toString().equals(mF.getNombre()) && mF.getEtapa().equals(Etapa.GENERAL)) {
+                            vMF.setMedioFisico(mF.getId());
+                        }
+                    }
+                } else {
+                    if (j > 1 && this.isPair(j)) {
+                        vMF.setVolumen((float) valor);
+                    } else if (j > 1 && !this.isPair(j)) {
+                        vMF.setPorcentaje((float) valor);
+                        vMF.setId(new ObjectId());
+                        listaGeneral[i][contadorVolumenes] = vMF;
+                        vMF = new VolumenMedioFisico(vMF.getMedioFisico());
+                        contadorVolumenes++;
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < tablaEspecial.getRowCount(); i++) {
+            int contadorVolumenes = 0;
+            VolumenMedioFisico vMF = new VolumenMedioFisico();
+            
+            for (int j = 0; j < tablaEspecial.getColumnCount(); j++) {
+                Object valor = tablaEspecial.getValueAt(i, j);
+                
+                if (valor == null) {
+                    JOptionPane.showMessageDialog(parent, "Todos los % y Vol. deben de tener valor", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                if (j == 0) {
+                    for (MedioFisico mF: listaMedioFisico) {
+                        if (valor.toString().equals(mF.getNombre()) && mF.getEtapa().equals(Etapa.ESPECIAL)) {
+                            vMF.setMedioFisico(mF.getId());
+                        }
+                    }
+                } else {
+                    if (j > 1 && this.isPair(j)) {
+                        vMF.setVolumen((float) valor);
+                    } else if (j > 1 && !this.isPair(j)) {
+                        vMF.setPorcentaje((float) valor);
+                        vMF.setId(new ObjectId());
+                        listaEspecial[i][contadorVolumenes] = vMF;
+                        vMF = new VolumenMedioFisico(vMF.getMedioFisico());
+                        contadorVolumenes++;
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < tablaCompetitiva.getRowCount(); i++) {
+            int contadorVolumenes = 0;
+            VolumenMedioFisico vMF = new VolumenMedioFisico();
+            
+            for (int j = 0; j < tablaCompetitiva.getColumnCount(); j++) {
+                Object valor = tablaCompetitiva.getValueAt(i, j);
+                
+                if (valor == null) {
+                    JOptionPane.showMessageDialog(parent, "Todos los % y Vol. deben de tener valor", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                if (j == 0) {
+                    for (MedioFisico mF: listaMedioFisico) {
+                        if (valor.toString().equals(mF.getNombre()) && mF.getEtapa().equals(Etapa.COMPETITIVA)) {
+                            vMF.setMedioFisico(mF.getId());
+                        }
+                    }
+                } else {
+                    if (j > 1 && this.isPair(j)) {
+                        vMF.setVolumen((float) valor);
+                    } else if (j > 1 && !this.isPair(j)) {
+                        vMF.setPorcentaje((float) valor);
+                        vMF.setId(new ObjectId());
+                        listaCompetitiva[i][contadorVolumenes] = vMF;
+                        vMF = new VolumenMedioFisico(vMF.getMedioFisico());
+                        contadorVolumenes++;
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < listaGeneral.length; i++) {
+            int contadorGeneral = 0;
+            int contadorEspecial = 0;
+            int contadorCompetitivo = 0;
+            
+            for (int j = 0; j < macrociclo.getMesociclos().size(); j++) {
+                switch (macrociclo.getMesociclos().get(j).getEtapa()) {
+                    case GENERAL -> {
+                        macrociclo.getMesociclos().get(j).getDistribucionVolumen().add(listaGeneral[i][contadorGeneral]);
+                        contadorGeneral++;
+                    }
+                    case ESPECIAL -> {
+                        macrociclo.getMesociclos().get(j).getDistribucionVolumen().add(listaEspecial[i][contadorEspecial]);
+                        contadorEspecial++;
+                    }
+                    case COMPETITIVA -> {
+                        macrociclo.getMesociclos().get(j).getDistribucionVolumen().add(listaCompetitiva[i][contadorCompetitivo]);
+                        contadorCompetitivo++;
                     }
                 }
             }
