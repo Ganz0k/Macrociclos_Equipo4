@@ -52,7 +52,7 @@ public class MacrocicloControllerTest {
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
                 "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
-                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
+                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 0, 5, new ArrayList<>(), listaM);
 
         when(mC.guardarMacrociclo(macrociclo)).thenReturn(true);
         
@@ -97,7 +97,7 @@ public class MacrocicloControllerTest {
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
                 "En tránsito", "Judo", Rama.MIXTO, null, "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
-                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
+                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 0, 5, new ArrayList<>(), listaM);
         
         when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
         
@@ -134,7 +134,7 @@ public class MacrocicloControllerTest {
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
                 "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 10, 6).getTime(), 
-                new GregorianCalendar(2023, 10, 10).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
+                new GregorianCalendar(2023, 10, 10).getTime(), 20, 10, 0, 5, new ArrayList<>(), listaM);
         
         when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
         
@@ -171,7 +171,7 @@ public class MacrocicloControllerTest {
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
                 "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2015, 8, 4).getTime(), 
-                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
+                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 0, 5, new ArrayList<>(), listaM);
     
         when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
         
@@ -208,7 +208,7 @@ public class MacrocicloControllerTest {
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
                 "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
-                new GregorianCalendar(2023, 8, 1).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
+                new GregorianCalendar(2023, 8, 1).getTime(), 20, 10, 0, 5, new ArrayList<>(), listaM);
     
         when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
         
@@ -245,7 +245,7 @@ public class MacrocicloControllerTest {
         Macrociclo macrociclo = new Macrociclo(new ObjectId(), new ObjectId("65415812c421fde5b6f9cc9b"),
                 "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
-                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
+                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 0, 5, new ArrayList<>(), listaM);
     
         when(mC.guardarMacrociclo(macrociclo)).thenThrow(NegocioException.class);
         
@@ -282,7 +282,7 @@ public class MacrocicloControllerTest {
         Macrociclo macrociclo = new Macrociclo(new ObjectId("654dd6835b04545e539ab919"), new ObjectId("65415812c421fde5b6f9cc9b"),
                 "En tránsito", "Judo", Rama.MIXTO, "Ana Nayeli Leon", "Luis Gerardo Miranda",
                 "Benjamin Murrieta", new GregorianCalendar(2023, 8, 4).getTime(), 
-                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 5, new ArrayList<>(), listaM);
+                new GregorianCalendar(2024, 0, 19).getTime(), 20, 10, 0, 5, new ArrayList<>(), listaM);
     
         when(mC.obtenerMacrociclo(macrociclo.getId())).thenReturn(macrociclo);
         

@@ -29,6 +29,7 @@ public class Macrociclo {
     private int semanasGeneral;
     private int semanasEspecial;
     private int semanasCompetitivo;
+    private int semanasPrecompetitivo;
     private List<MedioFisico> mediosFisicos;
     private List<Mesociclo> mesociclos;
 
@@ -36,7 +37,7 @@ public class Macrociclo {
         
     }
 
-    public Macrociclo(ObjectId id, ObjectId entrenador, String status, String deporte, Rama rama, String jefeRama, String entrenadorAuxiliar, String metodologo, Date fechaInicio, Date fechaFin, int semanasGeneral, int semanasEspecial, int semanasCompetitivo, List<MedioFisico> mediosFisicos, List<Mesociclo> mesociclos) {
+    public Macrociclo(ObjectId id, ObjectId entrenador, String status, String deporte, Rama rama, String jefeRama, String entrenadorAuxiliar, String metodologo, Date fechaInicio, Date fechaFin, int semanasGeneral, int semanasEspecial, int semanasPrecompetitivo, int semanasCompetitivo, List<MedioFisico> mediosFisicos, List<Mesociclo> mesociclos) {
         this.id = id;
         this.entrenador = entrenador;
         this.status = status;
@@ -49,6 +50,7 @@ public class Macrociclo {
         this.fechaFin = fechaFin;
         this.semanasGeneral = semanasGeneral;
         this.semanasEspecial = semanasEspecial;
+        this.semanasPrecompetitivo = semanasPrecompetitivo;
         this.semanasCompetitivo = semanasCompetitivo;
         this.mediosFisicos = mediosFisicos;
         this.mesociclos = mesociclos;
@@ -152,6 +154,14 @@ public class Macrociclo {
 
     public int getSemanasCompetitivo() {
         return semanasCompetitivo;
+    }
+
+    public int getSemanasPrecompetitivo() {
+        return semanasPrecompetitivo;
+    }
+
+    public void setSemanasPrecompetitivo(int semanasPrecompetitivo) {
+        this.semanasPrecompetitivo = semanasPrecompetitivo;
     }
 
     public void setSemanasCompetitivo(int semanasCompetitivo) {

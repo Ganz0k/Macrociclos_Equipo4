@@ -79,7 +79,7 @@ public class MacrocicloController {
         }
 
         int contadorSemanas = 0;
-        int totalSemanas = macrociclo.getSemanasGeneral() + macrociclo.getSemanasEspecial() + macrociclo.getSemanasCompetitivo();
+        int totalSemanas = macrociclo.getSemanasGeneral() + macrociclo.getSemanasEspecial() + macrociclo.getSemanasPrecompetitivo() + macrociclo.getSemanasCompetitivo();
 
         for (Mesociclo m : macrociclo.getMesociclos()) {
             contadorSemanas += m.getNumSemanas();

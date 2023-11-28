@@ -11,9 +11,9 @@ import enumeradores.Etapa;
 import enumeradores.Rama;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
-import fachadas.FachadaNegocio;
 import interfaces.INegocio;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +22,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
@@ -35,8 +36,8 @@ public class ControlCrearMacrociclo {
     
     private final INegocio fachadaNegocio;
     
-    public ControlCrearMacrociclo() {
-        this.fachadaNegocio = new FachadaNegocio();
+    public ControlCrearMacrociclo(INegocio fachadaNegocio) {
+        this.fachadaNegocio = fachadaNegocio;
     }
     
     public void cargarComboRamas(JComboBox<Rama> comboBoxRama) {
@@ -45,13 +46,29 @@ public class ControlCrearMacrociclo {
         comboBoxRama.addItem(Rama.MIXTO);
     }
     
+    public void agregarFilaTabla(DefaultTableModel tabla) {
+        tabla.addRow(new Object[2]);
+    }
+    
+    public void eliminarFilaTabla(JFrame parent, JTable tabla) {
+        int filaSeleccionada = tabla.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(parent, "Seleccione una fila de la tabla antes de eliminarla", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.removeRow(filaSeleccionada);
+    }
+    
     public void crearListeners(JFrame parent, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {
         tablaGeneral.addTableModelListener((TableModelEvent e) -> {
             if (e.getType() == TableModelEvent.UPDATE) {
                 int row = e.getFirstRow();
                 int column = e.getColumn();
                 
-                if (row == 0) {
+                if (column == 0) {
                     int semanas = Integer.parseInt(tablaGeneral.getValueAt(row, column).toString());
                     
                     if (semanas > 6 || semanas < 2) {
@@ -61,7 +78,7 @@ public class ControlCrearMacrociclo {
                     
                     String ciclicidad = (semanas - 1) + ",1";
                     
-                    tablaGeneral.setValueAt(ciclicidad, 1, column);
+                    tablaGeneral.setValueAt(ciclicidad, row, 1);
                 }
             }
         });
@@ -71,7 +88,7 @@ public class ControlCrearMacrociclo {
                 int row = e.getFirstRow();
                 int column = e.getColumn();
                 
-                if (row == 0) {
+                if (column == 0) {
                     int semanas = Integer.parseInt(tablaEspecial.getValueAt(row, column).toString());
                     String ciclicidad = (semanas - 1) + ",1";
                     
@@ -80,7 +97,7 @@ public class ControlCrearMacrociclo {
                         return;
                     }
                     
-                    tablaEspecial.setValueAt(ciclicidad, 1, column);
+                    tablaEspecial.setValueAt(ciclicidad, row, 1);
                 }
             }
         });
@@ -90,7 +107,7 @@ public class ControlCrearMacrociclo {
                 int row = e.getFirstRow();
                 int column = e.getColumn();
                 
-                if (row == 0) {
+                if (column == 0) {
                     int semanas = Integer.parseInt(tablaCompetitiva.getValueAt(row, column).toString());
                     String ciclicidad = (semanas - 1) + ",1";
                     
@@ -99,7 +116,7 @@ public class ControlCrearMacrociclo {
                         return;
                     }
                     
-                    tablaCompetitiva.setValueAt(ciclicidad, 1, column);
+                    tablaCompetitiva.setValueAt(ciclicidad, row, 1);
                 }
             }
         });
@@ -190,8 +207,8 @@ public class ControlCrearMacrociclo {
         int contadorMesociclos = 1;
         int contadorNulls = 0;
         
-        for (int i = 0; i < tablaGeneral.getColumnCount(); i++) {
-            Object semanasMesociclo = tablaGeneral.getValueAt(0, i);
+        for (int i = 0; i < tablaGeneral.getRowCount(); i++) {
+            Object semanasMesociclo = tablaGeneral.getValueAt(i, 0);
             
             if (semanasMesociclo == null) {
                 contadorNulls++;
@@ -203,15 +220,15 @@ public class ControlCrearMacrociclo {
             contadorMesociclos++;
         }
         
-        if (contadorNulls == 10) {
+        if (contadorNulls == tablaGeneral.getRowCount()) {
             JOptionPane.showMessageDialog(parent, "Debe de haber por lo menos 1 mesociclo definido", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
         contadorNulls = 0;
         
-        for (int i = 0; i < tablaEspecial.getColumnCount(); i++) {
-            Object semanasMesociclo = tablaEspecial.getValueAt(0, i);
+        for (int i = 0; i < tablaEspecial.getRowCount(); i++) {
+            Object semanasMesociclo = tablaEspecial.getValueAt(i, 0);
             
             if (semanasMesociclo == null) {
                 contadorNulls++;
@@ -223,15 +240,15 @@ public class ControlCrearMacrociclo {
             contadorMesociclos++;
         }
         
-        if (contadorNulls == 10) {
+        if (contadorNulls == tablaEspecial.getRowCount()) {
             JOptionPane.showMessageDialog(parent, "Debe de haber por lo menos 1 mesociclo definido", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
         contadorNulls = 0;
         
-        for (int i = 0; i < tablaCompetitiva.getColumnCount(); i++) {
-            Object semanasMesociclo = tablaCompetitiva.getValueAt(0, i);
+        for (int i = 0; i < tablaCompetitiva.getRowCount(); i++) {
+            Object semanasMesociclo = tablaCompetitiva.getValueAt(i, 0);
             
             if (semanasMesociclo == null) {
                 contadorNulls++;
@@ -243,16 +260,219 @@ public class ControlCrearMacrociclo {
             contadorMesociclos++;
         }
         
-        if (contadorNulls == 10) {
+        if (contadorNulls == tablaCompetitiva.getRowCount()) {
             JOptionPane.showMessageDialog(parent, "Debe de haber por lo menos 1 mesociclo definido", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
-        Macrociclo nuevoMacrociclo = new Macrociclo(new ObjectId(), entrenador, status, deporte, rama, jefeRama, entrenadorAuxiliar, metodologo, fechaInicio, fechaFin, semanasGeneral, semanasEspecial, totalSemanasCompetitivo, new ArrayList<>(), listaMesociclos);
+        Macrociclo nuevoMacrociclo = new Macrociclo(new ObjectId(), entrenador, status, deporte, rama, jefeRama, entrenadorAuxiliar, metodologo, fechaInicio, fechaFin, semanasGeneral, semanasEspecial, semanasPrecompetitiva, semanasCompetitivoB, new ArrayList<>(), listaMesociclos);
         
         try {
             this.fachadaNegocio.guardarMacrociclo(nuevoMacrociclo);
             JOptionPane.showMessageDialog(parent, "Macrociclo creado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NegocioException | PersistenciaException e) {
+            JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void cargarElementosActualizar(Macrociclo macrociclo, JComboBox comboBoxDeporte, JComboBox comboBoxRama, JComboBox comboBoxJefeRama,
+            JComboBox comboBoxAuxiliar, JComboBox comboBoxMetodologo, JTextField campoStatus, DatePicker pickerInicio, DatePicker pickerFin,
+            JTextField campoTotalSemanas, JTextField campoPorcentajePreparatorio, JTextField campoSemanasPreparatorio, JTextField campoPorcentajeCompetitivo,
+            JTextField campoSemanasCompetitivo, JTextField campoPorcentajeGeneral, JTextField campoSemanasGeneral, JTextField campoPorcentajeEspecial,
+            JTextField campoSemanasEspecial, JTextField campoPorcentajePrecompetitivo, JTextField campoSemanasPrecompetitivo,
+            JTextField campoPorcentajeCompetitivoB, JTextField campoSemanasCompetitivoB, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial,
+            DefaultTableModel tablaCompetitiva) {
+        comboBoxDeporte.setSelectedItem(macrociclo.getDeporte());
+        comboBoxRama.setSelectedItem(macrociclo.getRama());
+        comboBoxJefeRama.setSelectedItem(macrociclo.getJefeRama());
+        comboBoxAuxiliar.setSelectedItem(macrociclo.getEntrenadorAuxiliar());
+        comboBoxMetodologo.setSelectedItem(macrociclo.getMetodologo());
+        
+        campoStatus.setText(macrociclo.getStatus());
+        
+        pickerInicio.setDate(macrociclo.getFechaInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        pickerFin.setDate(macrociclo.getFechaFin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        
+        Integer totalSemanas = macrociclo.getSemanasGeneral() + macrociclo.getSemanasEspecial() + macrociclo.getSemanasCompetitivo() + macrociclo.getSemanasPrecompetitivo();
+        campoTotalSemanas.setText(totalSemanas.toString());
+        
+        int porcentajePreparatorio = ((macrociclo.getSemanasEspecial() + macrociclo.getSemanasGeneral()) * 100) / totalSemanas;
+        campoPorcentajePreparatorio.setText(porcentajePreparatorio + "%");
+        
+        Integer semanasPreparatorio = macrociclo.getSemanasEspecial() + macrociclo.getSemanasGeneral();
+        campoSemanasPreparatorio.setText(semanasPreparatorio.toString());
+        
+        int porcentajeCompetitivo = ((macrociclo.getSemanasCompetitivo() + macrociclo.getSemanasPrecompetitivo()) * 100) / totalSemanas;
+        campoPorcentajeCompetitivo.setText(porcentajeCompetitivo + "%");
+        
+        Integer semanasCompetitivo = macrociclo.getSemanasCompetitivo();
+        campoSemanasCompetitivo.setText(semanasCompetitivo.toString());
+        
+        int porcentajeGeneral = (macrociclo.getSemanasGeneral() * 100) / totalSemanas;
+        campoPorcentajeGeneral.setText(porcentajeGeneral + "%");
+        
+        Integer semanasGeneral = macrociclo.getSemanasGeneral();
+        campoSemanasGeneral.setText(semanasGeneral.toString());
+        
+        int porcentajeEspecial = (macrociclo.getSemanasEspecial() * 100) / totalSemanas;
+        campoPorcentajeEspecial.setText(porcentajeEspecial + "%");
+        
+        Integer semanasEspecial = macrociclo.getSemanasEspecial();
+        campoSemanasEspecial.setText(semanasEspecial.toString());
+        
+        int porcentajePrecompetitivo = (macrociclo.getSemanasPrecompetitivo() * 100) / totalSemanas;
+        campoPorcentajePrecompetitivo.setText(porcentajePrecompetitivo + "%");
+        
+        Integer semanasPrecompetitivo = macrociclo.getSemanasPrecompetitivo();
+        campoSemanasPrecompetitivo.setText(semanasPrecompetitivo.toString());
+        
+        int porcentajeCompetitivoB = (macrociclo.getSemanasCompetitivo() * 100) / totalSemanas;
+        campoPorcentajeCompetitivoB.setText(porcentajeCompetitivoB + "%");
+        
+        Integer semanasCompetitivoB = macrociclo.getSemanasCompetitivo();
+        campoSemanasCompetitivoB.setText(semanasCompetitivoB.toString());
+        
+        tablaGeneral.setRowCount(0);
+        tablaEspecial.setRowCount(0);
+        tablaCompetitiva.setRowCount(0);
+        
+        macrociclo.getMesociclos().forEach(m -> {
+            Object[] fila = new Object[2];
+            fila[0] = m.getNumSemanas();
+            fila[1] = (m.getNumSemanas() - 1) + "." + 1;
+            
+            switch (m.getEtapa()) {
+                case GENERAL -> tablaGeneral.addRow(fila);
+                case ESPECIAL -> tablaEspecial.addRow(fila);
+                case COMPETITIVA -> tablaCompetitiva.addRow(fila);
+            }
+        });
+    }
+    
+    public void actualizarMacrociclo(JFrame parent, JComboBox<String> comboBoxDeportes, JComboBox<Rama> comboBoxRama, JComboBox<String> comboBoxJefeRama,
+            JComboBox<String> comboBoxEntrenadorAuxiliar, JComboBox<String> comboBoxMetodologo, JTextField campoTextoStatus,
+            JTextField campoTextoTotalSemanas, JTextField campoTextoSemanasPreparatorio,
+            JTextField campoTextoSemanasCompetitivo, JTextField campoTextoSemanasGeneral,
+            JTextField campoTextoSemanasEspecial, JTextField campoTextoSemanasPrecompetitiva,
+            JTextField campoTextoSemanasCompetitivoB, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial,
+            DefaultTableModel tablaCompetitiva, Date fechaInicio, Date fechaFin, Macrociclo macrociclo) {
+        String deporte = (String) comboBoxDeportes.getSelectedItem();
+        Rama rama = (Rama) comboBoxRama.getSelectedItem();
+        String jefeRama = (String) comboBoxJefeRama.getSelectedItem();
+        String entrenadorAuxiliar = (String) comboBoxEntrenadorAuxiliar.getSelectedItem();
+        String metodologo = (String) comboBoxMetodologo.getSelectedItem();
+        String status = campoTextoStatus.getText();
+        String txtTotalSemanas = campoTextoTotalSemanas.getText();
+        String txtSemanasPreparatorio = campoTextoSemanasPreparatorio.getText();
+        String txtSemanasCompetitivo = campoTextoSemanasCompetitivo.getText();
+        String txtSemanasGeneral = campoTextoSemanasGeneral.getText();
+        String txtSemanasEspecial = campoTextoSemanasEspecial.getText();
+        String txtSemanasPrecompetitiva = campoTextoSemanasPrecompetitiva.getText();
+        String txtSemanasCompetitivoB = campoTextoSemanasCompetitivoB.getText();
+        
+        if (txtTotalSemanas == null || txtSemanasPreparatorio == null || txtSemanasCompetitivo == null ||
+                txtSemanasGeneral == null || txtSemanasEspecial == null || txtSemanasPrecompetitiva == null ||
+                txtSemanasCompetitivoB == null) {
+            JOptionPane.showMessageDialog(parent, "Todos los campos deben de tener valor", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int totalSemanas = Integer.parseInt(txtTotalSemanas);
+        int semanasPreparatorio = Integer.parseInt(txtSemanasPreparatorio);
+        int semanasCompetitivo = Integer.parseInt(txtSemanasCompetitivo);
+        int semanasGeneral = Integer.parseInt(txtSemanasGeneral);
+        int semanasEspecial = Integer.parseInt(txtSemanasEspecial);
+        int semanasPrecompetitiva = Integer.parseInt(txtSemanasPrecompetitiva);
+        int semanasCompetitivoB = Integer.parseInt(txtSemanasCompetitivoB);
+        
+        int totalSemanasB = semanasPreparatorio + semanasCompetitivo;
+        int totalSemanasPreparatorio = semanasGeneral + semanasEspecial;
+        int totalSemanasCompetitivo = semanasPrecompetitiva + semanasCompetitivoB;
+        
+        if (totalSemanasB != totalSemanas || totalSemanasPreparatorio != semanasPreparatorio || totalSemanasCompetitivo != semanasCompetitivo) {
+            JOptionPane.showMessageDialog(parent, "La suma de porcentajes de los periodos debe ser igual al total de semanas del macrociclo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        List<Mesociclo> listaMesociclos = new ArrayList<>();
+        int contadorMesociclos = 1;
+        int contadorNulls = 0;
+        
+        for (int i = 0; i < tablaGeneral.getRowCount(); i++) {
+            Object semanasMesociclo = tablaGeneral.getValueAt(i, 0);
+            
+            if (semanasMesociclo == null) {
+                contadorNulls++;
+                continue;
+            }
+            
+            int numSemanas = Integer.parseInt(semanasMesociclo.toString());
+            listaMesociclos.add(new Mesociclo(new ObjectId(), contadorMesociclos, Etapa.GENERAL, numSemanas, new ArrayList<>(), new ArrayList<>()));
+            contadorMesociclos++;
+        }
+        
+        if (contadorNulls == tablaGeneral.getRowCount()) {
+            JOptionPane.showMessageDialog(parent, "Debe de haber por lo menos 1 mesociclo definido", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        contadorNulls = 0;
+        
+        for (int i = 0; i < tablaEspecial.getRowCount(); i++) {
+            Object semanasMesociclo = tablaEspecial.getValueAt(i, 0);
+            
+            if (semanasMesociclo == null) {
+                contadorNulls++;
+                continue;
+            }
+            
+            int numSemanas = Integer.parseInt(semanasMesociclo.toString());
+            listaMesociclos.add(new Mesociclo(new ObjectId(), contadorMesociclos, Etapa.ESPECIAL, numSemanas, new ArrayList<>(), new ArrayList<>()));
+            contadorMesociclos++;
+        }
+        
+        if (contadorNulls == tablaEspecial.getRowCount()) {
+            JOptionPane.showMessageDialog(parent, "Debe de haber por lo menos 1 mesociclo definido", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        contadorNulls = 0;
+        
+        for (int i = 0; i < tablaCompetitiva.getRowCount(); i++) {
+            Object semanasMesociclo = tablaCompetitiva.getValueAt(i, 0);
+            
+            if (semanasMesociclo == null) {
+                contadorNulls++;
+                continue;
+            }
+            
+            int numSemanas = Integer.parseInt(semanasMesociclo.toString());
+            listaMesociclos.add(new Mesociclo(new ObjectId(), contadorMesociclos, Etapa.COMPETITIVA, numSemanas, new ArrayList<>(), new ArrayList<>()));
+            contadorMesociclos++;
+        }
+        
+        if (contadorNulls == tablaCompetitiva.getRowCount()) {
+            JOptionPane.showMessageDialog(parent, "Debe de haber por lo menos 1 mesociclo definido", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        macrociclo.setStatus(status);
+        macrociclo.setDeporte(deporte);
+        macrociclo.setRama(rama);
+        macrociclo.setJefeRama(jefeRama);
+        macrociclo.setEntrenadorAuxiliar(entrenadorAuxiliar);
+        macrociclo.setMetodologo(metodologo);
+        macrociclo.setFechaInicio(fechaInicio);
+        macrociclo.setFechaFin(fechaFin);
+        macrociclo.setSemanasGeneral(semanasGeneral);
+        macrociclo.setSemanasEspecial(semanasEspecial);
+        macrociclo.setSemanasPrecompetitivo(semanasPrecompetitiva);
+        macrociclo.setSemanasCompetitivo(semanasCompetitivoB);
+        macrociclo.setMesociclos(listaMesociclos);
+        
+        try {
+            this.fachadaNegocio.actualizarMacrociclo(macrociclo);
+            JOptionPane.showMessageDialog(parent, "Macrociclo actualizado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (NegocioException | PersistenciaException e) {
             JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
