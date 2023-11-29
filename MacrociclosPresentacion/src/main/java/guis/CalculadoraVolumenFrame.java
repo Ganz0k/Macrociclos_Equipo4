@@ -5,6 +5,10 @@
 package guis;
 
 import control.ControlCalculadoraVolumen;
+import entidades.Macrociclo;
+import enumeradores.Operacion;
+import fachadas.FachadaNegocio;
+import interfaces.INegocio;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
@@ -18,16 +22,26 @@ import utils.ButtonRenderer;
 public class CalculadoraVolumenFrame extends javax.swing.JFrame {
 
     private final ControlCalculadoraVolumen control;
+    private final Operacion operacion;
+    private Macrociclo macrociclo;
+    private final INegocio fachadaNegocio = new FachadaNegocio();
     
     /**
      * Creates new form CalculadoraVolumenFrame
+     * @param operacion
      */
-    public CalculadoraVolumenFrame() {
+    public CalculadoraVolumenFrame(Operacion operacion) {
         initComponents();
         
+        this.operacion = operacion;
         this.control = new ControlCalculadoraVolumen();
         this.tablaCalculadora.getColumnModel().getColumn(20).setCellRenderer(new ButtonRenderer());
         this.tablaCalculadora.getColumnModel().getColumn(20).setCellEditor(new ButtonEditor(new JTextField("Calcular"), this, this.tablaCalculadora));
+        this.macrociclo = fachadaNegocio.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        
+        if (operacion.equals(Operacion.ACTUALIZAR)) {
+            this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
+        }
     }
 
     /**
@@ -177,7 +191,7 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarMedioActionPerformed
 
     private void btnGuardarMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMediosActionPerformed
-        this.control.guardarMediosFisicos(this, new ObjectId("654dd6835b04545e539ab919"), (DefaultTableModel) this.tablaCalculadora.getModel());
+        this.control.acrualizarMediosFisicos(this, new ObjectId("6540abc7eb7a0415d79ba288"), (DefaultTableModel) this.tablaCalculadora.getModel());
     }//GEN-LAST:event_btnGuardarMediosActionPerformed
 
     /**
@@ -210,7 +224,7 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CalculadoraVolumenFrame().setVisible(true);
+                new CalculadoraVolumenFrame(Operacion.ACTUALIZAR).setVisible(true);
             }
         });
     }

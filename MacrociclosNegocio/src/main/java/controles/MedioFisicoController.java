@@ -35,4 +35,8 @@ public class MedioFisicoController {
         
         return this.fachadaDatos.actualizarMediosFisicos(idMacrociclo, mediosFisicos);
     }
+    
+    public boolean validarMediosFisicos(List<MedioFisico> mediosFisicos) {
+        return !(mediosFisicos == null || mediosFisicos.isEmpty());
+    }
 }

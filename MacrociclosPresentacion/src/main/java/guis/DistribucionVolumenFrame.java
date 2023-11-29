@@ -7,6 +7,7 @@ package guis;
 import control.ControlDistribucionVolumen;
 import controles.MacrocicloController;
 import entidades.Macrociclo;
+import enumeradores.Operacion;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
@@ -24,7 +25,7 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
     /**
      * Creates new form PlanGraficoFrame
      */
-    public DistribucionVolumenFrame() {
+    public DistribucionVolumenFrame(Operacion operacion) {
         initComponents(); 
         
         this.macrociclo = this.control.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
@@ -224,7 +225,7 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DistribucionVolumenFrame().setVisible(true);
+                new DistribucionVolumenFrame(Operacion.ACTUALIZAR).setVisible(true);
             }
         });
     }
