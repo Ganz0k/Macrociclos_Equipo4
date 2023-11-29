@@ -8,6 +8,7 @@ import entidades.Macrociclo;
 import enumeradores.Rama;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import org.bson.types.ObjectId;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -59,5 +60,37 @@ public class MacrocicloDAOTest {
         when(mDAO.obtenerMacrociclo(null)).thenReturn(null);
         
         assertEquals(null, mDAO.obtenerMacrociclo(new ObjectId()));
+    }
+    
+    @Test
+    public void testActualizarMacrociclo() {
+        MacrocicloDAO dao = mock(MacrocicloDAO.class);
+        Macrociclo nuevoMacrociclo = new Macrociclo(new ObjectId("654dd6835b04545e539ab919"), new ObjectId("65415812c421fde5b6f9cc9b"),
+                "En tránsito", "Judo", Rama.FEMENIL, "El jefote", "El auxiliar", "El metodólogo",
+                new GregorianCalendar(2023, 0, 1).getTime(),
+                new GregorianCalendar(2023, 5, 20).getTime(), 20, 10, 0, 5, new ArrayList<>(), new ArrayList<>());
+        
+        when(dao.actualizarMacrociclo(nuevoMacrociclo)).thenReturn(true);
+        
+        assertTrue(dao.actualizarMacrociclo(nuevoMacrociclo));
+    }
+    
+    @Test
+    public void testActualizarMacrocicloNulo() {
+        MacrocicloDAO dao = mock(MacrocicloDAO.class);
+        when(dao.actualizarMacrociclo(null)).thenReturn(false);
+        
+        assertFalse(dao.actualizarMacrociclo(null));
+    }
+    
+    @Test
+    public void testActualizarMacrocicloFalso() {
+        MacrocicloDAO dao = mock(MacrocicloDAO.class);
+        Macrociclo nuevoMacrociclo = new Macrociclo();
+        nuevoMacrociclo.setId(new ObjectId());
+        
+        when(dao.actualizarMacrociclo(nuevoMacrociclo)).thenReturn(false);
+        
+        assertFalse(dao.actualizarMacrociclo(nuevoMacrociclo));
     }
 }
