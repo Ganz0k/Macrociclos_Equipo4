@@ -41,6 +41,7 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
         
         if (operacion.equals(Operacion.ACTUALIZAR)) {
             this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
+            this.btnGuardarMedios.setText("Actualizar medios físicos");
         }
     }
 
@@ -191,7 +192,11 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarMedioActionPerformed
 
     private void btnGuardarMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMediosActionPerformed
-        this.control.acrualizarMediosFisicos(this, new ObjectId("6540abc7eb7a0415d79ba288"), (DefaultTableModel) this.tablaCalculadora.getModel());
+        if (this.operacion.equals(Operacion.ACTUALIZAR)) {
+            this.control.acrualizarMediosFisicos(this, new ObjectId("6540abc7eb7a0415d79ba288"), (DefaultTableModel) this.tablaCalculadora.getModel());
+        } else if (this.operacion.equals(Operacion.CREAR)) {
+            this.control.guardarMediosFisicos(this, macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
+        }
     }//GEN-LAST:event_btnGuardarMediosActionPerformed
 
     /**
