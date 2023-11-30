@@ -35,5 +35,7 @@ public interface INegocio {
 
     public boolean actualizarMacrociclo(Macrociclo macrociclo) throws NegocioException, PersistenciaException;
     
-    public boolean validarMediosFisicos(List<MedioFisico> mediosFisicos);
+    public boolean validarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws NegocioException;
+    
+    public boolean validarVolumenMedioFisico(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws NegocioException;
 }

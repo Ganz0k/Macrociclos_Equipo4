@@ -54,4 +54,38 @@ public class MedioFisicoControllerTest {
             controller.actualizarMediosFisicos(idMacrociclo, new ArrayList<>());
         });
     }
+    
+    @Test
+    public void testValidarMediosFisicos() {
+        MedioFisicoController controller = mock(MedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        List<MedioFisico> lista = new ArrayList<>();
+        lista.add(new MedioFisico(new ObjectId(), "Fuerza", Etapa.GENERAL, 5, 10, 20f, 2, 10f));
+        
+        when(controller.validarMediosFisicos(idMacrociclo, lista)).thenReturn(true);
+        
+        assertTrue(controller.validarMediosFisicos(idMacrociclo, lista));
+    }
+    
+    @Test
+    public void testValidarConNulos() {
+        MedioFisicoController controller = mock(MedioFisicoController.class);
+        when(controller.validarMediosFisicos(null, null)).thenThrow(NegocioException.class);
+        
+        assertThrows(NegocioException.class, () -> {
+            controller.validarMediosFisicos(null, null);
+        });
+    }
+    
+    @Test
+    public void testValidarConListaVacia() {
+        MedioFisicoController controller = mock(MedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        
+        when(controller.validarMediosFisicos(idMacrociclo, new ArrayList<>())).thenThrow(NegocioException.class);
+        
+        assertThrows(NegocioException.class, () -> {
+            controller.validarMediosFisicos(idMacrociclo, new ArrayList<>());
+        });
+    }
 }

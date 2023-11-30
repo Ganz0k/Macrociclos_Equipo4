@@ -5,9 +5,10 @@
 package guis;
 
 import control.ControlDistribucionVolumen;
-import controles.MacrocicloController;
 import entidades.Macrociclo;
 import enumeradores.Operacion;
+import fachadas.FachadaNegocio;
+import interfaces.INegocio;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
@@ -19,11 +20,12 @@ import org.bson.types.ObjectId;
 public class DistribucionVolumenFrame extends javax.swing.JFrame {
  
     private Macrociclo macrociclo;
-    private final MacrocicloController control = new MacrocicloController();
+    private final INegocio control = new FachadaNegocio();
     private final ControlDistribucionVolumen controlDistribucionVolumen;
     
     /**
      * Creates new form PlanGraficoFrame
+     * @param operacion
      */
     public DistribucionVolumenFrame(Operacion operacion) {
         initComponents(); 
@@ -39,6 +41,9 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
         this.controlDistribucionVolumen.setTablesModels(macrociclo, tablaGeneral, tablaEspecial, tablaCompetitiva);
         this.controlDistribucionVolumen.cargarTablas(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
         this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+        this.tablaGeneral.getTableHeader().setReorderingAllowed(false);
+        this.tablaEspecial.getTableHeader().setReorderingAllowed(false);
+        this.tablaCompetitiva.getTableHeader().setReorderingAllowed(false);
     }
 
     /**

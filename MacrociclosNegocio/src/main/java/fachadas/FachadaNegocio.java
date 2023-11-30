@@ -77,7 +77,12 @@ public class FachadaNegocio implements INegocio {
     }
 
     @Override
-    public boolean validarMediosFisicos(List<MedioFisico> mediosFisicos) {
-        return this.medioFisicoController.validarMediosFisicos(mediosFisicos);
+    public boolean validarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) throws NegocioException {
+        return this.medioFisicoController.validarMediosFisicos(idMacrociclo, mediosFisicos);
+    }
+
+    @Override
+    public boolean validarVolumenMedioFisico(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws NegocioException {
+        return this.distribucionVolumenMedioFisicoController.validarVolumenMedioFisico(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
 }

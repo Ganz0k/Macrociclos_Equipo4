@@ -43,6 +43,8 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
             this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
             this.btnGuardarMedios.setText("Actualizar medios físicos");
         }
+        
+        this.tablaCalculadora.getTableHeader().setReorderingAllowed(false);
     }
 
     /**

@@ -36,7 +36,15 @@ public class MedioFisicoController {
         return this.fachadaDatos.actualizarMediosFisicos(idMacrociclo, mediosFisicos);
     }
     
-    public boolean validarMediosFisicos(List<MedioFisico> mediosFisicos) {
-        return !(mediosFisicos == null || mediosFisicos.isEmpty());
+    public boolean validarMediosFisicos(ObjectId idMacrociclo, List<MedioFisico> mediosFisicos) {
+        if (idMacrociclo == null || mediosFisicos == null) {
+            throw new NegocioException("No se aceptan nulos");
+        }
+        
+        if (mediosFisicos.isEmpty()) {
+            throw new NegocioException("Debe de haber por lo menos 1 medio físico");
+        }
+        
+        return true;
     }
 }

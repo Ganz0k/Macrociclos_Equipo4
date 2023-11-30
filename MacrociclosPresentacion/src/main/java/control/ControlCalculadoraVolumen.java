@@ -150,14 +150,15 @@ public class ControlCalculadoraVolumen {
             }
         }
         
-        if (!this.fachadaNegocio.validarMediosFisicos(lista)) {
-            JOptionPane.showMessageDialog(parent, "Debe de existir por lo menos 1 medio físico", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        try {
+            if (this.fachadaNegocio.validarMediosFisicos(macrociclo.getId(), lista)) {
+                JOptionPane.showMessageDialog(parent, "Medios físicos guardados", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                new DistribucionVolumenFrame(Operacion.CREAR).setVisible(true);
+                parent.dispose();
+            }
+        } catch (NegocioException ne) {
+            JOptionPane.showMessageDialog(parent, ne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        JOptionPane.showMessageDialog(parent, "Medios físicos guardados", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        new DistribucionVolumenFrame(Operacion.CREAR).setVisible(true);
-        parent.dispose();
     }
     
     public void cargarTabla(Macrociclo macrociclo, DefaultTableModel tabla) {

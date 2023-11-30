@@ -30,6 +30,7 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
         this.controlPlanGrafico = new ControlPlanGrafico();
         this.controlPlanGrafico.setTableModel(this.planGrafico, this.macrociclo);
         this.controlPlanGrafico.cargarTabla((DefaultTableModel) this.planGrafico.getModel(), this.macrociclo.getMesociclos());
+        this.planGrafico.getTableHeader().setReorderingAllowed(false);
     }
 
     /**

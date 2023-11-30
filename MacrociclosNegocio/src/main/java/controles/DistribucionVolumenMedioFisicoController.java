@@ -46,4 +46,20 @@ public class DistribucionVolumenMedioFisicoController {
         
         return fachadaDatos.eliminarDistribucionesVolumenes(idMacrociclo);
     }
+    
+    public boolean validarVolumenMedioFisico(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) {
+        if (idMacrociclo == null || idMesociclo == null || volumenMedioFisico == null) {
+            throw new NegocioException("Ninguno de los campos puede ser nulo");
+        }
+        
+        if (volumenMedioFisico.getId() == null || volumenMedioFisico.getMedioFisico() == null) {
+            throw new NegocioException("Ninguno de los campos puede ser nulo");
+        }
+
+        if (volumenMedioFisico.getPorcentaje() < 0 || volumenMedioFisico.getVolumen() < 0) {
+            throw new NegocioException("Solo se aceptan decimales positivos");
+        }
+        
+        return true;
+    }
 }

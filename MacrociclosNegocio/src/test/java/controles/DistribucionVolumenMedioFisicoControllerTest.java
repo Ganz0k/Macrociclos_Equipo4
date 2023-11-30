@@ -141,4 +141,96 @@ public class DistribucionVolumenMedioFisicoControllerTest {
             dVMEC.eliminarDistribuciones(idMacrociclo);
         });
     }
+    
+    @Test
+    public void testValidarVolumenesMediosFisicosEnMesociclo() {
+        DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
+
+        when(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME)).thenReturn(true);
+        
+        assertTrue(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME));
+    }
+    
+    @Test
+    public void testValidarIdMacrocicloFalso() {
+        DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId();
+        ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
+
+        when(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME)).thenReturn(false);
+        
+        assertFalse(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME));
+    }
+
+    @Test
+    public void testValidarIdMesocicloFalso() {
+        DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        ObjectId idMesociclo = new ObjectId();
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId("6540abc7eb7a0415d79ba27c"), 72.64705882f, 95f);
+
+        when(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME)).thenReturn(false);
+        
+        assertFalse(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME));
+    }
+
+    @Test
+    public void testValidarTiraNegocioExceptionPorNulls() {
+        DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
+        ObjectId idMacrociclo = null;
+        ObjectId idMesociclo = null;
+        VolumenMedioFisico vME = null;
+        
+        when(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+
+        assertThrows(NegocioException.class, () -> {
+            dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME);
+        });
+    }
+
+    @Test
+    public void testValidarTiraNegocioExceptionPorUnNull() {
+        DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId();
+        ObjectId idMesociclo = new ObjectId();
+        VolumenMedioFisico vME = null;
+        
+        when(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+
+        assertThrows(NegocioException.class, () -> {
+            dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME);
+        });
+    }
+
+    @Test
+    public void testValidarTiraNegocioExceptionSiAtributosDeDistribucionSonNull() {
+        DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
+        VolumenMedioFisico vME = new VolumenMedioFisico(null, null, 72.64705882f, 95f);
+
+        when(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+        
+        assertThrows(NegocioException.class, () -> {
+            dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME);
+        });
+    }
+
+    @Test
+    public void testValidarTiraNegocioExceptionSiAtributosDeDistribucionSonNegativos() {
+        DistribucionVolumenMedioFisicoController dVMEC = mock(DistribucionVolumenMedioFisicoController.class);
+        ObjectId idMacrociclo = new ObjectId("6540abc7eb7a0415d79ba288");
+        ObjectId idMesociclo = new ObjectId("6540abc7eb7a0415d79ba280");
+        VolumenMedioFisico vME = new VolumenMedioFisico(new ObjectId(), new ObjectId(), -72.64705882f, -95f);
+
+        when(dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME)).thenThrow(NegocioException.class);
+        
+        assertThrows(NegocioException.class, () -> {
+            dVMEC.validarVolumenMedioFisico(idMacrociclo, idMesociclo, vME);
+        });
+    }
 }

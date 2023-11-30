@@ -65,6 +65,11 @@ public class CrearMacrociclo extends javax.swing.JFrame {
                 // TODO: lógica de mostrar
                 break;
         }
+        
+        this.tablaMesociclosGeneral.getTableHeader().setReorderingAllowed(false);
+        this.tablaMesociclosEspecial.getTableHeader().setReorderingAllowed(false);
+        this.tablaMesociclosCompetitiva.getTableHeader().setReorderingAllowed(false);
+        
     }
 
     /**
@@ -736,7 +741,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CrearMacrociclo(Operacion.ACTUALIZAR).setVisible(true);
+                new CrearMacrociclo(Operacion.CREAR).setVisible(true);
             }
         });
     }
