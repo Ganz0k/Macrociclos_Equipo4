@@ -12,7 +12,6 @@ import enumeradores.Etapa;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import fachadas.FachadaNegocio;
-import guis.PlanGraficoFrame;
 import interfaces.INegocio;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,6 @@ public class ControlDistribucionVolumen {
     }
     
     public void setTablesModels(Macrociclo macrociclo, JTable tablaGeneral, JTable tablaEspecial, JTable tablaCompetitiva) {
-        this.negocio.eliminarDistribuciones(macrociclo.getId());
         int columnasGeneral = 2;
         int columnasEspecial = 2;
         int columnasCompetitiva = 2;
@@ -202,35 +200,149 @@ public class ControlDistribucionVolumen {
                     tablaCompetitiva.addColumn("Vol");
                     tablaCompetitiva.addColumn("%");
                 }
-                default -> {
-                }
             }
         });
         
         lista.forEach(mF -> {
             switch (mF.getEtapa()) {
                 case GENERAL -> {
-                        Object[] fila = new Object[tablaGeneral.getColumnCount()];
-                        fila[0] = mF.getNombre();
-                        fila[1] = mF.getVolumen();
-                        tablaGeneral.addRow(fila);
-                    }
+                    Object[] fila = new Object[tablaGeneral.getColumnCount()];
+                    fila[0] = mF.getNombre();
+                    fila[1] = mF.getVolumen();
+                    tablaGeneral.addRow(fila);
+                }
                 case ESPECIAL -> {
-                        Object[] fila = new Object[tablaEspecial.getColumnCount()];
-                        fila[0] = mF.getNombre();
-                        fila[1] = mF.getVolumen();
-                        tablaEspecial.addRow(fila);
-                    }
+                    Object[] fila = new Object[tablaEspecial.getColumnCount()];
+                    fila[0] = mF.getNombre();
+                    fila[1] = mF.getVolumen();
+                    tablaEspecial.addRow(fila);
+                }
                 case COMPETITIVA -> {
-                        Object[] fila = new Object[tablaCompetitiva.getColumnCount()];
-                        fila[0] = mF.getNombre();
-                        fila[1] = mF.getVolumen();
-                        tablaCompetitiva.addRow(fila);
-                    }
-                default -> {
+                    Object[] fila = new Object[tablaCompetitiva.getColumnCount()];
+                    fila[0] = mF.getNombre();
+                    fila[1] = mF.getVolumen();
+                    tablaCompetitiva.addRow(fila);
                 }
             }
         });
+    }
+    
+    public void cargarTablasParaActualizar(Macrociclo macrociclo, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {
+        List<MedioFisico> lista = macrociclo.getMediosFisicos();
+        List<Mesociclo> listaM = macrociclo.getMesociclos();
+        List<Mesociclo> listaMGeneral = new ArrayList<>();
+        List<Mesociclo> listaMEspecial = new ArrayList<>();
+        List<Mesociclo> listaMCompetitiva = new ArrayList<>();
+        
+        tablaGeneral.setColumnCount(0);
+        tablaGeneral.setRowCount(0);
+        tablaEspecial.setColumnCount(0);
+        tablaEspecial.setRowCount(0);
+        tablaCompetitiva.setColumnCount(0);
+        tablaCompetitiva.setRowCount(0);
+        
+        tablaGeneral.addColumn("Medios físicos");
+        tablaGeneral.addColumn("Volumen total");
+        tablaEspecial.addColumn("Medios físicos");
+        tablaEspecial.addColumn("Volumen total");
+        tablaCompetitiva.addColumn("Medios físicos");
+        tablaCompetitiva.addColumn("Volumen total");
+        
+        for (Mesociclo m: listaM) {
+            switch (m.getEtapa()) {
+                case GENERAL -> {
+                    tablaGeneral.addColumn("Vol");
+                    tablaGeneral.addColumn("%");
+                    listaMGeneral.add(m);
+                }
+                case ESPECIAL -> {
+                    tablaEspecial.addColumn("Vol");
+                    tablaEspecial.addColumn("%");
+                    listaMEspecial.add(m);
+                }
+                case COMPETITIVA -> {
+                    tablaCompetitiva.addColumn("Vol");
+                    tablaCompetitiva.addColumn("%");
+                    listaMCompetitiva.add(m);
+                }
+            }
+        }
+        
+        VolumenMedioFisico[][] volumenesGeneral = new VolumenMedioFisico[lista.size() / 3][listaMGeneral.size()];
+        VolumenMedioFisico[][] volumenesEspecial = new VolumenMedioFisico[lista.size() / 3][listaMEspecial.size()];
+        VolumenMedioFisico[][] volumenesCompetitivo = new VolumenMedioFisico[lista.size() / 3][listaMCompetitiva.size()];
+        
+        for (int i = 0; i < volumenesGeneral.length; i++) {
+            for (int j = 0; j < volumenesGeneral[i].length; j++) {
+                volumenesGeneral[i][j] = listaMGeneral.get(j).getDistribucionVolumen().get(i);
+            }
+        }
+        
+        for (int i = 0; i < volumenesEspecial.length; i++) {
+            for (int j = 0; j < volumenesEspecial[i].length; j++) {
+                volumenesEspecial[i][j] = listaMEspecial.get(j).getDistribucionVolumen().get(i);
+            }
+        }
+        
+        for (int i = 0; i < volumenesCompetitivo.length; i++) {
+            for (int j = 0; j < volumenesCompetitivo[i].length; j++) {
+                volumenesCompetitivo[i][j] = listaMCompetitiva.get(j).getDistribucionVolumen().get(i);
+            }
+        }
+        
+        int iG = 0;
+        int iE = 0;
+        int iC = 0;
+        
+        for (MedioFisico mF : lista) {
+            switch (mF.getEtapa()) {
+                case GENERAL -> {
+                    Object[] fila = new Object[tablaGeneral.getColumnCount()];
+                    fila[0] = mF.getNombre();
+                    fila[1] = mF.getVolumen();
+                    int iF = 2;
+                    
+                    for (int j = 0; j < volumenesGeneral[iG].length; j++) {
+                        fila[iF] = volumenesGeneral[iG][j].getVolumen();
+                        fila[iF + 1] = volumenesGeneral[iG][j].getPorcentaje();
+                        iF += 2;
+                    }
+                    
+                    iG++;
+                    tablaGeneral.addRow(fila);
+                }
+                case ESPECIAL -> {
+                    Object[] fila = new Object[tablaEspecial.getColumnCount()];
+                    fila[0] = mF.getNombre();
+                    fila[1] = mF.getVolumen();
+                    int iF = 2;
+                    
+                    for (int j = 0; j < volumenesEspecial[iE].length; j++) {
+                        fila[iF] = volumenesEspecial[iE][j].getVolumen();
+                        fila[iF + 1] = volumenesEspecial[iE][j].getPorcentaje();
+                        iF += 2;
+                    }
+                    
+                    iE++;
+                    tablaEspecial.addRow(fila);
+                }
+                case COMPETITIVA -> {
+                    Object[] fila = new Object[tablaCompetitiva.getColumnCount()];
+                    fila[0] = mF.getNombre();
+                    fila[1] = mF.getVolumen();
+                    int iF = 2;
+                    
+                    for (int j = 0; j < volumenesCompetitivo[iC].length; j++) {
+                        fila[iF] = volumenesCompetitivo[iC][j].getVolumen();
+                        fila[iF + 1] = volumenesCompetitivo[iC][j].getPorcentaje();
+                        iF += 2;
+                    }
+                    
+                    iC++;
+                    tablaCompetitiva.addRow(fila);
+                }
+            }
+        }
     }
     
     public void crearListeners(DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {
@@ -396,7 +508,16 @@ public class ControlDistribucionVolumen {
                     }
                 }
                 
-                macrociclo.getMesociclos().get(contadorMesos).getDistribucionVolumen().add(new VolumenMedioFisico(new ObjectId(), idMedioFisico, Float.parseFloat(volumen.toString()), Float.parseFloat(porcentaje.toString())));
+                VolumenMedioFisico nuevoVolumen = new VolumenMedioFisico(new ObjectId(), idMedioFisico, Float.parseFloat(volumen.toString()), Float.parseFloat(porcentaje.toString()));
+                
+                try {
+                    this.negocio.validarVolumenMedioFisico(macrociclo.getId(), macrociclo.getMesociclos().get(contadorMesos).getId(), nuevoVolumen);
+                } catch (NegocioException ne) {
+                    JOptionPane.showMessageDialog(parent, ne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                macrociclo.getMesociclos().get(contadorMesos).getDistribucionVolumen().add(nuevoVolumen);
             }
             
             contadorMesos++;
@@ -421,7 +542,16 @@ public class ControlDistribucionVolumen {
                     }
                 }
                 
-                macrociclo.getMesociclos().get(contadorMesos).getDistribucionVolumen().add(new VolumenMedioFisico(new ObjectId(), idMedioFisico, Float.parseFloat(volumen.toString()), Float.parseFloat(porcentaje.toString())));
+                VolumenMedioFisico nuevoVolumen = new VolumenMedioFisico(new ObjectId(), idMedioFisico, Float.parseFloat(volumen.toString()), Float.parseFloat(porcentaje.toString()));
+                
+                try {
+                    this.negocio.validarVolumenMedioFisico(macrociclo.getId(), macrociclo.getMesociclos().get(contadorMesos).getId(), nuevoVolumen);
+                } catch (NegocioException ne) {
+                    JOptionPane.showMessageDialog(parent, ne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                macrociclo.getMesociclos().get(contadorMesos).getDistribucionVolumen().add(nuevoVolumen);
             }
             
             contadorMesos++;
@@ -446,7 +576,16 @@ public class ControlDistribucionVolumen {
                     }
                 }
                 
-                macrociclo.getMesociclos().get(contadorMesos).getDistribucionVolumen().add(new VolumenMedioFisico(new ObjectId(), idMedioFisico, Float.parseFloat(volumen.toString()), Float.parseFloat(porcentaje.toString())));
+                VolumenMedioFisico nuevoVolumen = new VolumenMedioFisico(new ObjectId(), idMedioFisico, Float.parseFloat(volumen.toString()), Float.parseFloat(porcentaje.toString()));
+                
+                try {
+                    this.negocio.validarVolumenMedioFisico(macrociclo.getId(), macrociclo.getMesociclos().get(contadorMesos).getId(), nuevoVolumen);
+                } catch (NegocioException ne) {
+                    JOptionPane.showMessageDialog(parent, ne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                macrociclo.getMesociclos().get(contadorMesos).getDistribucionVolumen().add(nuevoVolumen);
             }
             
             contadorMesos++;

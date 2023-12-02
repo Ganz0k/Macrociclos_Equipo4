@@ -22,6 +22,7 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
     private Macrociclo macrociclo;
     private final INegocio control = new FachadaNegocio();
     private final ControlDistribucionVolumen controlDistribucionVolumen;
+    private final Operacion operacion;
     
     /**
      * Creates new form PlanGraficoFrame
@@ -31,6 +32,7 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
         initComponents(); 
         
         this.macrociclo = this.control.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        this.operacion = operacion;
         
         if (this.macrociclo == null || this.macrociclo.getMediosFisicos() == null || this.macrociclo.getMediosFisicos().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se encontró ningún medio físico", "Error", JOptionPane.ERROR_MESSAGE);
@@ -39,7 +41,20 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
         
         this.controlDistribucionVolumen = new ControlDistribucionVolumen();
         this.controlDistribucionVolumen.setTablesModels(macrociclo, tablaGeneral, tablaEspecial, tablaCompetitiva);
-        this.controlDistribucionVolumen.cargarTablas(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+        
+        switch (operacion) {
+            case ACTUALIZAR:
+                this.controlDistribucionVolumen.cargarTablasParaActualizar(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+                this.btnContinuar.setText("Actualizar");
+                break;
+            case CREAR:
+                this.controlDistribucionVolumen.cargarTablas(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+                break;
+            case MOSTRAR:
+                break;
+        }
+        
+        
         this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
         this.tablaGeneral.getTableHeader().setReorderingAllowed(false);
         this.tablaEspecial.getTableHeader().setReorderingAllowed(false);
@@ -194,7 +209,12 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        this.controlDistribucionVolumen.actualizarDistribucionesVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
+        if (this.operacion.equals(Operacion.ACTUALIZAR)) {
+            this.controlDistribucionVolumen.actualizarDistribucionesVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
+        } else {
+            this.controlDistribucionVolumen.guardarDistribucionesDeVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
+        }
+        
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     /**
