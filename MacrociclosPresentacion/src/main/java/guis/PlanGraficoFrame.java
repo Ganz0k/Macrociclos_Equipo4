@@ -7,6 +7,7 @@ package guis;
 import control.ControlPlanGrafico;
 import controles.MacrocicloController;
 import entidades.Macrociclo;
+import enumeradores.Operacion;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
 
@@ -19,17 +20,31 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
     private Macrociclo macrociclo;
     private final MacrocicloController control = new MacrocicloController();
     private final ControlPlanGrafico controlPlanGrafico;
+    private final Operacion operacion;
 
     /**
      * Creates new form VolumenMedioFisicoFrame
+     * @param operacion
      */
-    public PlanGraficoFrame() {
+    public PlanGraficoFrame(Operacion operacion) {
         initComponents();
 
         this.macrociclo = control.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        this.operacion = operacion;
         this.controlPlanGrafico = new ControlPlanGrafico();
         this.controlPlanGrafico.setTableModel(this.planGrafico, this.macrociclo);
-        this.controlPlanGrafico.cargarTabla((DefaultTableModel) this.planGrafico.getModel(), this.macrociclo.getMesociclos());
+        
+        switch (operacion) {
+            case CREAR:
+                this.controlPlanGrafico.cargarTabla((DefaultTableModel) this.planGrafico.getModel(), this.macrociclo.getMesociclos());
+                break;
+            case ACTUALIZAR:
+                this.controlPlanGrafico.cargarTablaParaActualizar((DefaultTableModel) this.planGrafico.getModel(), macrociclo);
+                break;
+            case MOSTRAR:
+                break;
+        }
+        
         this.planGrafico.getTableHeader().setReorderingAllowed(false);
     }
 
@@ -133,7 +148,7 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PlanGraficoFrame().setVisible(true);
+                new PlanGraficoFrame(Operacion.ACTUALIZAR).setVisible(true);
             }
         });
     }

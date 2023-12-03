@@ -85,4 +85,9 @@ public class FachadaNegocio implements INegocio {
     public boolean validarVolumenMedioFisico(ObjectId idMacrociclo, ObjectId idMesociclo, VolumenMedioFisico volumenMedioFisico) throws NegocioException {
         return this.distribucionVolumenMedioFisicoController.validarVolumenMedioFisico(idMacrociclo, idMesociclo, volumenMedioFisico);
     }
+
+    @Override
+    public boolean validarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws NegocioException {
+        return this.microcicloController.validarMicrociclos(idMacrociclo, idMesociclo, microciclos);
+    }
 }
