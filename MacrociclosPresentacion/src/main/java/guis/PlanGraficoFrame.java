@@ -40,6 +40,7 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
                 break;
             case ACTUALIZAR:
                 this.controlPlanGrafico.cargarTablaParaActualizar((DefaultTableModel) this.planGrafico.getModel(), macrociclo);
+                this.btnGuardarMicrociclos.setText("Actualizar");
                 break;
             case MOSTRAR:
                 break;
@@ -77,7 +78,7 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Distribución de volumen plan gráfico");
 
-        btnGuardarMicrociclos.setText("Guardar microciclos");
+        btnGuardarMicrociclos.setText("Guardar macrociclo");
         btnGuardarMicrociclos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarMicrociclosActionPerformed(evt);
@@ -118,7 +119,11 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarMicrociclosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMicrociclosActionPerformed
-        this.controlPlanGrafico.actualizarMicrociclos(this, macrociclo, (DefaultTableModel) this.planGrafico.getModel());
+        if (this.operacion.equals(Operacion.ACTUALIZAR)) {
+            this.controlPlanGrafico.actualizarMicrociclos(this, macrociclo, (DefaultTableModel) this.planGrafico.getModel());
+        } else {
+            this.controlPlanGrafico.guardarMacrociclo(this, macrociclo, (DefaultTableModel) this.planGrafico.getModel());
+        }
     }//GEN-LAST:event_btnGuardarMicrociclosActionPerformed
 
     public static void main(String[] args) {
