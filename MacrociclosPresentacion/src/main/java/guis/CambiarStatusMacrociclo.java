@@ -4,19 +4,117 @@
  */
 package guis;
 
+import entidades.Macrociclo;
+import fachadas.FachadaNegocio;
+import interfaces.INegocio;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.AbstractCellEditor;
+import javax.swing.ComboBoxEditor;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import org.bson.types.ObjectId;
+import utils.ComboBoxRenderer;
+
 /**
  *
  * @author Yorsh
  */
 public class CambiarStatusMacrociclo extends javax.swing.JFrame {
-
+    private final INegocio fachadaNegocio = new FachadaNegocio();
+    private List<Macrociclo> macrociclos;
+    private JComboBox<String> statusComboBox;
     /**
      * Creates new form CambiarStatusMacrociclo
      */
-    public CambiarStatusMacrociclo() {
+    public CambiarStatusMacrociclo() {    
         initComponents();
+        llenarTabla();
     }
 
+    private void llenarTabla(){
+       DefaultTableModel tableModel = new DefaultTableModel();
+       fachadaNegocio.obtenerMacrociclosNoAprobados(); 
+       for(Macrociclo macrociclo : macrociclos){
+           tableModel.addRow(new Object[]{
+               macrociclo.getId()
+           });
+       }
+       this.statusMacroTbl = new JTable(tableModel);
+       statusMacroTbl.getColumnModel().getColumn(2).setCellRenderer(new ComboBoxRenderer());
+       statusMacroTbl.getColumnModel().getColumn(2).setCellEditor(new ComboBoxEditor());
+       statusComboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
+       
+    }
+    
+    private void actualizarEstatus() {
+        int selectedRow = statusMacroTbl.getSelectedRow();
+
+        if (selectedRow != -1) {
+            // Obtener el ID del macrociclo seleccionado
+            ObjectId selectedId = (ObjectId) statusMacroTbl.getValueAt(selectedRow, 0);
+
+            // Obtener el nuevo estado seleccionado
+            String nuevoEstado = (String) statusMacroTbl.getValueAt(selectedRow, 2);
+
+            // Actualizar el estado en la lista de macrociclos
+            for (Macrociclo macrociclo : macrociclos) {
+                if (macrociclo.getId().equals(selectedId)) {
+                    macrociclo.setStatus(nuevoEstado);
+                    break;
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un macrociclo para actualizar el estatus.");
+        }
+    }
+   
+    private class ComboBoxRenderer extends DefaultTableCellRenderer {
+        private JComboBox<String> comboBox;
+
+        public ComboBoxRenderer() {
+            comboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
+            comboBox.setEditable(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            comboBox.setSelectedItem(value);
+            return comboBox;
+        }
+    }
+    
+    private class ComboBoxEditor extends AbstractCellEditor implements TableCellEditor {
+        private JComboBox<String> comboBox;
+
+        public ComboBoxEditor() {
+            comboBox = new JComboBox<>(new String[]{"En tránsito", "Otro estado"});
+            comboBox.setEditable(true);
+            comboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    stopCellEditing();
+                }
+            });
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return comboBox.getSelectedItem();
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            comboBox.setSelectedItem(value);
+            return comboBox;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,6 +127,7 @@ public class CambiarStatusMacrociclo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         statusMacroTbl = new javax.swing.JTable();
         statusLbl = new javax.swing.JLabel();
+        actualizarEstatusBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,6 +146,13 @@ public class CambiarStatusMacrociclo extends javax.swing.JFrame {
 
         statusLbl.setText("Status de macrociclo");
 
+        actualizarEstatusBtn.setText("Actualizar estatus");
+        actualizarEstatusBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarEstatusBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -59,6 +165,10 @@ public class CambiarStatusMacrociclo extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(343, 343, 343)
+                .addComponent(actualizarEstatusBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,49 +176,56 @@ public class CambiarStatusMacrociclo extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(statusLbl)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(actualizarEstatusBtn)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void actualizarEstatusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarEstatusBtnActionPerformed
+        actualizarEstatus();
+    }//GEN-LAST:event_actualizarEstatusBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CambiarStatusMacrociclo().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(CambiarStatusMacrociclo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new CambiarStatusMacrociclo().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizarEstatusBtn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel statusLbl;
     private javax.swing.JTable statusMacroTbl;
