@@ -90,4 +90,9 @@ public class FachadaNegocio implements INegocio {
     public boolean validarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws NegocioException {
         return this.microcicloController.validarMicrociclos(idMacrociclo, idMesociclo, microciclos);
     }
+
+    @Override
+    public List<Macrociclo> obtenerMacrociclosNoAprobados() throws NegocioException {
+        return this.macrocicloController.obtenerMacrociclosNoAprobados();
+    }
 }

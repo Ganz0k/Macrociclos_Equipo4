@@ -69,7 +69,35 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         this.tablaMesociclosGeneral.getTableHeader().setReorderingAllowed(false);
         this.tablaMesociclosEspecial.getTableHeader().setReorderingAllowed(false);
         this.tablaMesociclosCompetitiva.getTableHeader().setReorderingAllowed(false);
+    }
+    
+    public CrearMacrociclo(Macrociclo macrociclo) {
+        initComponents();
         
+        this.control = new ControlCrearMacrociclo(this.fachada);
+        this.control.cargarComboRamas(comboBoxRamas);
+        this.control.crearListeners(this, (DefaultTableModel) this.tablaMesociclosGeneral.getModel(), (DefaultTableModel) this.tablaMesociclosEspecial.getModel(), (DefaultTableModel) this.tablaMesociclosCompetitiva.getModel());
+        this.operacion = Operacion.ACTUALIZAR;
+        this.macrociclo = macrociclo;
+                
+        this.control.cargarElementosActualizar(macrociclo, comboBoxDeportes, comboBoxRamas,
+                comboBoxJefesRamas, comboBoxRamas, comboBoxMetodologos,
+                campoTextoStatus, pickerInicio, pickerFin, campoTextoTotalSemanas,
+                campoTextoPorcentajePreparativo, campoTextoSemanasPreparativo,
+                campoTextoPorcentajeCompetitivo, campoTextoSemanasCompetitivo,
+                campoTextoPorcentajeGeneral, campoTextoSemanasGeneral,
+                campoTextoPorcentajeEspecial, campoTextoSemanasEspecial,
+                campoTextoPorcentajePrecompetitiva,
+                campoTextoSemanasPrecompetitiva,
+                campoTextoPorcentajeCompetitivoB,
+                campoTextoSemanasCompetitivoB,
+                (DefaultTableModel) tablaMesociclosGeneral.getModel(), (DefaultTableModel) tablaMesociclosEspecial.getModel(),
+                (DefaultTableModel) tablaMesociclosCompetitiva.getModel());
+        this.btnGuardar.setText("Actualizar macrociclo");
+        
+        this.tablaMesociclosGeneral.getTableHeader().setReorderingAllowed(false);
+        this.tablaMesociclosEspecial.getTableHeader().setReorderingAllowed(false);
+        this.tablaMesociclosCompetitiva.getTableHeader().setReorderingAllowed(false);
     }
 
     /**
@@ -741,7 +769,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CrearMacrociclo(Operacion.CREAR).setVisible(true);
+                new CrearMacrociclo(Operacion.ACTUALIZAR).setVisible(true);
             }
         });
     }

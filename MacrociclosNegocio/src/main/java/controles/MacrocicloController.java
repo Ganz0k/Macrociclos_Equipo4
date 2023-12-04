@@ -13,6 +13,7 @@ import interfaces.IDatos;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import org.bson.types.ObjectId;
 
 /**
@@ -169,5 +170,13 @@ public class MacrocicloController {
         }
         
         return macrociclo;
+    }
+    
+    public List<Macrociclo> obtenerMacrociclosNoAprobados() {
+        try {
+            return this.fachadaDatos.obtenerMacrociclosNoAprobados();
+        } catch (PersistenciaException pe) {
+            throw new NegocioException(pe.getMessage(), pe.getCause());
+        }
     }
 }

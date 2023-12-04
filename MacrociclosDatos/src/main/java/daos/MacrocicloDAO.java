@@ -4,6 +4,7 @@
  */
 package daos;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
@@ -12,6 +13,8 @@ import com.mongodb.client.model.ReturnDocument;
 import conexion.ConexionBD;
 import entidades.Macrociclo;
 import excepciones.PersistenciaException;
+import java.util.ArrayList;
+import java.util.List;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -85,6 +88,19 @@ public class MacrocicloDAO {
             );
 
             return macrocicloActualizado != null;
+        } catch (Exception e) {
+            throw new PersistenciaException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    public List<Macrociclo> obtenerMacrociclosNoAprobados() {
+        try {
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
+            List<Macrociclo> lista = new ArrayList<>();
+            FindIterable<Macrociclo> iterable = coleccion.find(Filters.ne("status", "Aprobado"));
+            iterable.into(lista);
+            
+            return lista;
         } catch (Exception e) {
             throw new PersistenciaException(e.getMessage(), e.getCause());
         }
