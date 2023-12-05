@@ -93,4 +93,24 @@ public class MacrocicloDAOTest {
         
         assertFalse(dao.actualizarMacrociclo(nuevoMacrociclo));
     }
+    
+    @Test
+    public void testActualizarStatus() {
+        MacrocicloDAO dao = mock(MacrocicloDAO.class);
+        ObjectId id = new ObjectId("655865f6f665d001664ce76c");
+        
+        when(dao.actualizarStatus(id, "Aprobado")).thenReturn(true);
+        
+        assertTrue(dao.actualizarStatus(id, "Aprobado"));
+    }
+    
+    @Test
+    public void testActualizarStatusIdFalso() {
+        MacrocicloDAO dao = mock(MacrocicloDAO.class);
+        ObjectId id = new ObjectId();
+        
+        when(dao.actualizarStatus(id, "No aprobado")).thenReturn(false);
+        
+        assertFalse(dao.actualizarStatus(id, "No aprobado"));
+    }
 }

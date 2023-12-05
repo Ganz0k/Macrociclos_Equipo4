@@ -179,4 +179,12 @@ public class MacrocicloController {
             throw new NegocioException(pe.getMessage(), pe.getCause());
         }
     }
+    
+    public boolean actualizarStatus(ObjectId id, String nuevoEstado) {
+        try {
+            return this.fachadaDatos.actualizarStatus(id, nuevoEstado);
+        } catch (PersistenciaException pe) {
+            throw new NegocioException(pe.getMessage(), pe.getCause());
+        }
+    }
 }

@@ -95,4 +95,9 @@ public class FachadaNegocio implements INegocio {
     public List<Macrociclo> obtenerMacrociclosNoAprobados() throws NegocioException {
         return this.macrocicloController.obtenerMacrociclosNoAprobados();
     }
+
+    @Override
+    public boolean actualizarStatus(ObjectId id, String nuevoEstado) throws NegocioException {
+        return this.macrocicloController.actualizarStatus(id, nuevoEstado);
+    }
 }

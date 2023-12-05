@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.AbstractCellEditor;
-import javax.swing.ComboBoxEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -20,7 +19,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import org.bson.types.ObjectId;
-import utils.ComboBoxRenderer;
 
 /**
  *
@@ -39,17 +37,17 @@ public class CambiarStatusMacrociclo extends javax.swing.JFrame {
     }
 
     private void llenarTabla(){
-       DefaultTableModel tableModel = new DefaultTableModel();
-       fachadaNegocio.obtenerMacrociclosNoAprobados(); 
-       for(Macrociclo macrociclo : macrociclos){
-           tableModel.addRow(new Object[]{
-               macrociclo.getId()
-           });
-       }
-       this.statusMacroTbl = new JTable(tableModel);
-       statusMacroTbl.getColumnModel().getColumn(2).setCellRenderer(new ComboBoxRenderer());
-       statusMacroTbl.getColumnModel().getColumn(2).setCellEditor(new ComboBoxEditor());
-       statusComboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
+        DefaultTableModel tableModel = new DefaultTableModel();
+        fachadaNegocio.obtenerMacrociclosNoAprobados(); 
+        for(Macrociclo macrociclo : macrociclos){
+            tableModel.addRow(new Object[]{
+                macrociclo.getId()
+            });
+        }
+        this.statusMacroTbl = new JTable(tableModel);
+        statusMacroTbl.getColumnModel().getColumn(2).setCellRenderer(new ComboBoxRenderer());
+        statusMacroTbl.getColumnModel().getColumn(2).setCellEditor(new ComboBoxEditor());
+        statusComboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
        
     }
     

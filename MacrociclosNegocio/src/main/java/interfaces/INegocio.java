@@ -42,4 +42,6 @@ public interface INegocio {
     public boolean validarMicrociclos(ObjectId idMacrociclo, ObjectId idMesociclo, List<Microciclo> microciclos) throws NegocioException;
 
     public List<Macrociclo> obtenerMacrociclosNoAprobados() throws NegocioException;
+    
+    public boolean actualizarStatus(ObjectId id, String nuevoEstado) throws NegocioException;
 }

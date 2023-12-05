@@ -539,4 +539,24 @@ public class MacrocicloControllerTest {
             mC.actualizarMacrociclo(macrociclo);
         });
     }
+    
+    @Test
+    public void testActualizarStatus() {
+        MacrocicloController mC = mock(MacrocicloController.class);
+        ObjectId id = new ObjectId("655865f6f665d001664ce76c");
+        
+        when(mC.actualizarStatus(id, "Aprobado")).thenReturn(true);
+        
+        assertTrue(mC.actualizarStatus(id, "Aprobado"));
+    }
+    
+    @Test
+    public void testActualizarStatusIdFalso() {
+        MacrocicloController mC = mock(MacrocicloController.class);
+        ObjectId id = new ObjectId();
+        
+        when(mC.actualizarStatus(id, "No aprobado")).thenReturn(false);
+        
+        assertFalse(mC.actualizarStatus(id, "No aprobado"));
+    }
 }
