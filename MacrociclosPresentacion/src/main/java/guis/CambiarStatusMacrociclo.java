@@ -4,114 +4,22 @@
  */
 package guis;
 
-import entidades.Macrociclo;
-import fachadas.FachadaNegocio;
-import interfaces.INegocio;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-import javax.swing.AbstractCellEditor;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import org.bson.types.ObjectId;
+import control.ControlCambiarStatusMacrociclo;
 
 /**
  *
  * @author Yorsh
  */
 public class CambiarStatusMacrociclo extends javax.swing.JFrame {
-    private final INegocio fachadaNegocio = new FachadaNegocio();
-    private List<Macrociclo> macrociclos;
-    private JComboBox<String> statusComboBox;
+    private ControlCambiarStatusMacrociclo control;
+//    private JComboBox<String> statusComboBox;
     /**
      * Creates new form CambiarStatusMacrociclo
      */
     public CambiarStatusMacrociclo() {    
+        control = new ControlCambiarStatusMacrociclo();
         initComponents();
-        llenarTabla();
-    }
-
-    private void llenarTabla(){
-        DefaultTableModel tableModel = new DefaultTableModel();
-        fachadaNegocio.obtenerMacrociclosNoAprobados(); 
-        for(Macrociclo macrociclo : macrociclos){
-            tableModel.addRow(new Object[]{
-                macrociclo.getId()
-            });
-        }
-        this.statusMacroTbl = new JTable(tableModel);
-        statusMacroTbl.getColumnModel().getColumn(2).setCellRenderer(new ComboBoxRenderer());
-        statusMacroTbl.getColumnModel().getColumn(2).setCellEditor(new ComboBoxEditor());
-        statusComboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
-       
-    }
-    
-    private void actualizarEstatus() {
-        int selectedRow = statusMacroTbl.getSelectedRow();
-
-        if (selectedRow != -1) {
-            // Obtener el ID del macrociclo seleccionado
-            ObjectId selectedId = (ObjectId) statusMacroTbl.getValueAt(selectedRow, 0);
-
-            // Obtener el nuevo estado seleccionado
-            String nuevoEstado = (String) statusMacroTbl.getValueAt(selectedRow, 2);
-
-            // Actualizar el estado en la lista de macrociclos
-            for (Macrociclo macrociclo : macrociclos) {
-                if (macrociclo.getId().equals(selectedId)) {
-                    macrociclo.setStatus(nuevoEstado);
-                    break;
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un macrociclo para actualizar el estatus.");
-        }
-    }
-   
-    private class ComboBoxRenderer extends DefaultTableCellRenderer {
-        private JComboBox<String> comboBox;
-
-        public ComboBoxRenderer() {
-            comboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
-            comboBox.setEditable(true);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            comboBox.setSelectedItem(value);
-            return comboBox;
-        }
-    }
-    
-    private class ComboBoxEditor extends AbstractCellEditor implements TableCellEditor {
-        private JComboBox<String> comboBox;
-
-        public ComboBoxEditor() {
-            comboBox = new JComboBox<>(new String[]{"En tránsito", "Otro estado"});
-            comboBox.setEditable(true);
-            comboBox.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    stopCellEditing();
-                }
-            });
-        }
-
-        @Override
-        public Object getCellEditorValue() {
-            return comboBox.getSelectedItem();
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            comboBox.setSelectedItem(value);
-            return comboBox;
-        }
+        control.llenarTabla(statusMacroTbl);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,13 +39,13 @@ public class CambiarStatusMacrociclo extends javax.swing.JFrame {
 
         statusMacroTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Macro", "Status"
+                "ID", "Deporte", "Fecha de inicio", "Fecha de finalización", "Status"
             }
         ));
         jScrollPane1.setViewportView(statusMacroTbl);
@@ -184,7 +92,7 @@ public class CambiarStatusMacrociclo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void actualizarEstatusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarEstatusBtnActionPerformed
-        actualizarEstatus();
+        control.actualizarEstatus(this, statusMacroTbl);
     }//GEN-LAST:event_actualizarEstatusBtnActionPerformed
 
     /**
