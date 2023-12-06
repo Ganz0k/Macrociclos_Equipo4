@@ -84,4 +84,9 @@ public class FachadaDatos implements IDatos {
     public List<Macrociclo> obtenerMacrociclosNoAprobados() throws PersistenciaException {
         return this.macrocicloDAO.obtenerMacrociclosNoAprobados();
     }
+
+    @Override
+    public List<Macrociclo> obtenerMacrociclos() throws PersistenciaException {
+        return this.macrocicloDAO.obtenerMacrociclos();
+    }
 }

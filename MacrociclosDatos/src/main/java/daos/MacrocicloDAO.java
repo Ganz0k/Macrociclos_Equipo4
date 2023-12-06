@@ -97,8 +97,19 @@ public class MacrocicloDAO {
         try {
             MongoCollection<Macrociclo> coleccion = this.getColeccion();
             List<Macrociclo> lista = new ArrayList<>();
-            FindIterable<Macrociclo> iterable = coleccion.find(Filters.ne("status", "Aprobado"));
-            iterable.into(lista);
+            coleccion.find(Filters.ne("status", "Aprobado")).into(lista);
+            
+            return lista;
+        } catch (Exception e) {
+            throw new PersistenciaException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    public List<Macrociclo> obtenerMacrociclos() {
+        try {
+            MongoCollection<Macrociclo> coleccion = this.getColeccion();
+            List<Macrociclo> lista = new ArrayList<>();
+            coleccion.find().into(lista);
             
             return lista;
         } catch (Exception e) {

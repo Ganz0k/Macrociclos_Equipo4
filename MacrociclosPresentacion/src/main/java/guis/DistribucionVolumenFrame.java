@@ -7,11 +7,7 @@ package guis;
 import control.ControlDistribucionVolumen;
 import entidades.Macrociclo;
 import enumeradores.Operacion;
-import fachadas.FachadaNegocio;
-import interfaces.INegocio;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -20,45 +16,39 @@ import org.bson.types.ObjectId;
 public class DistribucionVolumenFrame extends javax.swing.JFrame {
  
     private Macrociclo macrociclo;
-    private final INegocio control = new FachadaNegocio();
     private final ControlDistribucionVolumen controlDistribucionVolumen;
     private final Operacion operacion;
     
-    /**
-     * Creates new form PlanGraficoFrame
-     * @param operacion
-     */
-    public DistribucionVolumenFrame(Operacion operacion) {
+    public DistribucionVolumenFrame(Macrociclo macrociclo, Operacion operacion) {
         initComponents(); 
-        
-        this.macrociclo = this.control.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
         this.operacion = operacion;
-        
-        if (this.macrociclo == null || this.macrociclo.getMediosFisicos() == null || this.macrociclo.getMediosFisicos().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se encontró ningún medio físico", "Error", JOptionPane.ERROR_MESSAGE);
-            this.dispose();
-        }
-        
+        this.macrociclo = macrociclo;
         this.controlDistribucionVolumen = new ControlDistribucionVolumen();
         this.controlDistribucionVolumen.setTablesModels(macrociclo, tablaGeneral, tablaEspecial, tablaCompetitiva);
+        this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+        this.tablaGeneral.getTableHeader().setReorderingAllowed(false);
+        this.tablaEspecial.getTableHeader().setReorderingAllowed(false);
+        this.tablaCompetitiva.getTableHeader().setReorderingAllowed(false);
         
         switch (operacion) {
             case ACTUALIZAR:
                 this.controlDistribucionVolumen.cargarTablasParaActualizar(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
                 this.btnContinuar.setText("Actualizar");
+                this.btnAnterior.setVisible(false);
+                this.btnSiguiente.setVisible(false);
                 break;
             case CREAR:
                 this.controlDistribucionVolumen.cargarTablas(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+                this.btnAnterior.setVisible(false);
+                this.btnSiguiente.setVisible(false);
                 break;
             case MOSTRAR:
+                this.controlDistribucionVolumen.cargarTablasParaActualizar(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+                this.btnContinuar.setVisible(false);
+                this.btnAnterior.setVisible(true);
+                this.btnSiguiente.setVisible(true);
                 break;
         }
-        
-        
-        this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
-        this.tablaGeneral.getTableHeader().setReorderingAllowed(false);
-        this.tablaEspecial.getTableHeader().setReorderingAllowed(false);
-        this.tablaCompetitiva.getTableHeader().setReorderingAllowed(false);
     }
 
     /**
@@ -82,6 +72,8 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
         btnContinuar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Distribución de volúmenes");
@@ -168,25 +160,44 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Etapa Especial");
 
+        btnAnterior.setText("Anterior página");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
+        btnSiguiente.setText("Siguiente página");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(scrollPaneGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 859, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(365, 365, 365))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(scrollPaneGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 859, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAnterior)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(284, 284, 284)
+                        .addComponent(btnSiguiente)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,9 +210,17 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(27, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAnterior)
+                            .addComponent(btnSiguiente))
+                        .addContainerGap())))
         );
 
         pack();
@@ -214,49 +233,21 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
         } else {
             this.controlDistribucionVolumen.guardarDistribucionesDeVolumenes(this, macrociclo, (DefaultTableModel) tablaGeneral.getModel(), (DefaultTableModel) tablaEspecial.getModel(), (DefaultTableModel) tablaCompetitiva.getModel());
         }
-        
     }//GEN-LAST:event_btnContinuarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DistribucionVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DistribucionVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DistribucionVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DistribucionVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        new CalculadoraVolumenFrame(macrociclo, operacion).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DistribucionVolumenFrame(Operacion.ACTUALIZAR).setVisible(true);
-            }
-        });
-    }
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        
+    }//GEN-LAST:event_btnSiguienteActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnContinuar;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

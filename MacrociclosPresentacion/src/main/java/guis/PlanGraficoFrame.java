@@ -5,11 +5,9 @@
 package guis;
 
 import control.ControlPlanGrafico;
-import controles.MacrocicloController;
 import entidades.Macrociclo;
 import enumeradores.Operacion;
 import javax.swing.table.DefaultTableModel;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -18,18 +16,13 @@ import org.bson.types.ObjectId;
 public class PlanGraficoFrame extends javax.swing.JFrame {
 
     private Macrociclo macrociclo;
-    private final MacrocicloController control = new MacrocicloController();
     private final ControlPlanGrafico controlPlanGrafico;
     private final Operacion operacion;
 
-    /**
-     * Creates new form VolumenMedioFisicoFrame
-     * @param operacion
-     */
-    public PlanGraficoFrame(Operacion operacion) {
+    public PlanGraficoFrame(Macrociclo macrociclo, Operacion operacion) {
         initComponents();
-
-        this.macrociclo = control.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
+        
+        this.macrociclo = macrociclo;
         this.operacion = operacion;
         this.controlPlanGrafico = new ControlPlanGrafico();
         this.controlPlanGrafico.setTableModel(this.planGrafico, this.macrociclo);
@@ -37,12 +30,17 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
         switch (operacion) {
             case CREAR:
                 this.controlPlanGrafico.cargarTabla((DefaultTableModel) this.planGrafico.getModel(), this.macrociclo.getMesociclos());
+                this.btnAnterior.setVisible(false);
                 break;
             case ACTUALIZAR:
                 this.controlPlanGrafico.cargarTablaParaActualizar((DefaultTableModel) this.planGrafico.getModel(), macrociclo);
                 this.btnGuardarMicrociclos.setText("Actualizar");
+                this.btnAnterior.setVisible(false);
                 break;
             case MOSTRAR:
+                this.controlPlanGrafico.cargarTablaParaActualizar((DefaultTableModel) this.planGrafico.getModel(), macrociclo);
+                this.btnGuardarMicrociclos.setVisible(false);
+                this.btnAnterior.setVisible(true);
                 break;
         }
         
@@ -62,6 +60,7 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
         planGrafico = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnGuardarMicrociclos = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Plan gráfico");
@@ -85,22 +84,31 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
             }
         });
 
+        btnAnterior.setText("Anterior página");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrollPanePlanGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(385, 385, 385))
             .addGroup(layout.createSequentialGroup()
-                .addGap(366, 366, 366)
-                .addComponent(btnGuardarMicrociclos)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollPanePlanGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAnterior)
+                        .addGap(285, 285, 285)
+                        .addComponent(btnGuardarMicrociclos)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +118,9 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollPanePlanGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnGuardarMicrociclos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardarMicrociclos)
+                    .addComponent(btnAnterior))
                 .addContainerGap())
         );
 
@@ -126,39 +136,13 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarMicrociclosActionPerformed
 
-    public static void main(String[] args) {
-         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        new DistribucionVolumenFrame(macrociclo, operacion).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PlanGraficoFrame(Operacion.ACTUALIZAR).setVisible(true);
-            }
-        });
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnGuardarMicrociclos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTable planGrafico;

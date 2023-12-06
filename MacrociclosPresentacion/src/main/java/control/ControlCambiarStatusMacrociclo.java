@@ -6,22 +6,17 @@ package control;
 
 import entidades.Macrociclo;
 import fachadas.FachadaNegocio;
-import guis.CambiarStatusMacrociclo;
 import interfaces.INegocio;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.swing.AbstractCellEditor;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import org.bson.types.ObjectId;
+import utils.ComboBoxRenderer;
 
 /**
  *
@@ -32,10 +27,17 @@ public class ControlCambiarStatusMacrociclo {
     private JComboBox<String> statusComboBox;
     
     public void llenarTabla(JTable statusMacroTbl){
-        DefaultTableModel tableModel = new DefaultTableModel();
+        DefaultTableModel tableModel = (DefaultTableModel) statusMacroTbl.getModel();
+        
+        statusComboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado", "No aprobado"});
+        statusMacroTbl.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(statusComboBox));
+        statusMacroTbl.setDefaultRenderer(Object.class, new ComboBoxRenderer(4));
+        
+        tableModel.setRowCount(0);
         List<Macrociclo> macrociclos = fachadaNegocio.obtenerMacrociclosNoAprobados(); 
-        for(Macrociclo macrociclo : macrociclos){
-            Object[] fila = new Object[4];
+        
+        for (Macrociclo macrociclo : macrociclos) {
+            Object[] fila = new Object[5];
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String fechaInicio = dateFormat.format(macrociclo.getFechaInicio());
             String fechaFin = dateFormat.format(macrociclo.getFechaFin());
@@ -43,15 +45,12 @@ public class ControlCambiarStatusMacrociclo {
             fila[1] = macrociclo.getDeporte();
             fila[2] = fechaInicio;
             fila[3] = fechaFin;
+            fila[4] = macrociclo.getStatus();
 
-               tableModel.addRow(fila);
+            tableModel.addRow(fila);
         }
         
-        statusMacroTbl = new JTable(tableModel);
-        statusMacroTbl.getColumnModel().getColumn(4).setCellRenderer(new ControlCambiarStatusMacrociclo.ComboBoxRenderer());
-        statusMacroTbl.getColumnModel().getColumn(4).setCellEditor(new ControlCambiarStatusMacrociclo.ComboBoxEditor());
-        statusComboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
-       
+        //statusMacroTbl = new JTable(tableModel);
     }
     
     public void actualizarEstatus(JFrame parent, JTable statusMacroTbl) {
@@ -68,56 +67,14 @@ public class ControlCambiarStatusMacrociclo {
             // Actualizar el estado en la lista de macrociclos
             for (Macrociclo macrociclo : macrociclos) {
                 if (macrociclo.getId().equals(selectedId)) {
-                    if(nuevoEstado.equals("Aprobado")){
-                        macrociclo.setStatus(nuevoEstado);
-                        fachadaNegocio.actualizarMacrociclo(macrociclo);
-                        break;      
-                    }
+                    macrociclo.setStatus(nuevoEstado);
+                    fachadaNegocio.actualizarStatus(selectedId, nuevoEstado);
+                    JOptionPane.showMessageDialog(parent, "Estado actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    break;
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(parent, "Selecciona un macrociclo para actualizar el estatus.");
-        }
-    }
-    
-    private class ComboBoxRenderer extends DefaultTableCellRenderer {
-        private JComboBox<String> comboBox;
-
-        public ComboBoxRenderer() {
-            comboBox = new JComboBox<>(new String[]{"En tránsito", "Aprobado"});
-            comboBox.setEditable(true);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            comboBox.setSelectedItem(value);
-            return comboBox;
-        }
-    }
-    
-    private class ComboBoxEditor extends AbstractCellEditor implements TableCellEditor {
-        private JComboBox<String> comboBox;
-
-        public ComboBoxEditor() {
-            comboBox = new JComboBox<>(new String[]{"En tránsito", "Otro estado"});
-            comboBox.setEditable(true);
-            comboBox.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    stopCellEditing();
-                }
-            });
-        }
-
-        @Override
-        public Object getCellEditorValue() {
-            return comboBox.getSelectedItem();
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            comboBox.setSelectedItem(value);
-            return comboBox;
+            JOptionPane.showMessageDialog(parent, "Selecciona un macrociclo para actualizar el estatus.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

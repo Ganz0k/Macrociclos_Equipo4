@@ -37,4 +37,6 @@ public interface IDatos {
     public boolean actualizarStatus(ObjectId idMacrociclo, String nuevoEstado) throws PersistenciaException;
     
     public List<Macrociclo> obtenerMacrociclosNoAprobados() throws PersistenciaException;
+    
+    public List<Macrociclo> obtenerMacrociclos() throws PersistenciaException;
 }

@@ -31,53 +31,27 @@ public class CrearMacrociclo extends javax.swing.JFrame {
      * Creates new form crearMacrociclo
      * @param operacion
      */
-    public CrearMacrociclo(Operacion operacion) {
+    public CrearMacrociclo() {
         initComponents();
         
         this.control = new ControlCrearMacrociclo(this.fachada);
         this.control.cargarComboRamas(comboBoxRamas);
         this.control.crearListeners(this, (DefaultTableModel) this.tablaMesociclosGeneral.getModel(), (DefaultTableModel) this.tablaMesociclosEspecial.getModel(), (DefaultTableModel) this.tablaMesociclosCompetitiva.getModel());
-        this.operacion = operacion;
-        
-        switch (operacion) {
-            case CREAR:
-                break;
-            case ACTUALIZAR:
-                Macrociclo macrocicloA = this.fachada.obtenerMacrociclo(new ObjectId("65655db3b901340538654e9a"));
-                this.macrociclo = macrocicloA;
-                
-                this.control.cargarElementosActualizar(macrocicloA, comboBoxDeportes, comboBoxRamas,
-                        comboBoxJefesRamas, comboBoxRamas, comboBoxMetodologos,
-                        campoTextoStatus, pickerInicio, pickerFin, campoTextoTotalSemanas,
-                        campoTextoPorcentajePreparativo, campoTextoSemanasPreparativo,
-                        campoTextoPorcentajeCompetitivo, campoTextoSemanasCompetitivo,
-                        campoTextoPorcentajeGeneral, campoTextoSemanasGeneral,
-                        campoTextoPorcentajeEspecial, campoTextoSemanasEspecial,
-                        campoTextoPorcentajePrecompetitiva,
-                        campoTextoSemanasPrecompetitiva,
-                        campoTextoPorcentajeCompetitivoB,
-                        campoTextoSemanasCompetitivoB,
-                        (DefaultTableModel) tablaMesociclosGeneral.getModel(), (DefaultTableModel) tablaMesociclosEspecial.getModel(),
-                        (DefaultTableModel) tablaMesociclosCompetitiva.getModel());
-                this.btnGuardar.setText("Actualizar macrociclo");
-                break;
-            case MOSTRAR:
-                // TODO: lógica de mostrar
-                break;
-        }
+        this.operacion = Operacion.CREAR;
+        this.btnSiguiente.setVisible(false);
         
         this.tablaMesociclosGeneral.getTableHeader().setReorderingAllowed(false);
         this.tablaMesociclosEspecial.getTableHeader().setReorderingAllowed(false);
         this.tablaMesociclosCompetitiva.getTableHeader().setReorderingAllowed(false);
     }
     
-    public CrearMacrociclo(Macrociclo macrociclo) {
+    public CrearMacrociclo(Macrociclo macrociclo, Operacion operacion) {
         initComponents();
         
         this.control = new ControlCrearMacrociclo(this.fachada);
         this.control.cargarComboRamas(comboBoxRamas);
         this.control.crearListeners(this, (DefaultTableModel) this.tablaMesociclosGeneral.getModel(), (DefaultTableModel) this.tablaMesociclosEspecial.getModel(), (DefaultTableModel) this.tablaMesociclosCompetitiva.getModel());
-        this.operacion = Operacion.ACTUALIZAR;
+        this.operacion = operacion;
         this.macrociclo = macrociclo;
                 
         this.control.cargarElementosActualizar(macrociclo, comboBoxDeportes, comboBoxRamas,
@@ -93,7 +67,31 @@ public class CrearMacrociclo extends javax.swing.JFrame {
                 campoTextoSemanasCompetitivoB,
                 (DefaultTableModel) tablaMesociclosGeneral.getModel(), (DefaultTableModel) tablaMesociclosEspecial.getModel(),
                 (DefaultTableModel) tablaMesociclosCompetitiva.getModel());
-        this.btnGuardar.setText("Actualizar macrociclo");
+        
+        if (operacion.equals(Operacion.MOSTRAR)) {
+            this.control.setNoEditable(comboBoxDeportes, comboBoxRamas, 
+                   comboBoxJefesRamas, comboBoxRamas,
+                   comboBoxMetodologos, campoTextoStatus, pickerInicio, pickerFin,
+                   campoTextoTotalSemanas, campoTextoPorcentajePreparativo,
+                   campoTextoSemanasPreparativo, campoTextoPorcentajeCompetitivo,
+                   campoTextoSemanasCompetitivo, campoTextoPorcentajeGeneral,
+                   campoTextoSemanasGeneral, campoTextoPorcentajeEspecial,
+                   campoTextoSemanasEspecial, campoTextoPorcentajePrecompetitiva,
+                   campoTextoSemanasPrecompetitiva, campoTextoPorcentajeCompetitivoB, 
+                   campoTextoSemanasCompetitivoB, tablaMesociclosGeneral, tablaMesociclosEspecial, tablaMesociclosCompetitiva);
+            this.btnGuardar.setVisible(false);
+            this.btnAnadirCompetitiva.setVisible(false);
+            this.btnAnadirEspecial.setVisible(false);
+            this.btnAnadirGeneral.setVisible(false);
+            this.btnCalcularSemanas.setVisible(false);
+            this.btnEliminarCompetitiva.setVisible(false);
+            this.btnEliminarEspecial.setVisible(false);
+            this.btnEliminarGeneral.setVisible(false);
+            this.btnSiguiente.setVisible(true);
+        } else {
+            this.btnGuardar.setText("Actualizar macrociclo");
+            this.btnSiguiente.setVisible(false);
+        }
         
         this.tablaMesociclosGeneral.getTableHeader().setReorderingAllowed(false);
         this.tablaMesociclosEspecial.getTableHeader().setReorderingAllowed(false);
@@ -173,6 +171,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         btnEliminarEspecial = new javax.swing.JButton();
         btnAnadirCompetitiva = new javax.swing.JButton();
         btnEliminarCompetitiva = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nuevo Macro");
@@ -379,6 +378,13 @@ public class CrearMacrociclo extends javax.swing.JFrame {
             }
         });
 
+        btnSiguiente.setText("Siguiente página");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -454,22 +460,25 @@ public class CrearMacrociclo extends javax.swing.JFrame {
                                 .addComponent(jLabel23)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(campoTextoPorcentajePrecompetitiva)
-                                    .addComponent(campoTextoPorcentajeCompetitivoB, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(campoTextoSemanasPrecompetitiva, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campoTextoSemanasCompetitivoB, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(68, 68, 68)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnCalcularSemanas)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel25)
                                         .addGap(92, 92, 92)
-                                        .addComponent(jLabel26)))))
+                                        .addComponent(jLabel26))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnSiguiente)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(campoTextoPorcentajePrecompetitiva)
+                                            .addComponent(campoTextoPorcentajeCompetitivoB, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(campoTextoSemanasPrecompetitiva, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(campoTextoSemanasCompetitivoB, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(70, 70, 70))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
@@ -651,7 +660,9 @@ public class CrearMacrociclo extends javax.swing.JFrame {
                         .addComponent(btnAnadirCompetitiva)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminarCompetitiva)))
-                .addGap(68, 68, 68))
+                .addGap(40, 40, 40)
+                .addComponent(btnSiguiente)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap(771, Short.MAX_VALUE)
@@ -738,6 +749,11 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         this.control.eliminarFilaTabla(this, tablaMesociclosCompetitiva);
     }//GEN-LAST:event_btnEliminarCompetitivaActionPerformed
 
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        new CalculadoraVolumenFrame(this.macrociclo, Operacion.MOSTRAR).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -769,7 +785,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CrearMacrociclo(Operacion.ACTUALIZAR).setVisible(true);
+                new CrearMacrociclo().setVisible(true);
             }
         });
     }
@@ -783,6 +799,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarEspecial;
     private javax.swing.JButton btnEliminarGeneral;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JTextField campoTextoPorcentajeCompetitivo;
     private javax.swing.JTextField campoTextoPorcentajeCompetitivoB;
     private javax.swing.JTextField campoTextoPorcentajeEspecial;

@@ -7,8 +7,6 @@ package guis;
 import control.ControlCalculadoraVolumen;
 import entidades.Macrociclo;
 import enumeradores.Operacion;
-import fachadas.FachadaNegocio;
-import interfaces.INegocio;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.bson.types.ObjectId;
@@ -24,24 +22,36 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
     private final ControlCalculadoraVolumen control;
     private final Operacion operacion;
     private Macrociclo macrociclo;
-    private final INegocio fachadaNegocio = new FachadaNegocio();
     
-    /**
-     * Creates new form CalculadoraVolumenFrame
-     * @param operacion
-     */
-    public CalculadoraVolumenFrame(Operacion operacion) {
+    public CalculadoraVolumenFrame(Macrociclo macrociclo, Operacion operacion) {
         initComponents();
         
         this.operacion = operacion;
         this.control = new ControlCalculadoraVolumen();
         this.tablaCalculadora.getColumnModel().getColumn(20).setCellRenderer(new ButtonRenderer());
         this.tablaCalculadora.getColumnModel().getColumn(20).setCellEditor(new ButtonEditor(new JTextField("Calcular"), this, this.tablaCalculadora));
-        this.macrociclo = fachadaNegocio.obtenerMacrociclo(new ObjectId("6540abc7eb7a0415d79ba288"));
         
-        if (operacion.equals(Operacion.ACTUALIZAR)) {
-            this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
-            this.btnGuardarMedios.setText("Actualizar medios físicos");
+        switch (operacion) {
+            case CREAR:
+                this.btnAnterior.setVisible(false);
+                this.btnSiguiente.setVisible(false);
+                break;
+            case ACTUALIZAR:
+                this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
+                this.btnGuardarMedios.setText("Actualizar medios físicos");
+                this.btnAnterior.setVisible(false);
+                this.btnSiguiente.setVisible(false);
+                break;
+            case MOSTRAR:
+                this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
+                this.tablaCalculadora.setEnabled(false);
+                this.btnGuardarMedios.setVisible(false);
+                this.btnEliminarMedio.setVisible(false);
+                this.btnGuardarMedios.setVisible(false);
+                this.btnNuevoMedio.setVisible(false);
+                this.btnSiguiente.setVisible(true);
+                this.btnAnterior.setVisible(true);
+                break;       
         }
         
         this.tablaCalculadora.getTableHeader().setReorderingAllowed(false);
@@ -65,6 +75,8 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnSiguiente = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calculadora de volumen");
@@ -127,6 +139,20 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Etapa Competitiva");
 
+        btnSiguiente.setText("Siguiente página");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
+        btnAnterior.setText("Anterior página");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,14 +176,19 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel3))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGap(406, 406, 406)
+                                    .addContainerGap()
+                                    .addComponent(btnAnterior)
+                                    .addGap(325, 325, 325)
                                     .addComponent(btnGuardarMedios))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(407, 407, 407)
                                     .addComponent(jLabel1))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addGap(133, 133, 133)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(133, 133, 133))
+                            .addComponent(btnSiguiente, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -177,7 +208,10 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
                     .addComponent(btnNuevoMedio)
                     .addComponent(btnEliminarMedio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGuardarMedios)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardarMedios)
+                    .addComponent(btnSiguiente)
+                    .addComponent(btnAnterior))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -195,51 +229,28 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
 
     private void btnGuardarMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMediosActionPerformed
         if (this.operacion.equals(Operacion.ACTUALIZAR)) {
-            this.control.acrualizarMediosFisicos(this, new ObjectId("6540abc7eb7a0415d79ba288"), (DefaultTableModel) this.tablaCalculadora.getModel());
+            this.control.acrualizarMediosFisicos(this, macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
         } else if (this.operacion.equals(Operacion.CREAR)) {
             this.control.guardarMediosFisicos(this, macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
         }
     }//GEN-LAST:event_btnGuardarMediosActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CalculadoraVolumenFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        new CrearMacrociclo(macrociclo, operacion).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CalculadoraVolumenFrame(Operacion.ACTUALIZAR).setVisible(true);
-            }
-        });
-    }
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        new DistribucionVolumenFrame(macrociclo, operacion).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnEliminarMedio;
     private javax.swing.JButton btnGuardarMedios;
     private javax.swing.JButton btnNuevoMedio;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

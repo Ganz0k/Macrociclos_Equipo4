@@ -495,7 +495,11 @@ public class ControlPlanGrafico {
             }
         }
         
-        this.negocio.guardarMacrociclo(macrociclo);
-        JOptionPane.showMessageDialog(parent, "Macrociclo guardado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            this.negocio.guardarMacrociclo(macrociclo);
+            JOptionPane.showMessageDialog(parent, "Macrociclo guardado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (PersistenciaException | NegocioException e) {
+            JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

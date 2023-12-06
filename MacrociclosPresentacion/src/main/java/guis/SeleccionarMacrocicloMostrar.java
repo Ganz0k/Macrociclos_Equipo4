@@ -4,7 +4,7 @@
  */
 package guis;
 
-import control.ControlSeleccionarMacrocicloEditar;
+import control.ControlMacrocicloMostrar;
 import entidades.Macrociclo;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -13,18 +13,18 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luisg
  */
-public class SeleccionarMacrocicloEditarFrame extends javax.swing.JFrame {
+public class SeleccionarMacrocicloMostrar extends javax.swing.JFrame {
 
     public List<Macrociclo> lista;
-    private final ControlSeleccionarMacrocicloEditar control;
+    private final ControlMacrocicloMostrar control;
     
     /**
-     * Creates new form SeleccionarMacrocicloEditarFrame
+     * Creates new form SeleccionarMacrocicloMostrar
      */
-    public SeleccionarMacrocicloEditarFrame() {
+    public SeleccionarMacrocicloMostrar() {
         initComponents();
         
-        this.control = new ControlSeleccionarMacrocicloEditar();
+        this.control = new ControlMacrocicloMostrar();
         this.control.cargarTabla(this, (DefaultTableModel) this.tablaSeleccion.getModel());
         this.tablaSeleccion.getTableHeader().setReorderingAllowed(false);
     }
@@ -41,13 +41,13 @@ public class SeleccionarMacrocicloEditarFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaSeleccion = new javax.swing.JTable();
-        btnEditar = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Selecciona un macrociclo");
+        setTitle("Seleccione un macrociclo");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Selecciona un macrociclo para editarlo");
+        jLabel1.setText("Selecciona un macrociclo para verlo");
 
         tablaSeleccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -74,11 +74,11 @@ public class SeleccionarMacrocicloEditarFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaSeleccion);
 
-        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnMostrar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnMostrar.setText("Mostrar");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnMostrarActionPerformed(evt);
             }
         });
 
@@ -89,17 +89,18 @@ public class SeleccionarMacrocicloEditarFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 305, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(307, 307, 307))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEditar)
-                .addGap(392, 392, 392))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(316, 316, 316))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnMostrar)
+                                .addGap(421, 421, 421))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,18 +109,18 @@ public class SeleccionarMacrocicloEditarFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(btnEditar)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(btnMostrar)
+                .addGap(41, 41, 41))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        this.control.mandarActualizar(this, tablaSeleccion, lista);
-    }//GEN-LAST:event_btnEditarActionPerformed
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        this.control.mandarMostrar(this, tablaSeleccion, lista);
+    }//GEN-LAST:event_btnMostrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,26 +139,26 @@ public class SeleccionarMacrocicloEditarFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SeleccionarMacrocicloEditarFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeleccionarMacrocicloMostrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SeleccionarMacrocicloEditarFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeleccionarMacrocicloMostrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SeleccionarMacrocicloEditarFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeleccionarMacrocicloMostrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SeleccionarMacrocicloEditarFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SeleccionarMacrocicloMostrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SeleccionarMacrocicloEditarFrame().setVisible(true);
+                new SeleccionarMacrocicloMostrar().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaSeleccion;

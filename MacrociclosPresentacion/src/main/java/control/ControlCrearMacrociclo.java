@@ -8,9 +8,11 @@ import com.github.lgooddatepicker.components.DatePicker;
 import entidades.Macrociclo;
 import entidades.Mesociclo;
 import enumeradores.Etapa;
+import enumeradores.Operacion;
 import enumeradores.Rama;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
+import guis.CalculadoraVolumenFrame;
 import interfaces.INegocio;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -267,12 +269,8 @@ public class ControlCrearMacrociclo {
         
         Macrociclo nuevoMacrociclo = new Macrociclo(new ObjectId(), entrenador, status, deporte, rama, jefeRama, entrenadorAuxiliar, metodologo, fechaInicio, fechaFin, semanasGeneral, semanasEspecial, semanasPrecompetitiva, semanasCompetitivoB, new ArrayList<>(), listaMesociclos);
         
-        try {
-            this.fachadaNegocio.guardarMacrociclo(nuevoMacrociclo);
-            JOptionPane.showMessageDialog(parent, "Macrociclo creado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (NegocioException | PersistenciaException e) {
-            JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        new CalculadoraVolumenFrame(nuevoMacrociclo, Operacion.CREAR).setVisible(true);
+        parent.dispose();
     }
     
     public void cargarElementosActualizar(Macrociclo macrociclo, JComboBox comboBoxDeporte, JComboBox comboBoxRama, JComboBox comboBoxJefeRama,
@@ -473,8 +471,42 @@ public class ControlCrearMacrociclo {
         try {
             this.fachadaNegocio.actualizarMacrociclo(macrociclo);
             JOptionPane.showMessageDialog(parent, "Macrociclo actualizado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            new CalculadoraVolumenFrame(this.fachadaNegocio.obtenerMacrociclo(macrociclo.getId()), Operacion.CREAR).setVisible(true);
+            parent.dispose();
         } catch (NegocioException | PersistenciaException e) {
             JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    public void setNoEditable(JComboBox comboBoxDeporte, JComboBox comboBoxRama, JComboBox comboBoxJefeRama,
+            JComboBox comboBoxAuxiliar, JComboBox comboBoxMetodologo, JTextField campoStatus, DatePicker pickerInicio, DatePicker pickerFin,
+            JTextField campoTotalSemanas, JTextField campoPorcentajePreparatorio, JTextField campoSemanasPreparatorio, JTextField campoPorcentajeCompetitivo,
+            JTextField campoSemanasCompetitivo, JTextField campoPorcentajeGeneral, JTextField campoSemanasGeneral, JTextField campoPorcentajeEspecial,
+            JTextField campoSemanasEspecial, JTextField campoPorcentajePrecompetitivo, JTextField campoSemanasPrecompetitivo,
+            JTextField campoPorcentajeCompetitivoB, JTextField campoSemanasCompetitivoB, JTable tablaGeneral, JTable tablaEspecial, JTable tablaCompetitiva) {
+        comboBoxDeporte.setEditable(false);
+        comboBoxRama.setEditable(false);
+        comboBoxJefeRama.setEditable(false);
+        comboBoxAuxiliar.setEditable(false);
+        comboBoxMetodologo.setEditable(false);
+        campoStatus.setEditable(false);
+        pickerInicio.setEnabled(false);
+        pickerFin.setEnabled(false);
+        campoTotalSemanas.setEditable(false);
+        campoPorcentajePreparatorio.setEditable(false);
+        campoSemanasPreparatorio.setEditable(false);
+        campoPorcentajeCompetitivo.setEditable(false);
+        campoSemanasCompetitivo.setEditable(false);
+        campoPorcentajeGeneral.setEditable(false);
+        campoSemanasGeneral.setEditable(false);
+        campoPorcentajeEspecial.setEditable(false);
+        campoSemanasEspecial.setEditable(false);
+        campoPorcentajePrecompetitivo.setEditable(false);
+        campoSemanasPrecompetitivo.setEditable(false);
+        campoPorcentajeCompetitivoB.setEditable(false);
+        campoSemanasCompetitivoB.setEditable(false);
+        tablaGeneral.setEnabled(false);
+        tablaEspecial.setEnabled(false);
+        tablaCompetitiva.setEnabled(false);
     }
 }

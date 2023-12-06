@@ -9,9 +9,11 @@ import entidades.MedioFisico;
 import entidades.Mesociclo;
 import entidades.VolumenMedioFisico;
 import enumeradores.Etapa;
+import enumeradores.Operacion;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import fachadas.FachadaNegocio;
+import guis.PlanGraficoFrame;
 import interfaces.INegocio;
 import java.util.ArrayList;
 import java.util.List;
@@ -481,8 +483,8 @@ public class ControlDistribucionVolumen {
         }
         
         JOptionPane.showMessageDialog(parent, "Distribución de volúmenes guardada con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-//        new PlanGraficoFrame().setVisible(true);
-//        parent.dispose();
+        new PlanGraficoFrame(this.negocio.obtenerMacrociclo(macrociclo.getId()), Operacion.ACTUALIZAR).setVisible(true);
+        parent.dispose();
     }
     
     public void guardarDistribucionesDeVolumenes(JFrame parent, Macrociclo macrociclo, DefaultTableModel tablaGeneral, DefaultTableModel tablaEspecial, DefaultTableModel tablaCompetitiva) {
@@ -590,6 +592,9 @@ public class ControlDistribucionVolumen {
             
             contadorMesos++;
         }
+        
+        new PlanGraficoFrame(macrociclo, Operacion.CREAR).setVisible(true);
+        parent.dispose();
     }
     
     private void recargarTabla(DefaultTableModel tabla, int row) {

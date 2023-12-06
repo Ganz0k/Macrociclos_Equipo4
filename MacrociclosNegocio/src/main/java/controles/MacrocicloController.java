@@ -187,4 +187,12 @@ public class MacrocicloController {
             throw new NegocioException(pe.getMessage(), pe.getCause());
         }
     }
+    
+    public List<Macrociclo> obtenerMacrociclos() {
+        try {
+            return this.fachadaDatos.obtenerMacrociclos();
+        } catch (PersistenciaException pe) {
+            throw new NegocioException(pe.getMessage(), pe.getCause());
+        }
+    }
 }

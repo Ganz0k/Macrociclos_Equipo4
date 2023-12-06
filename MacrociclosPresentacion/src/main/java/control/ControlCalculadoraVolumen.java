@@ -50,7 +50,7 @@ public class ControlCalculadoraVolumen {
         model.removeRow(fila);
     }
     
-    public void acrualizarMediosFisicos(JFrame parent, ObjectId idMacrociclo, DefaultTableModel tabla) {
+    public void acrualizarMediosFisicos(JFrame parent, Macrociclo macrociclo, DefaultTableModel tabla) {
         List<MedioFisico> lista = new ArrayList<>();
         
         for (int i = 0; i < tabla.getRowCount(); i++) {
@@ -96,9 +96,9 @@ public class ControlCalculadoraVolumen {
         }
         
         try {
-            this.fachadaNegocio.actualizarMediosFisicos(idMacrociclo, lista);
+            this.fachadaNegocio.actualizarMediosFisicos(macrociclo.getId(), lista);
             JOptionPane.showMessageDialog(parent, "Medios físicos guardados", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            new DistribucionVolumenFrame(Operacion.ACTUALIZAR).setVisible(true);
+            new DistribucionVolumenFrame(this.fachadaNegocio.obtenerMacrociclo(macrociclo.getId()), Operacion.ACTUALIZAR).setVisible(true);
             parent.dispose();
         } catch (NegocioException | PersistenciaException e) {
             JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -153,7 +153,7 @@ public class ControlCalculadoraVolumen {
         try {
             if (this.fachadaNegocio.validarMediosFisicos(macrociclo.getId(), lista)) {
                 JOptionPane.showMessageDialog(parent, "Medios físicos guardados", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                new DistribucionVolumenFrame(Operacion.CREAR).setVisible(true);
+                new DistribucionVolumenFrame(macrociclo, Operacion.CREAR).setVisible(true);
                 parent.dispose();
             }
         } catch (NegocioException ne) {

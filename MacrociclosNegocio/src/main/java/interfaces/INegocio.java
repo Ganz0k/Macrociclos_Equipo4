@@ -44,4 +44,6 @@ public interface INegocio {
     public List<Macrociclo> obtenerMacrociclosNoAprobados() throws NegocioException;
     
     public boolean actualizarStatus(ObjectId id, String nuevoEstado) throws NegocioException;
+    
+    public List<Macrociclo> obtenerMacrociclos() throws NegocioException;
 }

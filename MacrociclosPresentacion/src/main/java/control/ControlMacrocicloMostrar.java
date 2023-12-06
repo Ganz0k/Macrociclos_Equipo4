@@ -9,7 +9,7 @@ import enumeradores.Operacion;
 import excepciones.NegocioException;
 import fachadas.FachadaNegocio;
 import guis.CrearMacrociclo;
-import guis.SeleccionarMacrocicloEditarFrame;
+import guis.SeleccionarMacrocicloMostrar;
 import interfaces.INegocio;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -22,19 +22,19 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luisg
  */
-public class ControlSeleccionarMacrocicloEditar {
+public class ControlMacrocicloMostrar {
     
     private final INegocio fachadaNegocio;
     
-    public ControlSeleccionarMacrocicloEditar() {
+    public ControlMacrocicloMostrar() {
         this.fachadaNegocio = new FachadaNegocio();
     }
     
-    public void cargarTabla(SeleccionarMacrocicloEditarFrame parent, DefaultTableModel tabla) {
+    public void cargarTabla(SeleccionarMacrocicloMostrar parent, DefaultTableModel tabla) {
         tabla.setRowCount(0);
         
         try {
-            List<Macrociclo> lista = this.fachadaNegocio.obtenerMacrociclosNoAprobados();
+            List<Macrociclo> lista = this.fachadaNegocio.obtenerMacrociclos();
             
             for (Macrociclo m : lista) {
                 Object[] fila = new Object[4];
@@ -55,7 +55,7 @@ public class ControlSeleccionarMacrocicloEditar {
         }
     }
     
-    public void mandarActualizar(JFrame parent, JTable tabla, List<Macrociclo> lista) {
+    public void mandarMostrar(JFrame parent, JTable tabla, List<Macrociclo> lista) {
         int fila = tabla.getSelectedRow();
         
         if (fila == -1) {
@@ -63,7 +63,7 @@ public class ControlSeleccionarMacrocicloEditar {
             return;
         }
         
-        new CrearMacrociclo(lista.get(fila), Operacion.ACTUALIZAR).setVisible(true);
+        new CrearMacrociclo(lista.get(fila), Operacion.MOSTRAR).setVisible(true);
         parent.dispose();
     }
 }
