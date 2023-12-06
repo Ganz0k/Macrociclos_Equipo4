@@ -35,12 +35,13 @@ public class PlanGraficoFrame extends javax.swing.JFrame {
             case ACTUALIZAR:
                 this.controlPlanGrafico.cargarTablaParaActualizar((DefaultTableModel) this.planGrafico.getModel(), macrociclo);
                 this.btnGuardarMicrociclos.setText("Actualizar");
-                this.btnAnterior.setVisible(false);
+                this.btnAnterior.setVisible(true);
                 break;
             case MOSTRAR:
                 this.controlPlanGrafico.cargarTablaParaActualizar((DefaultTableModel) this.planGrafico.getModel(), macrociclo);
                 this.btnGuardarMicrociclos.setVisible(false);
                 this.btnAnterior.setVisible(true);
+                this.planGrafico.setEnabled(false);
                 break;
         }
         

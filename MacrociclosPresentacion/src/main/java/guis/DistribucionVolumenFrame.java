@@ -21,21 +21,18 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
     
     public DistribucionVolumenFrame(Macrociclo macrociclo, Operacion operacion) {
         initComponents(); 
+        System.out.println(macrociclo);
         this.operacion = operacion;
         this.macrociclo = macrociclo;
         this.controlDistribucionVolumen = new ControlDistribucionVolumen();
         this.controlDistribucionVolumen.setTablesModels(macrociclo, tablaGeneral, tablaEspecial, tablaCompetitiva);
-        this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
-        this.tablaGeneral.getTableHeader().setReorderingAllowed(false);
-        this.tablaEspecial.getTableHeader().setReorderingAllowed(false);
-        this.tablaCompetitiva.getTableHeader().setReorderingAllowed(false);
         
         switch (operacion) {
             case ACTUALIZAR:
                 this.controlDistribucionVolumen.cargarTablasParaActualizar(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
                 this.btnContinuar.setText("Actualizar");
-                this.btnAnterior.setVisible(false);
-                this.btnSiguiente.setVisible(false);
+                this.btnAnterior.setVisible(true);
+                this.btnSiguiente.setVisible(true);
                 break;
             case CREAR:
                 this.controlDistribucionVolumen.cargarTablas(this.macrociclo, (DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
@@ -49,6 +46,11 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
                 this.btnSiguiente.setVisible(true);
                 break;
         }
+        
+        this.controlDistribucionVolumen.crearListeners((DefaultTableModel) this.tablaGeneral.getModel(), (DefaultTableModel) this.tablaEspecial.getModel(), (DefaultTableModel) this.tablaCompetitiva.getModel());
+        this.tablaGeneral.getTableHeader().setReorderingAllowed(false);
+        this.tablaEspecial.getTableHeader().setReorderingAllowed(false);
+        this.tablaCompetitiva.getTableHeader().setReorderingAllowed(false);
     }
 
     /**
@@ -241,7 +243,8 @@ public class DistribucionVolumenFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        
+        new PlanGraficoFrame(macrociclo, operacion).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSiguienteActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

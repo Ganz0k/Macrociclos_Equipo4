@@ -55,7 +55,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         this.macrociclo = macrociclo;
                 
         this.control.cargarElementosActualizar(macrociclo, comboBoxDeportes, comboBoxRamas,
-                comboBoxJefesRamas, comboBoxRamas, comboBoxMetodologos,
+                comboBoxJefesRamas, comboBoxEntrenadoresAuxiliares, comboBoxMetodologos,
                 campoTextoStatus, pickerInicio, pickerFin, campoTextoTotalSemanas,
                 campoTextoPorcentajePreparativo, campoTextoSemanasPreparativo,
                 campoTextoPorcentajeCompetitivo, campoTextoSemanasCompetitivo,
@@ -70,7 +70,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
         
         if (operacion.equals(Operacion.MOSTRAR)) {
             this.control.setNoEditable(comboBoxDeportes, comboBoxRamas, 
-                   comboBoxJefesRamas, comboBoxRamas,
+                   comboBoxJefesRamas, comboBoxEntrenadoresAuxiliares,
                    comboBoxMetodologos, campoTextoStatus, pickerInicio, pickerFin,
                    campoTextoTotalSemanas, campoTextoPorcentajePreparativo,
                    campoTextoSemanasPreparativo, campoTextoPorcentajeCompetitivo,
@@ -90,7 +90,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
             this.btnSiguiente.setVisible(true);
         } else {
             this.btnGuardar.setText("Actualizar macrociclo");
-            this.btnSiguiente.setVisible(false);
+            this.btnSiguiente.setVisible(true);
         }
         
         this.tablaMesociclosGeneral.getTableHeader().setReorderingAllowed(false);
@@ -750,7 +750,7 @@ public class CrearMacrociclo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarCompetitivaActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        new CalculadoraVolumenFrame(this.macrociclo, Operacion.MOSTRAR).setVisible(true);
+        new CalculadoraVolumenFrame(this.macrociclo, operacion).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 

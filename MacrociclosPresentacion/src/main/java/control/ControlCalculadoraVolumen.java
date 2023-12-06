@@ -153,6 +153,7 @@ public class ControlCalculadoraVolumen {
         try {
             if (this.fachadaNegocio.validarMediosFisicos(macrociclo.getId(), lista)) {
                 JOptionPane.showMessageDialog(parent, "Medios físicos guardados", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                macrociclo.setMediosFisicos(lista);
                 new DistribucionVolumenFrame(macrociclo, Operacion.CREAR).setVisible(true);
                 parent.dispose();
             }

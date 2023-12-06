@@ -450,7 +450,7 @@ public class ControlPlanGrafico {
             return;
         }
         
-        List<Microciclo> microciclosAEnviar = new LinkedList<>();
+        List<Microciclo> microciclosAEnviar = new ArrayList<>();
         int contadorSemanas = 0;
         int contadorMesociclos = 0;
         boolean agregado = false;        
@@ -466,27 +466,24 @@ public class ControlPlanGrafico {
                 break;
             }
             
-            if (listaMesociclos.get(contadorMesociclos).getNumSemanas() - 1 == contadorSemanas) {
-                ObjectId idMesociclo = null;
-                
-                for (Mesociclo m : listaMesociclos) {
-                    if (m.getNumero() == listaNumerosMesociclos.get(i - 1)) {
-                        idMesociclo = m.getId();
-                        break;
+            if (listaMesociclos.get(contadorMesociclos).getNumSemanas() - 1 == contadorSemanas) {                
+                for (int m = 0; m < macrociclo.getMesociclos().size(); m++) {
+                    if (macrociclo.getMesociclos().get(m).getNumero() == listaNumerosMesociclos.get(i - 1)) {
+                        try {
+                            this.negocio.validarMicrociclos(macrociclo.getId(), macrociclo.getMesociclos().get(m).getId(), microciclosAEnviar);
+                            macrociclo.getMesociclos().get(m).setMicrociclos(microciclosAEnviar);
+                            microciclosAEnviar = new ArrayList<>();
+                            contadorSemanas = 0;
+                            contadorMesociclos++;
+                            agregado = true;
+                            break;
+                        } catch (NegocioException | PersistenciaException e) {
+                            JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            this.negocio.eliminarMicrociclos(macrociclo.getId());
+
+                            return;
+                        }
                     }
-                }
-                
-                try {
-                    this.negocio.validarMicrociclos(macrociclo.getId(), idMesociclo, microciclosAEnviar);
-                    microciclosAEnviar = new LinkedList<>();
-                    contadorSemanas = 0;
-                    contadorMesociclos++;
-                    agregado = true;
-                } catch (NegocioException | PersistenciaException e) {
-                    JOptionPane.showMessageDialog(parent, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    this.negocio.eliminarMicrociclos(macrociclo.getId());
-                    
-                    return;
                 }
             }
             
@@ -494,6 +491,8 @@ public class ControlPlanGrafico {
                 contadorSemanas++;
             }
         }
+        
+        System.out.println(macrociclo);
         
         try {
             this.negocio.guardarMacrociclo(macrociclo);

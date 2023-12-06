@@ -484,11 +484,11 @@ public class ControlCrearMacrociclo {
             JTextField campoSemanasCompetitivo, JTextField campoPorcentajeGeneral, JTextField campoSemanasGeneral, JTextField campoPorcentajeEspecial,
             JTextField campoSemanasEspecial, JTextField campoPorcentajePrecompetitivo, JTextField campoSemanasPrecompetitivo,
             JTextField campoPorcentajeCompetitivoB, JTextField campoSemanasCompetitivoB, JTable tablaGeneral, JTable tablaEspecial, JTable tablaCompetitiva) {
-        comboBoxDeporte.setEditable(false);
-        comboBoxRama.setEditable(false);
-        comboBoxJefeRama.setEditable(false);
-        comboBoxAuxiliar.setEditable(false);
-        comboBoxMetodologo.setEditable(false);
+        comboBoxDeporte.setEnabled(false);
+        comboBoxRama.setEnabled(false);
+        comboBoxJefeRama.setEnabled(false);
+        comboBoxAuxiliar.setEnabled(false);
+        comboBoxMetodologo.setEnabled(false);
         campoStatus.setEditable(false);
         pickerInicio.setEnabled(false);
         pickerFin.setEnabled(false);

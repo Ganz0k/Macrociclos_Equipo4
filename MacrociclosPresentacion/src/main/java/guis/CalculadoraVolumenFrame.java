@@ -9,7 +9,6 @@ import entidades.Macrociclo;
 import enumeradores.Operacion;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import org.bson.types.ObjectId;
 import utils.ButtonEditor;
 import utils.ButtonRenderer;
 
@@ -27,6 +26,7 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
         initComponents();
         
         this.operacion = operacion;
+        this.macrociclo = macrociclo;
         this.control = new ControlCalculadoraVolumen();
         this.tablaCalculadora.getColumnModel().getColumn(20).setCellRenderer(new ButtonRenderer());
         this.tablaCalculadora.getColumnModel().getColumn(20).setCellEditor(new ButtonEditor(new JTextField("Calcular"), this, this.tablaCalculadora));
@@ -39,8 +39,8 @@ public class CalculadoraVolumenFrame extends javax.swing.JFrame {
             case ACTUALIZAR:
                 this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
                 this.btnGuardarMedios.setText("Actualizar medios físicos");
-                this.btnAnterior.setVisible(false);
-                this.btnSiguiente.setVisible(false);
+                this.btnAnterior.setVisible(true);
+                this.btnSiguiente.setVisible(true);
                 break;
             case MOSTRAR:
                 this.control.cargarTabla(macrociclo, (DefaultTableModel) this.tablaCalculadora.getModel());
